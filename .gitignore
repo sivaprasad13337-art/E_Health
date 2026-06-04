@@ -1,0 +1,33 @@
+# ==========================
+# Python / Django
+# ==========================
+**/__pycache__/
+**/*.pyc
+
+Server/.env
+Server/db.sqlite3
+Server/media/
+Server/staticfiles/
+
+# Virtual Environment
+.Virtual/
+venv/
+.venv/
+
+# ==========================
+# React / Vite
+# ==========================
+Client/node_modules/
+Client/dist/
+
+# ==========================
+# IDE
+# ==========================
+.vscode/
+.idea/
+
+# ==========================
+# OS
+# ==========================
+.DS_Store
+Thumbs.db
