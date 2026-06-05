@@ -1,7 +1,17 @@
+import { routes } from "@/data/routes";
 import HomeWrapper from "@/wrappers/home";
+import { Route, Routes } from "react-router-dom";
 
 const Home = () => {
-  return <HomeWrapper></HomeWrapper>;
+  return (
+    <HomeWrapper>
+      <Routes>
+        {routes.map((item, idx) => (
+          <Route path={item.path} element={item.element} key={idx} />
+        ))}
+      </Routes>
+    </HomeWrapper>
+  );
 };
 
 export default Home;

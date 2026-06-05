@@ -1,9 +1,12 @@
+import { BrowserRouter as Router } from "react-router-dom";
 import Home from "./home";
 
 const index = () => {
   return (
     <>
-      <Home />
+      <Router>
+        <Home />
+      </Router>
     </>
   );
 };
