@@ -61,9 +61,9 @@ export function NavMain({
                         asChild
                         onClick={() => navigate(subItem.url)}
                       >
-                        <button className="cursor-pointer">
+                        <p className="cursor-pointer">
                           <span>{subItem.title}</span>
-                        </button>
+                        </p>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
