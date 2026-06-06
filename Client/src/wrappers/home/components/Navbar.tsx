@@ -6,6 +6,7 @@ import Pic from "@/components/Pic";
 import CustomDropdown from "./custom-dropdown";
 import { Button } from "@/components/ui/button";
 import { BadgeCheckIcon, BellDotIcon, Bolt } from "lucide-react";
+import CustomTooltip from "@/components/custom-tooltip";
 
 const Navbar = () => {
   return (
@@ -21,46 +22,49 @@ const Navbar = () => {
 
       <CustomCommand />
 
-      <div className="flex gap-1">
-        <CustomDropdown
-          trigger={
-            <Button variant="outline" size="icon">
-              {" "}
-              <BellDotIcon />
-            </Button>
-          }
-        />
+      <section className="flex gap-5">
+        <div className="flex gap-1">
+          <CustomDropdown
+            trigger={
+              <Button variant="outline" size="icon">
+                {" "}
+                <BellDotIcon />
+              </Button>
+            }
+          />
 
-        <CustomDropdown
-          trigger={
-            <Button variant="outline" size="icon">
-              {" "}
-              <Bolt />
-            </Button>
-          }
-        />
+          <CustomDropdown
+            trigger={
+              <Button variant="outline" size="icon">
+                {" "}
+                <Bolt />
+              </Button>
+            }
+          />
 
-        <CustomDropdown
-          trigger={
-            <Button variant="outline" size="icon">
-              {" "}
-              <BadgeCheckIcon className="text-sky-500" />
-            </Button>
-          }
-        />
-      </div>
-
-      <div className="flex gap-2">
-        <Pic
-          img="https://github.com/shadcn.png"
-          className="w-[2.5rem] h-[2.5rem]"
-        />
-
-        <div>
-          <p className="font-semibold text-lg">Siva Prasad</p>
-          <p className="text-xs">Admin</p>
+          <CustomTooltip
+            trigger={
+              <Button variant="outline" size="icon">
+                {" "}
+                <BadgeCheckIcon className="text-sky-500" />
+              </Button>
+            }
+            tip="Verified"
+          />
         </div>
-      </div>
+
+        <div className="flex gap-2">
+          <Pic
+            img="https://github.com/shadcn.png"
+            className="w-[2.5rem] h-[2.5rem]"
+          />
+
+          <div>
+            <p className="font-semibold text-lg">Siva Prasad</p>
+            <p className="text-xs">Admin</p>
+          </div>
+        </div>
+      </section>
     </section>
   );
 };

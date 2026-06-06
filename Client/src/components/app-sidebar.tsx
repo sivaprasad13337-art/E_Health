@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
+// import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -17,18 +17,18 @@ import {
   GalleryVerticalEndIcon,
   AudioLinesIcon,
   TerminalIcon,
-  TerminalSquareIcon,
-  BotIcon,
-  BookOpenIcon,
+  // TerminalSquareIcon,
+  // BotIcon,
+  // BookOpenIcon,
   Settings2Icon,
   FrameIcon,
   PieChartIcon,
   MapIcon,
   CalendarDays,
   ClipboardPlus,
-  FileText,
-  LayoutDashboardIcon,
-  LayoutDashboard,
+  // FileText,
+  // LayoutDashboardIcon,
+  // LayoutDashboard,
   Layout,
   CreditCard,
 } from "lucide-react";
