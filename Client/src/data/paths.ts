@@ -1,3 +1,8 @@
+export const auth_path = "/auth";
+export const login_path = "/login";
+export const registor_path = "/registor";
+export const forget_password_path = "/forget-password";
+
 export const actions = `/actions`;
 export const dashboard = `${actions}/dashboard`;
 export const profile = `${actions}/profile`;
