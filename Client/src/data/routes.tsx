@@ -1,6 +1,12 @@
 import {
   actions,
   appointment,
+  appointment_add_ons,
+  appointment_appointment,
+  appointment_confirmation,
+  appointment_payment,
+  appointment_personal_details,
+  appointment_service,
   appointmentHistoy,
   appointmentStatus,
   bookAppointment,
@@ -39,6 +45,12 @@ import {
   Library,
   UserRound,
 } from "lucide-react";
+import Service from "@/features/appointment/book/components/Service";
+import PersonalDetails from "@/features/appointment/book/components/personal-details";
+import AddOns from "@/features/appointment/book/components/add-ons";
+import Appointments from "@/features/appointment/book/components/appointments";
+import Payment from "@/features/appointment/book/components/payment";
+import Confirmation from "@/features/appointment/book/components/confirmation";
 
 export const routes = [
   {
@@ -61,6 +73,44 @@ export const routes = [
     element: <Book />,
     icon: ClipboardClock,
     title: "Book-Appointment",
+    subRoutes: [
+      {
+        path: appointment_service,
+        element: <Service />,
+        icon: ClipboardClock,
+        title: "Service",
+      },
+      {
+        path: appointment_personal_details,
+        element: <PersonalDetails />,
+        icon: ClipboardClock,
+        title: "Personal Details",
+      },
+      {
+        path: appointment_add_ons,
+        element: <AddOns />,
+        icon: ClipboardClock,
+        title: "Addons",
+      },
+      {
+        path: appointment_appointment,
+        element: <Appointments />,
+        icon: ClipboardClock,
+        title: "Appointment",
+      },
+      {
+        path: appointment_payment,
+        element: <Payment />,
+        icon: ClipboardClock,
+        title: "Payment",
+      },
+      {
+        path: appointment_confirmation,
+        element: <Confirmation />,
+        icon: ClipboardClock,
+        title: "Confirmation",
+      },
+    ],
   },
   {
     parent: appointment,

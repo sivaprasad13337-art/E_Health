@@ -21,3 +21,10 @@ export const payments = `/payments`;
 export const transaction = `${payments}/transactions`;
 export const refunds = `${payments}/refunds`;
 export const paymentAnalytics = `${payments}/analytics`;
+
+export const appointment_service = `service`;
+export const appointment_personal_details = `personal-details`;
+export const appointment_add_ons = `add-ons`;
+export const appointment_appointment = `appointment`;
+export const appointment_payment = `payment`;
+export const appointment_confirmation = `confirmation`;

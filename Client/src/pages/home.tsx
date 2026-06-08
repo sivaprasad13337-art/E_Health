@@ -7,7 +7,11 @@ const Home = () => {
     <HomeWrapper>
       <Routes>
         {routes.map((item, idx) => (
-          <Route path={item.path} element={item.element} key={idx} />
+          <Route path={item.path} element={item.element} key={idx}>
+            {item.subRoutes?.map((subroute) => (
+              <Route path={subroute.path} element={subroute.element} />
+            ))}
+          </Route>
         ))}
       </Routes>
     </HomeWrapper>
