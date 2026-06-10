@@ -1,0 +1,94 @@
+"use client";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+// import { useEffect, useState } from "react";
+
+interface ServiceProps {
+  id: number;
+  name: string;
+  price: string;
+  img: string;
+}
+
+// interface Formdata {
+//   servive: [];
+// }
+
+// interface FormType {
+//   formData: Formdata;
+//   setFormData: (arg: object[]) => void;
+// }
+
+const ServiceCard = ({
+  service,
+  onClick,
+  //   form,
+}: {
+  service: ServiceProps;
+  onClick: () => void;
+  //   form: FormType;
+}) => {
+  //   const [data, setData] = useState<ServiceProps[]>([]);
+
+  //   useEffect(() => {
+  //     // form.setFormData((prev) => [...prev, form.formData.servive: data]);
+  //     console.log("====================================");
+  //     console.log(data);
+  //     console.log("====================================");
+  //   }, [data]);
+  return (
+    <FieldGroup
+      className="w-[48%] my- h-[7rem] bg-pink-30"
+      //   onClick={() => {
+      //     console.log("FIELDGROUP CLICK");
+      //     onClick();
+      //   }}
+    >
+      <FieldLabel className="h-full">
+        <Field
+          orientation="horizontal"
+          className="rounded-md h-full"
+          style={{
+            background: `
+      linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.2)),
+      url("${service.img}")
+    `,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <FieldContent className="">
+            <div className="flex gap-2 items-center">
+              <Checkbox
+                id="toggle-checkbox-2"
+                name="toggle-checkbox-2"
+                className="mt-1"
+                // checked={}
+                onClick={(e) => e.stopPropagation()}
+                onCheckedChange={() => {
+                  onClick();
+                }}
+              />
+              <FieldTitle className="text-xl text-white font-bold">
+                {service.name}
+              </FieldTitle>
+            </div>
+            <FieldDescription className="text-xl font-bold text-teal-300 ml-2">
+              {"\u20B9"} {service.price}
+            </FieldDescription>
+          </FieldContent>
+        </Field>
+      </FieldLabel>
+    </FieldGroup>
+  );
+};
+
+export default ServiceCard;

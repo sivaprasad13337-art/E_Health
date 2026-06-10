@@ -60,7 +60,7 @@ const Book = () => {
   const CurrentComponent = currentStep?.component;
 
   const navigateBack = () => {
-    setCompleted((prev) => prev.slice(0, -1));
+    if (true) setCompleted((prev) => prev.slice(0, -1));
     if (active > 1) {
       setActive(active - 1);
     }
@@ -117,7 +117,7 @@ const Book = () => {
               <p
                 className={
                   completed.includes(step.title)
-                    ? "mt-2 text-gray-700"
+                    ? "mt-2 text-gray-900"
                     : active === step.id
                       ? "mt-2 text-gray-700 font-semibold"
                       : "mt-2 text-gray-400"
@@ -129,12 +129,12 @@ const Book = () => {
           ))}
         </section>
 
-        <section className="bg-teal-300 w-[75%] h-full p-10 relative">
-          <div>
+        <section className="bg-teal-30 w-[75%] h-full p-10 relative">
+          <div className="">
             <div>{CurrentComponent ? <CurrentComponent /> : null}</div>
           </div>
 
-          <div className="h-[15%] w-[100%] bg-pink-300 absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3">
+          <div className="h-[15%] w-[100%] bg-white absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3">
             {active === 1 ? (
               ""
             ) : (

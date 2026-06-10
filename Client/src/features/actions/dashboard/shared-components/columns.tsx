@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
+  //   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -73,7 +73,8 @@ export const Lab_Reports_Column: ColumnDef<Labreport_Type>[] = [
     // accessorKey: "result",
     header: "Actions",
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
+      //{ row }
       //   const payment = row.original;
 
       return (

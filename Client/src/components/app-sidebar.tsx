@@ -31,15 +31,18 @@ import {
   // LayoutDashboard,
   Layout,
   CreditCard,
+  Stethoscope,
 } from "lucide-react";
 import {
   appointmentHistoy,
   appointmentStatus,
   bookAppointment,
+  browse_doctors,
   dashboard,
   diagnosis,
   medicalHistory,
   medicalReport,
+  my_doctors,
   paymentAnalytics,
   profile,
   refunds,
@@ -91,7 +94,7 @@ const data = {
       title: "Appointment",
       url: "#",
       icon: <CalendarDays />,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Book",
@@ -108,9 +111,30 @@ const data = {
       ],
     },
     {
+      title: "Doctors",
+      url: "#",
+      icon: <Stethoscope />,
+      isActive: false,
+      items: [
+        {
+          title: "My Doctors",
+          url: my_doctors,
+        },
+        {
+          title: "Search",
+          url: browse_doctors,
+        },
+        // {
+        //   title: "History",
+        //   url: medicalHistory,
+        // },
+      ],
+    },
+    {
       title: "Medical Records",
       url: "#",
       icon: <ClipboardPlus />,
+      isActive: false,
       items: [
         {
           title: "Diagnosis",

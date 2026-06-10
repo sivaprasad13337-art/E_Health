@@ -12,6 +12,10 @@ export const bookAppointment = `${appointment}/book-appointment`;
 export const appointmentStatus = `${appointment}/appointment-status`;
 export const appointmentHistoy = `${appointment}/appointment-history`;
 
+export const doctors = `/doctors`;
+export const my_doctors = `${doctors}/my-doctors`;
+export const browse_doctors = `${doctors}/browse-doctors`;
+
 export const medicalRecords = `/medical-records`;
 export const medicalReport = `${medicalRecords}/medical-reports`;
 export const diagnosis = `${medicalRecords}/diagnosis`;
