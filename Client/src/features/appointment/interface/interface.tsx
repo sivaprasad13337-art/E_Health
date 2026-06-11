@@ -21,10 +21,12 @@ export interface StepperProps {
 }
 
 export interface FormData {
+  reason: string;
   services: number[];
   appointmentType: string;
   time: string;
   date: Date;
+  symptoms: string[];
 }
 
 export interface CompsProps {

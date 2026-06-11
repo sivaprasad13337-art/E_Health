@@ -16,10 +16,12 @@ const Book = () => {
   const CurrentComponent = currentStep?.component;
 
   const [formData, setFormData] = useState<FormData>({
+    reason: "",
     services: [],
     appointmentType: "Clinic",
     time: "10:00",
-    date: new Date()
+    date: new Date(),
+    symptoms: [],
   });
 
   const navigateBack = () => {
