@@ -1,22 +1,8 @@
-import Pic from "@/components/Pic";
-import Rating from "@/components/ratings-block";
-import { Card, CardContent } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
-import ServiceCard from "./service-cards";
+import ServiceCard from "../components/service-cards";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CustomSearchBar } from "@/components/custom-searchbar";
 import { useEffect, useState } from "react";
-
-interface ServiceType {
-  id: number;
-  name: string;
-  price: string;
-  img: string;
-}
-
-interface FormData {
-  services: number[];
-}
+import type { CompsProps, ServiceType } from "../../interface/interface";
 
 const Services = [
   {
@@ -56,35 +42,32 @@ const Services = [
   },
 ];
 
-const DoctorCard = () => {
-  return (
-    <Card>
-      <CardContent className="flex gap-3 items-center">
-        <Pic
-          img="https://doccure.dreamstechnologies.com/html/template/assets/img/clients/client-15.jpg"
-          className="w-[7rem] h-[7rem]"
-        />
-        <div>
-          <p className="text-lg font-semibold">
-            Dr. Michael Brown <Rating rating={"5.0"} />
-          </p>
-          <p className="text-sky-600">Psychologist</p>
-          <p className="mt-1 text-gray-600">
-            <MapPin className="inline-block w-[1.1rem] -mt-1" /> 5th Street -
-            1011 W 5th St, Suite 120, Austin, TX 78703
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+// const DoctorCard = () => {
+//   return (
+//     <Card>
+//       <CardContent className="flex gap-3 items-center">
+//         <Pic
+//           img="https://doccure.dreamstechnologies.com/html/template/assets/img/clients/client-15.jpg"
+//           className="w-[7rem] h-[7rem]"
+//         />
+//         <div>
+//           <p className="text-lg font-semibold">
+//             Dr. Michael Brown <Rating rating={"5.0"} />
+//           </p>
+//           <p className="text-sky-600">Psychologist</p>
+//           <p className="mt-1 text-gray-600">
+//             <MapPin className="inline-block w-[1.1rem] -mt-1" /> 5th Street -
+//             1011 W 5th St, Suite 120, Austin, TX 78703
+//           </p>
+//         </div>
+//       </CardContent>
+//     </Card>
+//   );
+// };
 
-const Service = () => {
+const Service = ({ formData, setFormData }: CompsProps) => {
   const [input, SetInput] = useState("");
   const [data, setData] = useState(Services);
-  const [formData, setFormData] = useState<FormData>({
-    services: [],
-  });
 
   const handleSearch = (input: string) => {
     const services = Services.filter(
@@ -111,14 +94,9 @@ const Service = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("====================================");
-    console.log(`FormData:`, formData.services);
-    console.log("====================================");
-  }, [data, formData]);
   return (
     <div>
-      <DoctorCard />
+      {/* <DoctorCard /> */}
 
       <div className="h-[4rem] w-[40%] bg-purple-00 mt-6">
         <CustomSearchBar

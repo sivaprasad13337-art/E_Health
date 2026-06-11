@@ -10,7 +10,8 @@ Status_Options = (
 
 # Create your models here.
 class Appointment(models.Model):
-    title = models.CharField(max_length=120, blank=False,null=False)
+    reason = models.TextField()
+    symptoms = models.JSONField(default=list, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=False, null=False, related_name='appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, blank=False, null=False,related_name='appointments')
     tests = models.JSONField(default=list, blank=True)

@@ -1,66 +1,30 @@
-import { Check, Component } from "lucide-react";
-import { useState } from "react";
+// import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
 // import { Outlet, useNavigate } from "react-router-dom";
-import Service from "./components/Service";
-import PersonalDetails from "./components/personal-details";
-// import BookAppointmentLayout from "./layout";
-import AddOns from "./components/add-ons";
-import Appointments from "./components/appointments";
-import Payment from "./components/payment";
-import Confirmation from "./components/confirmation";
+import DoctorCard from "./components/doctor-card";
+import Stepper from "./components/stepper";
+import { bookingSteps } from "@/data/booking-steps";
 import { Button } from "@/components/ui/button";
-import {
-  appointment_personal_details,
-  appointment_service,
-} from "@/data/paths";
+import type { FormData, Step } from "../interface/interface";
 
 const Book = () => {
-  const steps = [
-    {
-      title: "Service",
-      path: appointment_service,
-      id: 1,
-      component: Service,
-    },
-    {
-      title: "Personal Details",
-      path: appointment_personal_details,
-      id: 2,
-      component: PersonalDetails,
-    },
-    {
-      title: "Add-Ons",
-      path: appointment_personal_details,
-      id: 3,
-      component: AddOns,
-    },
-    {
-      title: "Appointment",
-      path: appointment_personal_details,
-      id: 4,
-      component: Appointments,
-    },
-    {
-      title: "Payment",
-      path: appointment_personal_details,
-      id: 5,
-      component: Payment,
-    },
-    {
-      title: "Confirmation",
-      path: appointment_personal_details,
-      id: 6,
-      component: Confirmation,
-    },
-  ];
+  const steps: Step[] = bookingSteps;
 
   const [active, setActive] = useState(1);
   const [completed, setCompleted] = useState<string[]>([]);
   const currentStep = steps.find((step) => step.id === active);
   const CurrentComponent = currentStep?.component;
 
+  const [formData, setFormData] = useState<FormData>({
+    services: [],
+    appointmentType: "Clinic",
+    time: "10:00",
+    date: new Date()
+  });
+
   const navigateBack = () => {
-    if (true) setCompleted((prev) => prev.slice(0, -1));
+    // if (true) setCompleted((prev) => prev.slice(0, -1));
+    setCompleted((prev) => prev.slice(0, -1));
     if (active > 1) {
       setActive(active - 1);
     }
@@ -77,10 +41,16 @@ const Book = () => {
       setActive(active + 1);
     }
   };
+
+  useEffect(() => {
+    console.log("====================================");
+    console.log(`FormData:`, formData);
+    console.log("====================================");
+  }, [formData]);
   return (
     <section className="h-[88vh] px-4">
       <div className="w-full h-full  rounded-3xl overflow-hidden shadow-2xl flex">
-        <section className="bg-amber-50 w-[25%] h-full p-10">
+        {/* <section className="bg-amber-50 w-[25%] h-full p-10">
           {steps.map((step) => (
             <div className="flex gap-5" key={step.title}>
               <div>
@@ -127,15 +97,24 @@ const Book = () => {
               </p>
             </div>
           ))}
-        </section>
+        </section> */}
+        <Stepper steps={steps} active={active} completed={completed} />
 
         <section className="bg-teal-30 w-[75%] h-full p-10 relative">
+          {active === 6 ? "" : <DoctorCard />}
           <div className="">
-            <div>{CurrentComponent ? <CurrentComponent /> : null}</div>
+            <div>
+              {CurrentComponent ? (
+                <CurrentComponent
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              ) : null}
+            </div>
           </div>
 
           <div className="h-[15%] w-[100%] bg-white absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3">
-            {active === 1 ? (
+            {active === 1 || active === 6 ? (
               ""
             ) : (
               <Button

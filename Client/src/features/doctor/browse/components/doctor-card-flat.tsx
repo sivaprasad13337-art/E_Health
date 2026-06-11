@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { type Doctor } from "../../interface/interface";
 import {
   BookmarkMinus,
   CalendarDays,
@@ -12,18 +13,18 @@ import {
 } from "lucide-react";
 // ("@radix-ui/react-icons");
 
-interface Doctor {
-  name: string;
-  qualification: string;
-  specialization: string;
-  department: string;
-  languages: [];
-  address: string;
-  experience: number;
-  fee: string;
-  availability: boolean;
-  ratings: string;
-}
+// interface Doctor {
+//   name: string;
+//   qualification: string;
+//   specialization: string;
+//   department: string;
+//   languages: [];
+//   address: string;
+//   experience: number;
+//   fee: string;
+//   availability: boolean;
+//   ratings: string;
+// }
 
 // const doctors = [
 //   {

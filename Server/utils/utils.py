@@ -7,6 +7,8 @@ from rest_framework.permissions import BasePermission
 from django.core.exceptions import PermissionDenied
 import cloudinary.uploader
 import rest_framework
+import random
+import string
 print('akubau',rest_framework.__version__)
 
 def get_user_data(user):
@@ -54,3 +56,12 @@ class IsRoleAdmin(BasePermission):
 class IsOwnerOrSuperAdmin(BasePermission):
     def has_object_permission(self, request, view, obj):
         return bool(request.user == obj or request.user.is_superuser)
+    
+    
+
+
+
+def generate_unique_id(str):
+    return f"{str}-" + "".join(
+        random.choices(string.ascii_uppercase + string.digits, k=8)
+    )

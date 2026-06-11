@@ -50,12 +50,12 @@ import {
   Stethoscope,
   UserRound,
 } from "lucide-react";
-import Service from "@/features/appointment/book/components/Service";
-import PersonalDetails from "@/features/appointment/book/components/personal-details";
-import AddOns from "@/features/appointment/book/components/add-ons";
-import Appointments from "@/features/appointment/book/components/appointments";
-import Payment from "@/features/appointment/book/components/payment";
-import Confirmation from "@/features/appointment/book/components/confirmation";
+import Service from "@/features/appointment/book/steps/Service";
+import PersonalDetails from "@/features/appointment/book/steps/personal-details";
+import AddOns from "@/features/appointment/book/steps/appointment-type";
+import Appointments from "@/features/appointment/book/steps/date-time";
+import Payment from "@/features/appointment/book/steps/payment";
+import Confirmation from "@/features/appointment/book/steps/confirmation";
 import MyDoctors from "@/features/doctor/my-doctors";
 import BrowseDoctors from "@/features/doctor/browse";
 

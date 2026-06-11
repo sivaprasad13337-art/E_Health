@@ -1,5 +1,5 @@
 const PersonalDetails = () => {
-  return <div>PersonalDetails</div>;
+  return <div>Basic Details</div>;
 };
 
 export default PersonalDetails;

@@ -9,8 +9,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { type Doctor } from "../interface/interface";
 
-const doctors = [
+const doctors: Doctor[] = [
   {
     name: "Charles Scott",
     qualification: "MBBS, DNB",
@@ -136,7 +137,7 @@ const doctors = [
 const BrowseDoctors = () => {
   const [limit, setLimit] = useState(2);
   //   const count = 2;
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Doctor[]>([]);
 
   const paginatePrev = () => {
     setData([]);
