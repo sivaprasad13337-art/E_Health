@@ -171,6 +171,7 @@ def create_test(request):
     test = TestSerializer(data=data)
     test.is_valid(raise_exception=True)
     test.save()
+    # print(test.data.)
     return Response(test.data, status=status.HTTP_201_CREATED)
 
 
@@ -191,6 +192,7 @@ def get_test(request, id):
 def update_test(request, id):
     test = get_object_or_404(Test, id = id)
     old_poster = test.poster
+    print(test.poster.url)
     
     serializer = TestSerializer(test, data=request.data, partial = True)
     serializer.is_valid(raise_exception=True)

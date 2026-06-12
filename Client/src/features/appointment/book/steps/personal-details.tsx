@@ -7,28 +7,28 @@ import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import type { CompsProps } from "../../interface/interface";
 
-const PersonalDetails = ({ setFormData }: CompsProps) => {
+const PersonalDetails = ({ error, setError, setFormData }: CompsProps) => {
   const [reason, setReason] = useState("");
   const [symptoms, setSymptoms] = useState<string[]>([""]);
   const [symptomToggle, setSymptomToggle] = useState(false);
-  const [error, setError] = useState(false);
+  const [symptomError, setSymptomError] = useState(false);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, symptoms: symptoms, reason: reason }));
   }, [symptoms, reason]);
 
   const handleResetSymptoms = () => {
-    setError(false);
+    setSymptomError(false);
     setSymptoms([""]);
   };
 
   const handleAddSymptoms = () => {
     if (symptoms?.length >= 6) {
-      setError(true);
+      setSymptomError(true);
       return;
     }
 
-    setError(false);
+    setSymptomError(false);
     setSymptoms((prev) => [...prev, ""]);
   };
 
@@ -38,7 +38,7 @@ const PersonalDetails = ({ setFormData }: CompsProps) => {
       return;
     }
     setSymptoms((prev) => prev.filter((_, i) => i !== idx));
-    setError(false);
+    setSymptomError(false);
   };
   return (
     <ScrollArea className="w-full h-[21rem] mt-4 bg-whit">
@@ -48,8 +48,18 @@ const PersonalDetails = ({ setFormData }: CompsProps) => {
           placeholder="Write here..."
           className="w-[95%] ml-2"
           value={reason}
-          onChange={(e) => setReason(e.currentTarget.value)}
+          onChange={(e) => {
+            setError((prev) => ({ ...prev, reason: false }));
+            setReason(e.currentTarget.value);
+          }}
         />
+        {error.reason ? (
+          <small className="mt-0 ml-2 text-destructive">
+            Kindly write the reason for visit to move to next step!
+          </small>
+        ) : (
+          ""
+        )}
       </div>
 
       <section className="mt-2 p-2">
@@ -63,7 +73,7 @@ const PersonalDetails = ({ setFormData }: CompsProps) => {
 
               if (!checked) {
                 setSymptoms([""]);
-                setError(false);
+                setSymptomError(false);
               }
             }}
           />
@@ -85,7 +95,7 @@ const PersonalDetails = ({ setFormData }: CompsProps) => {
                       return updated;
                     });
 
-                    setError(false);
+                    setSymptomError(false);
                   }}
                   autoComplete="off"
                   placeholder={`Symptom ${idx + 1}`}
@@ -108,9 +118,11 @@ const PersonalDetails = ({ setFormData }: CompsProps) => {
 
           <div className="mt-2 pr-2 flex justify-between">
             <p
-              className={error ? "text-[.9rem] text-red-600" : "text-[.94rem]"}
+              className={
+                symptomError ? "text-[.9rem] text-red-600" : "text-[.94rem]"
+              }
             >
-              {error
+              {symptomError
                 ? "Only upto 6 Symptoms is the limit.."
                 : "You can add upto 6 Symptoms..."}
             </p>

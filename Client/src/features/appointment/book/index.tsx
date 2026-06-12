@@ -5,24 +5,96 @@ import DoctorCard from "./components/doctor-card";
 import Stepper from "./components/stepper";
 import { bookingSteps } from "@/data/booking-steps";
 import { Button } from "@/components/ui/button";
-import type { FormData, Step } from "../interface/interface";
+import type {
+  AppointmentErrorState,
+  AppointmentPayload,
+  Step,
+} from "../interface/interface";
+import { useAuthStore } from "@/zustand/auth";
 
 const Book = () => {
   const steps: Step[] = bookingSteps;
+  const { user } = useAuthStore();
 
   const [active, setActive] = useState(1);
   const [completed, setCompleted] = useState<string[]>([]);
   const currentStep = steps.find((step) => step.id === active);
   const CurrentComponent = currentStep?.component;
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<AppointmentPayload>({
     reason: "",
     services: [],
     appointmentType: "Clinic",
     time: "10:00",
     date: new Date(),
     symptoms: [],
+    doctor: 1,
+    patient: 5,
   });
+
+  // interface ErrorT {
+  //   service: boolean;
+  //   time: boolean;
+  //   date: boolean;
+  //   reason: boolean;
+  //   patient: boolean;
+  // }
+  // interface ErrorType {
+  //   error: ErrorT;
+  //   setError: (arg: Error) => void;
+  // }
+
+  const [error, setError] = useState<AppointmentErrorState>({
+    service: false,
+    time: false,
+    date: false,
+    reason: false,
+    patient: false,
+  });
+
+  const validateStep = () => {
+    let proceed = true;
+
+    if (active === 1) {
+      if (formData.doctor) {
+        console.log("====================================");
+        console.log("haghg");
+        console.log("====================================");
+        setError((prev) => ({ ...prev, service: false }));
+      } else {
+        setError((prev) => ({ ...prev, service: true }));
+        proceed = false;
+      }
+
+      return proceed;
+    } else if (active === 3) {
+      if (formData.time) {
+        setError((prev) => ({ ...prev, time: false }));
+      } else {
+        setError((prev) => ({ ...prev, time: true }));
+        proceed = false;
+      }
+
+      if (formData.date) {
+        setError((prev) => ({ ...prev, date: false }));
+      } else {
+        setError((prev) => ({ ...prev, date: true }));
+        proceed = false;
+      }
+
+      return proceed;
+    } else if (active === 4) {
+      if (formData.reason) {
+        setError((prev) => ({ ...prev, reason: false }));
+      } else {
+        setError((prev) => ({ ...prev, reason: true }));
+        proceed = false;
+      }
+      return proceed;
+    }
+
+    return proceed;
+  };
 
   const navigateBack = () => {
     // if (true) setCompleted((prev) => prev.slice(0, -1));
@@ -33,14 +105,16 @@ const Book = () => {
   };
 
   const navigateNext = () => {
-    const current = steps.find((step) => step.id === active);
+    if (validateStep()) {
+      const current = steps.find((step) => step.id === active);
 
-    if (current) {
-      setCompleted((prev) => [...prev, current.title]);
-    }
+      if (current) {
+        setCompleted((prev) => [...prev, current.title]);
+      }
 
-    if (active < steps.length) {
-      setActive(active + 1);
+      if (active < steps.length) {
+        setActive(active + 1);
+      }
     }
   };
 
@@ -103,13 +177,24 @@ const Book = () => {
         <Stepper steps={steps} active={active} completed={completed} />
 
         <section className="bg-teal-30 w-[75%] h-full p-10 relative">
-          {active === 6 ? "" : <DoctorCard />}
+          {active === 6 ? (
+            ""
+          ) : (
+            <DoctorCard
+              formData={formData}
+              setFormData={setFormData}
+              error={error}
+              setError={setError}
+            />
+          )}
           <div className="">
             <div>
               {CurrentComponent ? (
                 <CurrentComponent
                   formData={formData}
                   setFormData={setFormData}
+                  error={error}
+                  setError={setError}
                 />
               ) : null}
             </div>

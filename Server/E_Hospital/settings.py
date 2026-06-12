@@ -66,10 +66,23 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'E_Hospital.urls'
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+CORS_ALLOW_CREDENTIALS = True
+
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173"
+#    "http://127.0.0.1:5173",
+   "http://localhost:5173"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+#    "http://127.0.0.1:5173",
+   "http://localhost:5173"
 ]
 
 ALLOWED_HOSTS = [
@@ -78,8 +91,7 @@ ALLOWED_HOSTS = [
     "your-domain.com",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
-
+ROOT_URLCONF = 'E_Hospital.urls'
 
 TEMPLATES = [
     {
@@ -153,11 +165,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
     ]
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

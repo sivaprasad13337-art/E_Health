@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
@@ -10,13 +11,22 @@ from .models import Appointment, MedicalRecord, MedicalReport
 from utils.utils import get_doc_and_patient
 import traceback
 
+from rest_framework.authentication import SessionAuthentication
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return  # skip CSRF
+
 # Create your views here.
 # Appointment views
+# @csrf_exempt
+
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 def create_appointment(request):
     # patient_id = request.data.get('patient_id')
     # doctor_id = request.data.get('doctor_id')
-    
+    print(request.data)
     patient, doctor = get_doc_and_patient(request)
     
     serializer = AppointmentSerializer(data = request.data)
@@ -29,6 +39,7 @@ def create_appointment(request):
     
     print(serializer.errors)
     return Response(serializer.error_messages, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['PATCH'])
 def update_appointment(request, id):

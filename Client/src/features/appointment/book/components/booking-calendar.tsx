@@ -5,10 +5,11 @@ import * as React from "react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
+import type { AppointmentPayload } from "../../interface/interface";
 
 interface CalendarBookedDatesProps {
   bookedDates: Date[];
-  setData: (args: FormData) => void;
+  setData: (args: AppointmentPayload) => void;
 }
 
 export function BookingCalendar({

@@ -9,14 +9,15 @@ import {
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
+import type { ServiceType } from "../../interface/interface";
 // import { useEffect, useState } from "react";
 
-interface ServiceProps {
-  id: number;
-  name: string;
-  price: string;
-  img: string;
-}
+// interface ServiceProps {
+//   id: number;
+//   name: string;
+//   price: string;
+//   img: string;
+// }
 
 // interface Formdata {
 //   servive: [];
@@ -32,7 +33,7 @@ const ServiceCard = ({
   onClick,
   //   form,
 }: {
-  service: ServiceProps;
+  service: ServiceType;
   onClick: () => void;
   //   form: FormType;
 }) => {
@@ -44,6 +45,10 @@ const ServiceCard = ({
   //     console.log(data);
   //     console.log("====================================");
   //   }, [data]);
+
+  const getCloudinaryUrl = (path: string) => {
+    return `https://res.cloudinary.com/dhpugjush/${path}`;
+  };
   return (
     <FieldGroup
       className="w-[48%] my- h-[7rem] bg-pink-30"
@@ -59,7 +64,7 @@ const ServiceCard = ({
           style={{
             background: `
       linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.2)),
-      url("${service.img}")
+      url("${getCloudinaryUrl(service.poster)}")
     `,
             backgroundSize: "cover",
             backgroundPosition: "center",

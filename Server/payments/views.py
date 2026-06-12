@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import CreateOrderSerializer, VerifyPaymentSerializer
@@ -13,6 +13,7 @@ from payments.services import client, verify_signature
 from payments.models import BillingDetail
 from django.db import transaction
 from users.models import User
+from rest_framework.authentication import SessionAuthentication
 # Create your views here.
 
 def get_total_amount_and_detail(appointment):
@@ -24,8 +25,16 @@ def get_total_amount_and_detail(appointment):
     detailed_info = list(map(lambda x:{"test":x.name, "price":float(x.price)}, tests))
     return total_amount, detailed_info
 
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return  # skip CSRF
+
+# Create your views here.
+# Appointment views
+# @csrf_exempt
 
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 def create_order(request):
     serializer = CreateOrderSerializer(data = request.data)
     serializer.is_valid(raise_exception=True)
@@ -55,6 +64,7 @@ def create_order(request):
 
 
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 def verify_payment(request):
     
     serializer = VerifyPaymentSerializer(data = request.data)

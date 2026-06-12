@@ -11,7 +11,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta():
         model = Appointment
         fields = [
-            'title',
+            'id',
+            'reason',
+            'appointment_type',
+            'symptoms',
             'patient',
             'doctor',
             'tests',
@@ -22,6 +25,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         extra_kwargs = {
             'patient': {'read_only' : True},
+            'status': {'read_only': True}
         }
         
         

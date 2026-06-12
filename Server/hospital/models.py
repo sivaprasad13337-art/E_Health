@@ -50,7 +50,13 @@ class Doctor(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
     specialization = models.ForeignKey(Specialization, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
+    education = models.JSONField(default=list)
+    experience = models.IntegerField(max_length=2, blank=False, null=False)
+    location = models.CharField(max_length=255, blank=True, null=False)
+    languages = models.JSONField(default=list, blank=True)
     consultation_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    availability = models.BooleanField(default=True)
+    rating = models.DecimalField(max_digits = 2, decimal_places = 1, default = 5.0)
     
     def __str__(self):
        return f"Dr. {self.user.get_full_name()  or self.user.username}"
