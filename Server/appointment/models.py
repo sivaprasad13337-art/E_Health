@@ -8,10 +8,19 @@ Status_Options = (
 ('CANCELLED', 'Cancelled')
 )
 
+Appointment_Types = (
+    ("Clinic", "Clinic"),
+    ("Video Call", "Video Call"),
+    ("Audio Call", "Audio Call"),
+    ("Chat", "Chat"),
+    ("Home Visit", "Home Visit")
+    )
+
 # Create your models here.
 class Appointment(models.Model):
     reason = models.TextField()
     symptoms = models.JSONField(default=list, blank=True)
+    appointment_type = models.CharField(max_length= 20, choices=Appointment_Types, default="Clinic", blank=False, null=False)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=False, null=False, related_name='appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, blank=False, null=False,related_name='appointments')
     tests = models.JSONField(default=list, blank=True)
