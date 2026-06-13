@@ -11,6 +11,8 @@ import type {
   Step,
 } from "../interface/interface";
 import { useAuthStore } from "@/zustand/auth";
+import { createAppointment } from "@/api/appointment";
+import { createOrder } from "@/api/payment-services";
 
 const Book = () => {
   const steps: Step[] = bookingSteps;
@@ -20,6 +22,7 @@ const Book = () => {
   const [completed, setCompleted] = useState<string[]>([]);
   const currentStep = steps.find((step) => step.id === active);
   const CurrentComponent = currentStep?.component;
+  const [appointmentId, setAppointmentId] = useState(0);
 
   const [formData, setFormData] = useState<AppointmentPayload>({
     reason: "",
@@ -29,8 +32,10 @@ const Book = () => {
     date: new Date(),
     symptoms: [],
     doctor: 1,
-    patient: 5,
+    patient: 1,
   });
+
+  const [orderData, setOrderData] = useState()
 
   // interface ErrorT {
   //   service: boolean;
@@ -51,6 +56,25 @@ const Book = () => {
     reason: false,
     patient: false,
   });
+
+    const handlebookAppointment = async () => {
+    if (active === 4) {
+      if (formData.reason) {
+        setError((prev) => ({ ...prev, reason: false }));
+      } else {
+        return setError((prev) => ({ ...prev, reason: true }));
+      }
+    }
+
+    const data = await createAppointment(formData);
+    setAppointmentId(data.id);
+
+    if(data.id){
+      const res = await createOrder(appointmentId);
+
+      setOrderData(res)
+    }
+  };
 
   const validateStep = () => {
     let proceed = true;
@@ -82,14 +106,6 @@ const Book = () => {
         proceed = false;
       }
 
-      return proceed;
-    } else if (active === 4) {
-      if (formData.reason) {
-        setError((prev) => ({ ...prev, reason: false }));
-      } else {
-        setError((prev) => ({ ...prev, reason: true }));
-        proceed = false;
-      }
       return proceed;
     }
 
@@ -195,15 +211,14 @@ const Book = () => {
                   setFormData={setFormData}
                   error={error}
                   setError={setError}
+                  appointmentId={appointmentId}
                 />
               ) : null}
             </div>
           </div>
 
           <div className="h-[15%] w-[100%] bg-white absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3">
-            {active === 1 || active === 6 ? (
-              ""
-            ) : (
+            {active > 1 && active < 5 ? (
               <Button
                 className="w-[8rem] h-[4rem] text-[1.1rem] text-gray-900 bg-transparent border-[1px] border-gray-500 font-normal cursor-pointer"
                 onClick={() => navigateBack()}
@@ -211,20 +226,26 @@ const Book = () => {
                 {" "}
                 Back{" "}
               </Button>
-            )}
-            {active === 6 ? (
-              <Button className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer">
-                {" "}
-                Confirm{" "}
-              </Button>
             ) : (
-              <Button
-                className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer"
-                onClick={() => navigateNext()}
-              >
-                {" "}
-                Next{" "}
-              </Button>
+              ""
+            )}
+            {active >= 1 && active < 5 ? (
+              active === 4 ? (
+                <Button className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer">
+                  {" "}
+                  Book{" "}
+                </Button>
+              ) : (
+                <Button
+                  className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer"
+                  onClick={() => navigateNext()}
+                >
+                  {" "}
+                  Next{" "}
+                </Button>
+              )
+            ) : (
+              ""
             )}
           </div>
         </section>

@@ -9,7 +9,11 @@ import {
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
-import type { ServiceType } from "../../interface/interface";
+import type {
+  AppointmentPayload,
+  ServiceType,
+} from "../../interface/interface";
+import { useEffect, useState } from "react";
 // import { useEffect, useState } from "react";
 
 // interface ServiceProps {
@@ -31,10 +35,12 @@ import type { ServiceType } from "../../interface/interface";
 const ServiceCard = ({
   service,
   onClick,
+  formData,
   //   form,
 }: {
   service: ServiceType;
   onClick: () => void;
+  formData: AppointmentPayload;
   //   form: FormType;
 }) => {
   //   const [data, setData] = useState<ServiceProps[]>([]);
@@ -45,6 +51,18 @@ const ServiceCard = ({
   //     console.log(data);
   //     console.log("====================================");
   //   }, [data]);
+
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(
+      formData.services.find((item) => (item.id == service.id ? true : false)),
+    );
+  }, [formData.services]);
+
+  console.log("====================================");
+  console.log(checked);
+  console.log("====================================");
 
   const getCloudinaryUrl = (path: string) => {
     return `https://res.cloudinary.com/dhpugjush/${path}`;
@@ -76,17 +94,20 @@ const ServiceCard = ({
                 id="toggle-checkbox-2"
                 name="toggle-checkbox-2"
                 className="mt-1"
-                // checked={}
+                checked={checked}
                 onClick={(e) => e.stopPropagation()}
                 onCheckedChange={() => {
                   onClick();
                 }}
               />
               <FieldTitle className="text-xl text-white font-bold">
-                {service.name}
+                {service.name} ({service.short_name})
               </FieldTitle>
             </div>
-            <FieldDescription className="text-xl font-bold text-teal-300 ml-2">
+            {/* <FieldTitle className="text-xl text-white font-bold ml-4">
+              {service.short_name}
+            </FieldTitle> */}
+            <FieldDescription className="text-xl font-bold text-teal-300 ml-2 !mt-4">
               {"\u20B9"} {service.price}
             </FieldDescription>
           </FieldContent>

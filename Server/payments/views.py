@@ -76,12 +76,10 @@ def verify_payment(request):
     }
     
     appointment = get_object_or_404(Appointment, id = serializer.validated_data["appointment_id"])
-    calculated_total, detailed_add_ons = "", ""
+    calculated_total, detailed_add_ons = appointment.doctor.consultation_fee, []   
     
     if appointment.tests:
-        calculated_total, detailed_add_ons = get_total_amount_and_detail(appointment)
-    
-    calculated_total, detailed_add_ons = appointment.doctor.consultation_fee, []    
+        calculated_total, detailed_add_ons = get_total_amount_and_detail(appointment) 
     
     payment = None
     
@@ -100,7 +98,7 @@ def verify_payment(request):
     except Exception as e:
         BillingDetail.objects.create(
         appointment=appointment,
-        particular=appointment.title,
+        particular=appointment.reason,
         user=request.user,
         total_amount=calculated_total,
         amount_paid=0,
@@ -116,12 +114,10 @@ def verify_payment(request):
         return Response({"message": "Invalied Payment"}, status=status.HTTP_400_BAD_REQUEST)
     
     with transaction.atomic():
-            user = get_object_or_404(User, id = 2)
             BillingDetail.objects.create(
                 appointment = appointment,
                 particular = appointment.reason,
-                # user = request.user,
-                user = user,
+                user = request.user,
                 total_amount = calculated_total,
                 add_ons = detailed_add_ons,
                 discount_percentage = 0,
@@ -129,6 +125,8 @@ def verify_payment(request):
                 transaction_status = "SUCCESS",
                 payment_method = payment['method'],
                 razorpay_order_id = data["razorpay_order_id"],
+                razorpay_payment_id = data["razorpay_payment_id"],
+                razorpay_signature  = data["razorpay_signature"]
             )
             
             appointment.status = "CONFIRMED"

@@ -24,6 +24,9 @@ export default function PaymentButton({
         order_id: orderData.order_id,
 
         handler: async function (response) {
+          console.log('====================================');
+          console.log(response);
+          console.log('====================================');
           await verifyPayment({
             appointment_id: appointmentId,
 

@@ -130,6 +130,7 @@ const Service = ({ formData, setFormData }: CompsProps) => {
               key={service.id}
               service={service}
               onClick={() => handleService(service)}
+              formData={formData}
             />
           ))}
         </div>

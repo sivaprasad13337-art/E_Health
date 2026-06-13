@@ -7,8 +7,13 @@ import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import type { CompsProps } from "../../interface/interface";
 
-const PersonalDetails = ({ error, setError, setFormData }: CompsProps) => {
-  const [reason, setReason] = useState("");
+const PersonalDetails = ({
+  error,
+  setError,
+  formData,
+  setFormData,
+}: CompsProps) => {
+  const [reason, setReason] = useState(formData.reason);
   const [symptoms, setSymptoms] = useState<string[]>([""]);
   const [symptomToggle, setSymptomToggle] = useState(false);
   const [symptomError, setSymptomError] = useState(false);

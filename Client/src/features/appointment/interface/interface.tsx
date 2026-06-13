@@ -31,9 +31,13 @@ export interface StepperProps {
   active: number;
 }
 
+type Services = {
+  test: string;
+  id: number;
+};
 export interface AppointmentPayload {
   reason: string;
-  services: number[];
+  services: Services[];
   appointmentType: string;
   time: string;
   date: Date;
