@@ -35,7 +35,8 @@ const Book = () => {
     patient: 1,
   });
 
-  const [orderData, setOrderData] = useState()
+  const [orderData, setOrderData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // interface ErrorT {
   //   service: boolean;
@@ -56,25 +57,6 @@ const Book = () => {
     reason: false,
     patient: false,
   });
-
-    const handlebookAppointment = async () => {
-    if (active === 4) {
-      if (formData.reason) {
-        setError((prev) => ({ ...prev, reason: false }));
-      } else {
-        return setError((prev) => ({ ...prev, reason: true }));
-      }
-    }
-
-    const data = await createAppointment(formData);
-    setAppointmentId(data.id);
-
-    if(data.id){
-      const res = await createOrder(appointmentId);
-
-      setOrderData(res)
-    }
-  };
 
   const validateStep = () => {
     let proceed = true;
@@ -131,6 +113,31 @@ const Book = () => {
       if (active < steps.length) {
         setActive(active + 1);
       }
+    }
+  };
+
+  const handlebookAppointment = async () => {
+    if (active === 4) {
+      if (formData.reason) {
+        setError((prev) => ({ ...prev, reason: false }));
+      } else {
+        return setError((prev) => ({ ...prev, reason: true }));
+      }
+    }
+    setLoading(true);
+    const data = await createAppointment(formData);
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
+    setAppointmentId(data.id);
+
+    if (data.id) {
+      const res = await createOrder(data.id);
+      setLoading(false);
+
+      setOrderData(res);
+
+      navigateNext();
     }
   };
 
@@ -206,22 +213,41 @@ const Book = () => {
           <div className="">
             <div>
               {CurrentComponent ? (
-                <CurrentComponent
-                  formData={formData}
-                  setFormData={setFormData}
-                  error={error}
-                  setError={setError}
-                  appointmentId={appointmentId}
-                />
+                active === 5 ? (
+                  <CurrentComponent
+                    formData={formData}
+                    setFormData={setFormData}
+                    error={error}
+                    setError={setError}
+                    orderData={orderData}
+                    setActive={setActive}
+                    // appointmentId={appointmentId}
+                  />
+                ) : (
+                  <CurrentComponent
+                    formData={formData}
+                    setFormData={setFormData}
+                    error={error}
+                    setError={setError}
+                    // appointmentId={appointmentId}
+                  />
+                )
               ) : null}
             </div>
           </div>
 
-          <div className="h-[15%] w-[100%] bg-white absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3">
+          <div
+            className={
+              active > 4
+                ? "hidden"
+                : "h-[15%] w-[100%] bg-white absolute bottom-0 left-0 flex justify-end items-center px-10 gap-3"
+            }
+          >
             {active > 1 && active < 5 ? (
               <Button
                 className="w-[8rem] h-[4rem] text-[1.1rem] text-gray-900 bg-transparent border-[1px] border-gray-500 font-normal cursor-pointer"
                 onClick={() => navigateBack()}
+                disabled={loading}
               >
                 {" "}
                 Back{" "}
@@ -231,7 +257,11 @@ const Book = () => {
             )}
             {active >= 1 && active < 5 ? (
               active === 4 ? (
-                <Button className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer">
+                <Button
+                  className="w-[10rem] h-[4rem] text-[1.1rem] cursor-pointer"
+                  onClick={() => handlebookAppointment()}
+                  disabled={loading}
+                >
                   {" "}
                   Book{" "}
                 </Button>

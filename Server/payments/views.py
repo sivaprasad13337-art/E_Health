@@ -60,7 +60,7 @@ def create_order(request):
     
     print(order)
     
-    return Response({"order_id": order['id'], "Price_details" : {"add_ons": detailed_add_ons, "doctor_consultation": appointment.doctor.consultation_fee, "total_amount": order['amount'] / 100, "currency": order["currency"]}}, status=status.HTTP_200_OK)
+    return Response({"order_id": order['id'], "Price_details" : {"add_ons": detailed_add_ons, "doctor_consultation": appointment.doctor.consultation_fee, "total_amount": order['amount'] / 100, "currency": order["currency"]}, "appointment": AppointmentSerializer(appointment).data}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
