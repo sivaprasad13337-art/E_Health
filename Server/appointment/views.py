@@ -8,7 +8,7 @@ from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
 from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer
 from .models import Appointment, MedicalRecord, MedicalReport
-from utils.utils import get_doc_and_patient
+from utils.utils import get_doc_and_patient, generate_numeric_code
 import traceback
 
 from rest_framework.authentication import SessionAuthentication
@@ -34,7 +34,8 @@ def create_appointment(request):
     
     if serializer.is_valid():
         print('valid')
-        serializer.save(patient = patient, doctor = doctor)
+        appointment_code = generate_numeric_code(prefix='APT-', length=6)
+        serializer.save(patient = patient, doctor = doctor, appointment_code = appointment_code)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     print(serializer.errors)

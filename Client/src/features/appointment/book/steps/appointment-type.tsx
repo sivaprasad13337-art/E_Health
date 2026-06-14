@@ -1,20 +1,6 @@
-import {
-  Hospital,
-  LucideHome,
-  MessageSquareIcon,
-  PhoneCallIcon,
-  Video,
-} from "lucide-react";
 import { useState } from "react";
 import type { CompsProps } from "../../interface/interface";
-
-const options = [
-  { title: "Clinic", icon: Hospital },
-  { title: "Video Call", icon: Video },
-  { title: "Audio Call", icon: PhoneCallIcon },
-  { title: "Chat", icon: MessageSquareIcon },
-  { title: "Home Visit", icon: LucideHome },
-];
+import { AppointmentTypes } from "@/data/appointment";
 
 const AppointmentType = ({ formData, setFormData }: CompsProps) => {
   // const [selected, setSelected] = useState("");
@@ -23,7 +9,7 @@ const AppointmentType = ({ formData, setFormData }: CompsProps) => {
       <p className="text-lg font-bold">Select Appointment Type</p>
 
       <div className="w-full flex flex-wrap gap-5 my-6">
-        {options.map((item) => (
+        {AppointmentTypes.map((item) => (
           <div
             className={
               formData.appointmentType === item.title
@@ -41,9 +27,6 @@ const AppointmentType = ({ formData, setFormData }: CompsProps) => {
             </div>
           </div>
         ))}
-        {/* <div className="w-[33%] h-[6rem] rounded-2xl bg-purple-300"></div>
-        <div className="w-[33%] h-[6rem] rounded-2xl bg-purple-300"></div>
-        <div className="w-[33%] h-[6rem] rounded-2xl bg-purple-300"></div> */}
       </div>
     </section>
   );

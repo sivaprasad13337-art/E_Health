@@ -17,6 +17,10 @@ payment_choices = (
     ('Cash', 'Cash'),
 )
 
+class Discounts(models.Model):
+  code = models.CharField(max_length=16, null=False, blank=False)
+  discount = models.DecimalField(max_digits=3, decimal_places=1, blank=False, null=False)
+
 # Create your models here.
 class BillingDetail(models.Model):
     payment_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -25,6 +29,8 @@ class BillingDetail(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     add_ons = models.JSONField(default=list, blank=True)
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    discount_code = models.CharField(max_length=20, null=True, blank=True)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     transaction_status = models.CharField(max_length=20, choices=transaction_status_choices, default='PENDING', null=False, blank=False)

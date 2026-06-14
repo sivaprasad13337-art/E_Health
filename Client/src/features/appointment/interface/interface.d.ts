@@ -44,6 +44,7 @@ export interface AppointmentPayload {
   symptoms: string[];
   doctor: number;
   patient: number | null;
+  discount_code: string;
 }
 
 export type AppointmentErrorState = {
@@ -62,9 +63,8 @@ export interface CompsProps {
 }
 
 // Payment Interfaces
-
 export interface PaymentProps {
-  setActive: (arg: number) => void;
+  navigateNext: () => void;
   orderData: OrderDataType;
 }
 
@@ -78,6 +78,7 @@ type PriceDetails = {
   doctor_consultation: string;
   total_amount: number;
   currency: string;
+  discount_info: { code: string; discount: number; percentage: number };
 };
 
 type Tests = {
@@ -85,10 +86,11 @@ type Tests = {
   test: string;
 };
 
-type Appointment = {
+export interface Appointment {
   id: number;
   reason: string;
   appointment_type: string;
+  appointment_code: string;
   symptoms: string[];
   patient: number;
   doctor: {
@@ -104,6 +106,15 @@ type Appointment = {
       role: string;
       is_staff: boolean;
     };
+    specialization: {
+      id: number;
+      name: string;
+      description: string;
+    };
+    department: {
+      id: number;
+      name: string;
+    };
     education: string[];
     experience: number;
     location: string;
@@ -118,11 +129,28 @@ type Appointment = {
   status: string;
   date: string;
   time: string;
-};
+}
 export interface OrderDataType {
   order_id: string;
   Price_details: PriceDetails;
   appointment: Appointment;
+}
+
+export interface BillingDetail {
+  appointment: Appointment;
+  particular: string;
+  total_amount: string;
+  add_ons: [
+    {
+      test: string;
+      price: number;
+    },
+  ];
+  discount: string;
+  discount_code: string;
+  discount_percentage: string;
+  amount_paid: string;
+  transaction_status: string;
 }
 
 // {
@@ -140,7 +168,8 @@ export interface OrderDataType {
 //         ],
 //         "doctor_consultation": 1000.0,
 //         "total_amount": 4300.0,
-//         "currency": "INR"
+//         "currency": "INR",
+// "discount_info": {"code": discount_code, "discount": discount.discount}
 //     },
 //     "appointment": {
 //         "id": 10,

@@ -21,6 +21,7 @@ class Appointment(models.Model):
     reason = models.TextField()
     symptoms = models.JSONField(default=list, blank=True)
     appointment_type = models.CharField(max_length= 20, choices=Appointment_Types, default="Clinic", blank=False, null=False)
+    appointment_code = models.CharField(max_length= 16, blank=False, null=False, unique=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, blank=False, null=False, related_name='appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, blank=False, null=False,related_name='appointments')
     tests = models.JSONField(default=list, blank=True)

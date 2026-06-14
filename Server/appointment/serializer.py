@@ -14,6 +14,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'id',
             'reason',
             'appointment_type',
+            'appointment_code',
             'symptoms',
             'patient',
             'doctor',
@@ -25,7 +26,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         extra_kwargs = {
             'patient': {'read_only' : True},
-            'status': {'read_only': True}
+            'status': {'read_only': True},
+            'appointment_code': {'read_only': True}
         }
         
         

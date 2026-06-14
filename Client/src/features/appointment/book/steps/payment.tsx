@@ -1,26 +1,36 @@
 // import { useEffect, useRef, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import type {
-  AppointmentPayload,
+  // AppointmentPayload,
   OrderDataType,
   PaymentProps,
 } from "../../interface/interface";
 import PaymentButton from "../components/payment-button";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CalendarCheck, Clock, Info } from "lucide-react";
+import { CalendarCheck, Clock } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { createOrder } from "@/api/payment-services";
+import { useState } from "react";
 
 // import type { CompsProps } from "../../interface/interface";
 // import { createAppointment } from "@/api/appointment";\
 
+const Payment = ({ orderData, navigateNext }: PaymentProps) => {
+  const [discountCoupon, setDiscountCoupon] = useState("");
+  const [order, setOrder] = useState<OrderDataType>(orderData);
+  // const servicesTotal = orderData.Price_details.add_ons.reduce(
+  //   (tota, item) => tota + item.price,
+  //   0,
+  // );
 
-
-const Payment = ({ orderData, setActive }: PaymentProps ) => {
-  const servicesTotal = orderData.Price_details.add_ons.reduce(
-    (tota, item) => tota + item.price,
-    0,
-  );
+  const handleCreateOrder = async () => {
+    const response = await createOrder(
+      orderData.appointment.id,
+      discountCoupon,
+    );
+    setOrder(response);
+  };
   return (
     <ScrollArea className="px-6 mt-4 h-[27.4rem] overflow-y-auto">
       <div className="flex justify-between w-[70%]">
@@ -29,10 +39,10 @@ const Payment = ({ orderData, setActive }: PaymentProps ) => {
           Jun 2026
         </p>
         <p className="flex items-center gap-1">
-          <Clock className="w-[1rem] h-[1rem] text-primary" /> 10:30 AM
+          <Clock className="w-[1rem] h-[1rem] text-primary" /> {order.appointment.time} AM
         </p>
         <p className="flex items-center gap-1">
-          <CalendarCheck className="w-[1rem] h-[1rem] text-primary" /> Online
+          <CalendarCheck className="w-[1rem] h-[1rem] text-primary" /> {order.appointment.appointment_type}
         </p>
       </div>
       <Separator className="my-2" />
@@ -41,7 +51,7 @@ const Payment = ({ orderData, setActive }: PaymentProps ) => {
           <p className="font-semibold">Consultation fee</p>{" "}
           <p className="font-semibold">
             {"\u20B9"}
-            {orderData.Price_details.doctor_consultation}
+            {order.Price_details.doctor_consultation}
           </p>
         </div>
 
@@ -53,7 +63,7 @@ const Payment = ({ orderData, setActive }: PaymentProps ) => {
           </p>
           <p className="font-bold">{servicesTotal}</p>
         </div> */}
-        {orderData.Price_details.add_ons.map((service, idx) => (
+        {order.Price_details.add_ons.map((service, idx) => (
           <div className="flex justify-between" key={idx}>
             <p>{service.test}</p>
             <p className="font-semibold">
@@ -75,13 +85,24 @@ const Payment = ({ orderData, setActive }: PaymentProps ) => {
         </div>
 
         <div className="flex justify-between text-primary mt-2">
-          <p className="font-semibold">Coupon discount</p>
-          <p className="font-semibold">− {"\u20B9"}0</p>
+          <p className="font-semibold">
+            Coupon discount ({order.Price_details.discount_info.percentage})
+          </p>
+          <p className="font-semibold">
+            − {"\u20B9"}
+            {Math.floor(order.Price_details.discount_info.discount)}
+          </p>
         </div>
 
         <div className="flex justify-between mt-6 gap-2 items-center">
-          <Input placeholder="Enter coupon code" />
-          <Button className="py-5 px-8">Apply</Button>
+          <Input
+            placeholder="Enter coupon code"
+            value={discountCoupon}
+            onChange={(e) => setDiscountCoupon(e.currentTarget.value)}
+          />
+          <Button className="py-5 px-8" onClick={() => handleCreateOrder()}>
+            Apply
+          </Button>
         </div>
       </section>
       <Separator className="my-2" />
@@ -90,10 +111,14 @@ const Payment = ({ orderData, setActive }: PaymentProps ) => {
         <p className="font-semibold">Total payable</p>
         <p className="font-semibold text-primary">
           {"\u20B9"}
-          {orderData.Price_details.total_amount}
+          {order.Price_details.total_amount}
         </p>
       </div>
-      {orderData ? <PaymentButton setActive={setActive} orderData={orderData} /> : <p>wait baby</p>}
+      {order ? (
+        <PaymentButton navigateNext={navigateNext} orderData={order} />
+      ) : (
+        <p>wait baby</p>
+      )}
 
       <small className="text-center w-full block mt-2">
         256-bit SSL encrypted · Safe & secure checkout Powered by{" "}

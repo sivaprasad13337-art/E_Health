@@ -1,9 +1,15 @@
 import { verifyPayment } from "@/api/payment-services";
 import { Button } from "@/components/ui/button";
-import type { PaymentProps } from "../../interface/interface";
+import type { BillingDetail, PaymentProps } from "../../interface/interface";
 import { LockKeyhole } from "lucide-react";
+import type { RazorpayResponse } from "@/types/razorpay";
+import { useOrderStore } from "@/zustand/appointment";
 
-export default function PaymentButton({ setActive, orderData }: PaymentProps) {
+export default function PaymentButton({
+  navigateNext,
+  orderData,
+}: PaymentProps) {
+  const { setOrder } = useOrderStore();
   const handlePayment = async () => {
     try {
       const options = {
@@ -33,21 +39,34 @@ export default function PaymentButton({ setActive, orderData }: PaymentProps) {
         //   },
         // },
 
-        handler: async function (response) {
+        handler: async function (response: RazorpayResponse) {
           console.log("====================================");
           console.log(response);
           console.log("====================================");
-          await verifyPayment({
+          const bill = await verifyPayment({
             appointment_id: orderData.appointment.id,
-
             razorpay_order_id: response.razorpay_order_id,
-
             razorpay_payment_id: response.razorpay_payment_id,
-
             razorpay_signature: response.razorpay_signature,
+            discount_code: orderData.Price_details.discount_info.code,
           });
+          console.log("====================================");
+          console.log(bill);
+          console.log("====================================");
 
-          setActive(6)
+          const Order: BillingDetail = {
+            appointment: bill.appointment,
+            particular: bill.particular,
+            total_amount: bill.total_amount,
+            add_ons: bill.add_ons,
+            discount: bill.discount,
+            discount_code: bill.discount_code,
+            discount_percentage: bill.discount_percentage,
+            amount_paid: bill.amount_paid,
+            transaction_status: bill.transaction_status,
+          };
+          setOrder(Order);
+          navigateNext();
         },
       };
 
@@ -58,7 +77,7 @@ export default function PaymentButton({ setActive, orderData }: PaymentProps) {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
 
-      razorpay.open();
+      // razorpay.open();
     } catch (error) {
       console.error(error);
       alert("Payment Failed");

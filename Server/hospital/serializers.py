@@ -3,17 +3,30 @@ from .models import Doctor, Patient, Department, Specialization, Test
 from users.models import User
 from users.serializers import UserSerializer
 
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Department
+        fields = '__all__'
+        
+class SpecializationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Specialization
+        fields = '__all__'
 class DoctorSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    
+    specialization = SpecializationSerializer(read_only=True)
+    department = DepartmentSerializer(read_only = True)
     class Meta:
         model = Doctor
         fields = '__all__'
         
         extra_kwargs = {
             "user": {"read_only": True},
-            'specialization': {"read_only": True},
-            'department': {"read_only": True}
+            # 'specialization': {"read_only": True},
+            # 'department': {"read_only": True}
         }
         
 
@@ -27,19 +40,6 @@ class PatientSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "user": {"read_only": True},
         }
-        
-        
-class DepartmentSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Department
-        fields = '__all__'
-        
-class SpecializationSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Specialization
-        fields = '__all__'
    
         
 class TestSerializer(serializers.ModelSerializer):

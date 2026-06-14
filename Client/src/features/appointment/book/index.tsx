@@ -33,6 +33,7 @@ const Book = () => {
     symptoms: [],
     doctor: 1,
     patient: 1,
+    discount_code: "",
   });
 
   const [orderData, setOrderData] = useState();
@@ -132,7 +133,7 @@ const Book = () => {
     setAppointmentId(data.id);
 
     if (data.id) {
-      const res = await createOrder(data.id);
+      const res = await createOrder(data.id, formData.discount_code);
       setLoading(false);
 
       setOrderData(res);
@@ -220,7 +221,7 @@ const Book = () => {
                     error={error}
                     setError={setError}
                     orderData={orderData}
-                    setActive={setActive}
+                    navigateNext={navigateNext}
                     // appointmentId={appointmentId}
                   />
                 ) : (

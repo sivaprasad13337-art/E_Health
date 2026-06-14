@@ -9,7 +9,9 @@ import cloudinary.uploader
 import rest_framework
 import random
 import string
-print('akubau',rest_framework.__version__)
+import secrets
+import string
+# print('akubau',rest_framework.__version__)
 
 def get_user_data(user):
     profile = {}
@@ -65,3 +67,19 @@ def generate_unique_id(str):
     return f"{str}-" + "".join(
         random.choices(string.ascii_uppercase + string.digits, k=8)
     )
+    
+
+
+def generate_code(prefix, length):
+    chars = string.ascii_uppercase + string.digits
+    code = ''.join(secrets.choice(chars) for _ in range(length))
+    sufix = ''.join(secrets.choice(chars) for _ in range(length - 1))
+    return f"{prefix}{code}-{sufix}"
+
+def generate_numeric_code(prefix, length):
+    code = ''.join(secrets.choice(string.digits) for _ in range(length + 2))
+    sufix = ''.join(secrets.choice(string.digits) for _ in range(length - 3))
+    return f"{prefix}{code}-{sufix}"
+
+print(generate_code("AQZ-", 6))   # A7K9P2XZ
+print(generate_numeric_code("DIS-", 6))  # Q8M2T7Y4L9AB
