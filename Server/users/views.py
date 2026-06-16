@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
-from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes, authentication_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 from django.contrib.auth import login, logout, authenticate
 from rest_framework.response import Response
@@ -10,10 +10,14 @@ from hospital.models import Doctor, Patient, Specialization, Department
 from hospital.serializers import DoctorSerializer, PatientSerializer
 from django.db import transaction
 from utils.utils import delete_old_cloudinary_file, get_user_data, IsRoleAdmin
-
+from rest_framework.authentication import SessionAuthentication
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return  # skip CSRF
 # Create your views here.
 
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 @parser_classes([FormParser, MultiPartParser])
 def create_user(request):
     data = request.data

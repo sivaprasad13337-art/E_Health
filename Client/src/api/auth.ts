@@ -2,9 +2,9 @@ import apiClient from "@/lib/api-client";
 import { useAuthStore } from "@/zustand/auth";
 
 interface SignUpPayload {
-  firstName: string;
-  lastName: string;
-  userName: string;
+  first_name: string;
+  last_name: string;
+  username: string;
   email: string;
   phone: string;
   role: string;
@@ -13,9 +13,9 @@ interface SignUpPayload {
 
 export const registerUser = async (formData: SignUpPayload) => {
   const payload = new FormData();
-  payload.append("first_name", formData.firstName);
-  payload.append("last_name", formData.lastName);
-  payload.append("username", formData.userName);
+  payload.append("first_name", formData.first_name);
+  payload.append("last_name", formData.last_name);
+  payload.append("username", formData.username);
   payload.append("email", formData.email);
   payload.append("phone", formData.phone);
   payload.append("role", formData.role);

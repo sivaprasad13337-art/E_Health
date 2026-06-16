@@ -40,6 +40,7 @@ def get_total_amount_and_detail(appointment, discount_code):
         detailed_info = list(map(lambda x:{"test":x.name, "price":float(x.price)}, tests))
         return total_amount, detailed_info, discount_info
 
+
 class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return  # skip CSRF
