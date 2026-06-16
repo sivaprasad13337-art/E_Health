@@ -31,3 +31,15 @@ export const RegisterUserFormSchema = z.object({
     .min(8, "Password must be at least 8 characters.")
     .max(32, "Password cannot exceed 32 characters."),
 });
+
+export const LoginFormSchema = z.object({
+  username: z
+    .string()
+    .min(5, "Username must be at least 5 characters.")
+    .max(32, "Username cannot exceed 32 characters."),
+
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters.")
+    .max(32, "Password cannot exceed 32 characters."),
+});

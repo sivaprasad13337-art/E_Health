@@ -4,13 +4,10 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import poster from "@/assets/hero.png";
 import { registerUser } from "@/api/auth";
 import { auth_path, login_path } from "@/data/paths";
-import { Form } from "@/hooks/form";
 import { RegisterUserFormSchema } from "@/zod/auth";
 
-import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -18,7 +15,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -42,22 +39,22 @@ import {
 
 const Register = () => {
   const [pwdType, setpwdType] = useState(true);
-  const [data, setData] = useState({
-    first_name: "",
-    last_name: "",
-    username: "",
-    phone: "",
-    role: "",
-    email: "",
-    password: "",
-  });
+  // const [data, setData] = useState({
+  //   first_name: "",
+  //   last_name: "",
+  //   username: "",
+  //   phone: "",
+  //   role: "",
+  //   email: "",
+  //   password: "",
+  // });
   const navigate = useNavigate();
 
-  const handleUserRegistration = async () => {
-    const res = await registerUser(data);
-    navigate(`${auth_path}${login_path}`);
-    return res;
-  };
+  // const handleUserRegistration = async () => {
+  //   const res = await registerUser(data);
+  //   navigate(`${auth_path}${login_path}`);
+  //   return res;
+  // };
 
   //
 
@@ -72,33 +69,15 @@ const Register = () => {
       email: "",
       password: "",
     },
-    // {
-    //   title: "",
-    //   description: "",
-    // },
   });
 
-  const onSubmit = async(data: z.infer<typeof RegisterUserFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof RegisterUserFormSchema>) => {
     console.log("====================================");
     console.log(data);
     console.log("====================================");
-    const res = await registerUser(data);
+    await registerUser(data);
     navigate(`${auth_path}${login_path}`);
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
-          <code>{JSON.stringify(data, null, 7)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    });
-  }
+  };
 
   return (
     // <section className="flex w-[70%] h-[90vh] mx-auto rounded-2xl overflow-hidden shadow-xl">
@@ -268,13 +247,11 @@ const Register = () => {
     //   </div>
     // </section>
 
-    <section className="flex w-[70%] h-[90vh] mx-auto rounded-2xl overflow-hidden shadow-xl">
-      <Card className="w-full sm:max-w-xl">
+    <section className="flex w-[70%] h-[90vh] mx-auto rounded-2xl overflow-hidden shadow-xl mt-[5vh] bg-white">
+      <Card className="w-full sm:max-w-xl my-auto rounded-none bg-transparent !ring-0">
         <CardHeader>
-          <CardTitle>Bug Report</CardTitle>
-          <CardDescription>
-            Help us improve by reporting bugs you encounter.
-          </CardDescription>
+          <CardTitle className="text-xl font-bold">Create account</CardTitle>
+          <CardDescription>Join E-Hospital today.</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
@@ -466,56 +443,22 @@ const Register = () => {
                   </Field>
                 )}
               />
-
-              {/* <Controller
-                   name="last_name"
-                   control={form.control}
-                   render={({ field, fieldState }) => (
-                     <Field data-invalid={fieldState.invalid}>
-                       <FieldLabel htmlFor="form-rhf-demo-description">
-                         Description
-                       </FieldLabel>
-                       <InputGroup>
-                         <InputGroupTextarea
-                           {...field}
-                           id="form-rhf-demo-description"
-                           placeholder="I'm having an issue with the login button on mobile."
-                           rows={6}
-                           className="min-h-24 resize-none"
-                           aria-invalid={fieldState.invalid}
-                         />
-                         <InputGroupAddon align="block-end">
-                           <InputGroupText className="tabular-nums">
-                             {field.value.length}/100 characters
-                           </InputGroupText>
-                         </InputGroupAddon>
-                       </InputGroup>
-                       <FieldDescription>
-                         Include steps to reproduce, expected behavior, and what
-                         actually happened.
-                       </FieldDescription>
-                       {fieldState.invalid && (
-                         <FieldError errors={[fieldState.error]} />
-                       )}
-                     </Field>
-                   )}
-                 /> */}
             </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="block">
+        <div className="px-4">
           <Field orientation="horizontal">
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               onClick={() => form.reset()}
             >
               Reset
-            </Button>
+            </Button> */}
             <Button
               type="submit"
               form="form-rhf-demo"
-              className="bg-blue-700 p-2 rounde my-2 font-semibold text-white"
+              className="py-5 w-full rounded-sm my-2 font-bold text-white"
             >
               Register
             </Button>
@@ -529,19 +472,22 @@ const Register = () => {
               Login
             </Link>
           </p>
-        </CardFooter>
+        </div>
       </Card>
 
-      {/* <button
-        className="w-full bg-blue-700 p-2 rounded-2xl my-2 font-semibold text-white"
-        onClick={() => handleUserRegistration()}
-      >
-        Register
-      </button> */}
+      <div className="relative w-[50%] h-full overflow-hidden">
+        <img
+          src={poster}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
-      {/*  */}
-      <div className="w-[45%] h-full">
-        <img src={poster} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a4f47]/90 via-[#1A9E8F]/80 to-[#22C993]/70" />
+
+        {/* <div className="relative z-10 h-full flex flex-col justify-between p-8">
+          <div>tag</div>
+          <div>headline</div>
+        </div> */}
       </div>
     </section>
   );

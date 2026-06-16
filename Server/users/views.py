@@ -101,6 +101,7 @@ def approve_role_request(request):
 
 
 @api_view(['POST'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 def login_user(request):
     
     if request.user.is_authenticated:
