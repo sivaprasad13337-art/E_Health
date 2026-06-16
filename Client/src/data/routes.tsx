@@ -31,7 +31,7 @@ import MedicalHistory from "@/features/medical/history";
 import AppointmentStatus from "@/features/appointment/status";
 import Diagnosis from "@/features/medical/diagnosis";
 import Reports from "@/features/medical/reports";
-import Profile from "@/features/user/profile";
+import Profile from "@/features/actions/profile";
 import Transactions from "@/features/payments/transactions";
 import Refunds from "@/features/payments/refunds";
 import Analytics from "@/features/payments/analytics";

@@ -51,7 +51,7 @@ class Doctor(models.Model):
     specialization = models.ForeignKey(Specialization, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     education = models.JSONField(default=list)
-    experience = models.IntegerField(max_length=2, blank=False, null=False)
+    experience = models.IntegerField(max_length=2, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=False)
     languages = models.JSONField(default=list, blank=True)
     consultation_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)

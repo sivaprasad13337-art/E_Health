@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { AppointmentTypes } from "@/data/appointment";
+import { formatDateForBill } from "@/lib/utils";
 // import { Separator } from "@/components/ui/separator";
 import { useOrderStore } from "@/zustand/appointment";
 import {
@@ -10,7 +11,7 @@ import {
   Stethoscope,
   User,
   Verified,
-  VideoIcon,
+  // VideoIcon,
 } from "lucide-react";
 
 const Confirmation = () => {
@@ -35,12 +36,12 @@ const Confirmation = () => {
     },
     {
       particular: "Date",
-      data: Order?.appointment.date,
+      data: formatDateForBill(Order?.appointment.date), //2026-06-15
       icon: CalendarCheck,
     },
     {
       particular: "Time",
-      data: Order?.appointment.time,
+      data: Order?.appointment.time, //10:00:00
       icon: Clock,
     },
     {

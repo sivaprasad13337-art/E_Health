@@ -8,5 +8,5 @@ urlpatterns = [
     path('auth/get-profile/<int:id>', views.get_profile, name="Get-profile"),
     path('auth/set-profile/<int:id>', views.set_profile, name="Set-profile"),
     path('auth/get-request-list/', views.get_unverified_list, name=""),
-    path('auth/approve-role-request/<int:id>', views.approve_role_request, name=""),
+    path('auth/approve-role-request/', views.approve_role_request, name=""),
 ]

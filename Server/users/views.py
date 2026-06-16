@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
 from .models import User
-from hospital.models import Doctor, Patient
+from hospital.models import Doctor, Patient, Specialization, Department
 from hospital.serializers import DoctorSerializer, PatientSerializer
 from django.db import transaction
 from utils.utils import delete_old_cloudinary_file, get_user_data, IsRoleAdmin
@@ -71,15 +71,23 @@ def get_unverified_list(request):
 
 
 @api_view(['PATCH'])
-def approve_role_request(request, id):
-    user = get_object_or_404(User, id = id)
+def approve_role_request(request):
+    specialization_id = request.data['specialization_id']
+    department_id = request.data['department_id']
+    user_id = request.data['user_id']
+    user = get_object_or_404(User, id = user_id)
+    specialization = get_object_or_404(Specialization, id = specialization_id)
+    department = get_object_or_404(Department, id = department_id)
+    
+    if user.is_verified:
+        return Response({"Message": "Already Verified!"}, status=status.HTTP_200_OK)
     
     with transaction.atomic():
         if user:
             user.is_verified = True
             user.save()
         if user.role == 'DOCTOR':
-            doctor = Doctor.objects.create(user = user)
+            doctor = Doctor.objects.create(user = user, specialization = specialization, department = department)
             doctor.save()
             
             return Response({"Message": "Approved!"}, status=status.HTTP_200_OK)

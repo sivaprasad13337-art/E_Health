@@ -12,6 +12,7 @@ import { CalendarCheck, Clock } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { createOrder } from "@/api/payment-services";
 import { useState } from "react";
+import { formatDateForBill } from "@/lib/utils";
 
 // import type { CompsProps } from "../../interface/interface";
 // import { createAppointment } from "@/api/appointment";\
@@ -35,8 +36,7 @@ const Payment = ({ orderData, navigateNext }: PaymentProps) => {
     <ScrollArea className="px-6 mt-4 h-[27.4rem] overflow-y-auto">
       <div className="flex justify-between w-[70%]">
         <p className="flex items-center gap-1">
-          <CalendarCheck className="w-[1rem] h-[1rem] text-primary" /> Mon, 16
-          Jun 2026
+          <CalendarCheck className="w-[1rem] h-[1rem] text-primary" />  {formatDateForBill(order.appointment.date)}
         </p>
         <p className="flex items-center gap-1">
           <Clock className="w-[1rem] h-[1rem] text-primary" /> {order.appointment.time} AM

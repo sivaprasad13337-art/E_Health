@@ -10,133 +10,135 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { type Doctor } from "../interface/interface";
+import { getDoctors } from "@/api/hospital";
 
-const doctors: Doctor[] = [
-  {
-    name: "Charles Scott",
-    qualification: "MBBS, DNB",
-    specialization: "Neurologist",
-    department: "Neurology",
-    languages: ["English", "French"],
-    address: "Hamshire, TX",
-    experience: "20",
-    fee: "1050",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Robert Thomas",
-    qualification: "MBBS, MD",
-    specialization: "Cardiologist",
-    department: "Cardialogy",
-    languages: ["English", "Spanish"],
-    address: "Oakland, CA",
-    experience: "27",
-    fee: "1500",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Margaret Koller",
-    qualification: "B.S, M.S",
-    specialization: "Psychologist",
-    department: "Psychology",
-    languages: ["English", "Portuguese"],
-    address: "Killeen, TX",
-    experience: "5",
-    fee: "2500",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Cath Busick",
-    qualification: "MBBS, MD",
-    specialization: "Pediatrician",
-    department: "Pediatrics",
-    languages: ["English", "Arabic", "German"],
-    address: "Schenectady, NY",
-    experience: "12",
-    fee: "2800",
-    availability: false,
-    ratings: "5.0",
-  },
-  {
-    name: "Cath Busick",
-    qualification: "MBBS, MD",
-    specialization: "Pediatrician",
-    department: "Pediatrics",
-    languages: ["English", "Arabic", "German"],
-    address: "Schenectady, NY",
-    experience: "12",
-    fee: "2800",
-    availability: false,
-    ratings: "5.0",
-  },
-  {
-    name: "Cath Busick",
-    qualification: "MBBS, MD",
-    specialization: "Pediatrician",
-    department: "Pediatrics",
-    languages: ["English", "Arabic", "German"],
-    address: "Schenectady, NY",
-    experience: "12",
-    fee: "2800",
-    availability: false,
-    ratings: "5.0",
-  },
-  {
-    name: "Robert Thomas",
-    qualification: "MBBS, MD",
-    specialization: "Cardiologist",
-    department: "Cardialogy",
-    languages: ["English", "Spanish"],
-    address: "Oakland, CA",
-    experience: "27",
-    fee: "1500",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Margaret Koller",
-    qualification: "B.S, M.S",
-    specialization: "Psychologist",
-    department: "Psychology",
-    languages: ["English", "Portuguese"],
-    address: "Killeen, TX",
-    experience: "5",
-    fee: "2500",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Charles Scott",
-    qualification: "MBBS, DNB",
-    specialization: "Neurologist",
-    department: "Neurology",
-    languages: ["English", "French"],
-    address: "Hamshire, TX",
-    experience: "20",
-    fee: "1050",
-    availability: true,
-    ratings: "5.0",
-  },
-  {
-    name: "Robert Thomas",
-    qualification: "MBBS, MD",
-    specialization: "Cardiologist",
-    department: "Cardialogy",
-    languages: ["English", "Spanish"],
-    address: "Oakland, CA",
-    experience: "27",
-    fee: "1500",
-    availability: true,
-    ratings: "5.0",
-  },
-];
+// const doctors: Doctor[] = [
+//   {
+//     name: "Charles Scott",
+//     qualification: "MBBS, DNB",
+//     specialization: "Neurologist",
+//     department: "Neurology",
+//     languages: ["English", "French"],
+//     address: "Hamshire, TX",
+//     experience: "20",
+//     fee: "1050",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Robert Thomas",
+//     qualification: "MBBS, MD",
+//     specialization: "Cardiologist",
+//     department: "Cardialogy",
+//     languages: ["English", "Spanish"],
+//     address: "Oakland, CA",
+//     experience: "27",
+//     fee: "1500",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Margaret Koller",
+//     qualification: "B.S, M.S",
+//     specialization: "Psychologist",
+//     department: "Psychology",
+//     languages: ["English", "Portuguese"],
+//     address: "Killeen, TX",
+//     experience: "5",
+//     fee: "2500",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Cath Busick",
+//     qualification: "MBBS, MD",
+//     specialization: "Pediatrician",
+//     department: "Pediatrics",
+//     languages: ["English", "Arabic", "German"],
+//     address: "Schenectady, NY",
+//     experience: "12",
+//     fee: "2800",
+//     availability: false,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Cath Busick",
+//     qualification: "MBBS, MD",
+//     specialization: "Pediatrician",
+//     department: "Pediatrics",
+//     languages: ["English", "Arabic", "German"],
+//     address: "Schenectady, NY",
+//     experience: "12",
+//     fee: "2800",
+//     availability: false,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Cath Busick",
+//     qualification: "MBBS, MD",
+//     specialization: "Pediatrician",
+//     department: "Pediatrics",
+//     languages: ["English", "Arabic", "German"],
+//     address: "Schenectady, NY",
+//     experience: "12",
+//     fee: "2800",
+//     availability: false,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Robert Thomas",
+//     qualification: "MBBS, MD",
+//     specialization: "Cardiologist",
+//     department: "Cardialogy",
+//     languages: ["English", "Spanish"],
+//     address: "Oakland, CA",
+//     experience: "27",
+//     fee: "1500",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Margaret Koller",
+//     qualification: "B.S, M.S",
+//     specialization: "Psychologist",
+//     department: "Psychology",
+//     languages: ["English", "Portuguese"],
+//     address: "Killeen, TX",
+//     experience: "5",
+//     fee: "2500",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Charles Scott",
+//     qualification: "MBBS, DNB",
+//     specialization: "Neurologist",
+//     department: "Neurology",
+//     languages: ["English", "French"],
+//     address: "Hamshire, TX",
+//     experience: "20",
+//     fee: "1050",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+//   {
+//     name: "Robert Thomas",
+//     qualification: "MBBS, MD",
+//     specialization: "Cardiologist",
+//     department: "Cardialogy",
+//     languages: ["English", "Spanish"],
+//     address: "Oakland, CA",
+//     experience: "27",
+//     fee: "1500",
+//     availability: true,
+//     ratings: "5.0",
+//   },
+// ];
 
 const BrowseDoctors = () => {
   const [limit, setLimit] = useState(2);
   //   const count = 2;
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [data, setData] = useState<Doctor[]>([]);
 
   const paginatePrev = () => {
@@ -169,12 +171,25 @@ const BrowseDoctors = () => {
   };
 
   useEffect(() => {
-    const callPaginate = () => {
-      paginateNext();
+    const getAlldoctors = async () => {
+      const res = await getDoctors();
+      setDoctors(res);
+      setData(res)
+      console.log('====================================');
+      console.log(res);
+      console.log('====================================');
     };
 
-    callPaginate();
-  }, []);
+    getAlldoctors();
+  });
+
+  // useEffect(() => {
+  //   const callPaginate = () => {
+  //     paginateNext();
+  //   };
+
+  //   callPaginate();
+  // }, []);
 
   return (
     <section>

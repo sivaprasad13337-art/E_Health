@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.decorators import permission_classes, api_view, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
@@ -39,6 +39,15 @@ def update_patient(request, id):
     
 
 # Doctor Views
+@api_view(['GET'])
+def get_doctors(rquest):
+    doctors = Doctor.objects.all()
+    if doctors:
+        return Response(DoctorSerializer(doctors, many = True).data, status=status.HTTP_200_OK)
+    
+    return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 def get_doctor(request, id):

@@ -17,7 +17,8 @@ import Forgetpassword from "./forget-password";
 import { useAuthStore } from "@/zustand/auth";
 
 const index = () => {
-  const { auth } = useAuthStore();
+  // const { auth } = useAuthStore();
+  const auth = false;
   return (
     <>
       <Router>
