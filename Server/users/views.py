@@ -123,6 +123,7 @@ def login_user(request):
 
 
 @api_view(['GET'])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 def logout_user(request):
     logout(request)
     return Response({"Message": "Logged out!"}, status=status.HTTP_200_OK)

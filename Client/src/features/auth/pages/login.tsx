@@ -141,8 +141,10 @@ const Login = () => {
     <section className="flex w-[70%] h-[90vh] mx-auto rounded-2xl overflow-hidden shadow-xl">
       <Card className="w-full sm:max-w-xl my-auto rounded-none bg-transparent !ring-0">
         <CardHeader>
-          <CardTitle className="text-xl font-bold">Create account</CardTitle>
-          <CardDescription>Join E-Hospital today.</CardDescription>
+          <CardTitle className="text-xl font-bold">Welcome back</CardTitle>
+          <CardDescription>
+            Sign in to manage your health journey.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,10 +1,10 @@
-import { Form } from "@/hooks/form";
+// import { Form } from "@/hooks/form";
 
 const SetProfile = () => {
   return (
     <div>
       SetProfile
-      <Form />
+      {/* <Form /> */}
     </div>
   );
 };

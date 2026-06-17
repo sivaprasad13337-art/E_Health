@@ -56,6 +56,24 @@ export const loginUser = async (payload: object) => {
   }
 };
 
+// logout
+export const logoutUser = async () => {
+  try {
+    const response = await apiClient.get("/users/auth/login-out/");
+    // const data = response.data;
+
+    if (response.status === 200) {
+      const { logout } = useAuthStore.getState();
+
+      logout();
+    }
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const setUser = async (payload: object, id: number) => {
   try {
     const response = await apiClient.patch(
