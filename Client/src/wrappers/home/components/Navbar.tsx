@@ -5,10 +5,12 @@ import { CustomCommand } from "./CustomCommand";
 import Pic from "@/components/Pic";
 import CustomDropdown from "./custom-dropdown";
 import { Button } from "@/components/ui/button";
-import { BadgeCheckIcon, BellDotIcon, Bolt } from "lucide-react";
+import { BadgeCheckIcon, BadgeX, BellDotIcon, Bolt } from "lucide-react";
 import CustomTooltip from "@/components/custom-tooltip";
+import { useAuthStore } from "@/zustand/auth";
 
 const Navbar = () => {
+  const { user } = useAuthStore();
   return (
     <section className="bg-gray-100 h-[4.5rem] w-full flex justify-between px-4 items-center pt-1">
       <div className="flex items-center gap-2 px-4 bg-red-20">
@@ -46,16 +48,20 @@ const Navbar = () => {
             trigger={
               <Button variant="outline" size="icon">
                 {" "}
-                <BadgeCheckIcon className="text-sky-500" />
+                {user?.isVerified ? (
+                  <BadgeCheckIcon className="text-sky-500" />
+                ) : (
+                  <BadgeX className="text-red-500" />
+                )}
               </Button>
             }
-            tip="Verified"
+            tip={user?.isVerified ? "Verified" : "Unverified"}
           />
         </div>
 
         <div className="flex gap-2">
           <Pic
-            img="https://github.com/shadcn.png"
+            img={user?.profile_img} //"https://github.com/shadcn.png"
             className="w-[2.5rem] h-[2.5rem]"
           />
 

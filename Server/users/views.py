@@ -44,6 +44,7 @@ def get_profile(request, id):
 
 
 @api_view(['PATCH'])
+@authentication_classes([CsrfExemptSessionAuthentication])
 @parser_classes([FormParser, MultiPartParser])
 def set_profile(request, id):
     user = get_object_or_404(User, id = id)
@@ -55,7 +56,7 @@ def set_profile(request, id):
     if profile_img:
         delete_old_cloudinary_file(user.profile_img, profile_img)
         
-    serializer = UserSerializer(user ,data = data, partial = True)
+    serializer = UserSerializer(user, data = data, partial = True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
     

@@ -17,12 +17,16 @@ class UserSerializer(serializers.ModelSerializer):
             'phone',
             'role',
             'password',
-            'is_staff'
+            'is_staff',
+            'is_verified'
         ]
         
         extra_kwargs = {
             'password': {'write_only':True},
-            'id': {'read_only':True}
+            'id': {'read_only':True},
+            'is_staff': {'read_only':True},
+            'is_verified': {'read_only':True},
+            
         }
         
         

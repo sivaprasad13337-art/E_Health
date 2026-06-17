@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import type { CompsProps } from "../../interface/interface";
 import { AppointmentTypes } from "@/data/appointment";
 

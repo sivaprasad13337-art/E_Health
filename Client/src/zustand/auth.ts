@@ -2,10 +2,14 @@ import { create } from "zustand";
 
 interface UserData {
   isAdmin: boolean;
-  userName: string;
-  firstName: string;
-  lastName: string;
-  profileImage: URL;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  profile_img: URL;
+  role: string;
+  isVerified: boolean;
   id: number;
 }
 

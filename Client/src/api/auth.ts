@@ -42,10 +42,14 @@ export const loginUser = async (payload: object) => {
 
       setUser({
         isAdmin: data.user.is_staff,
-        userName: data.user.username,
-        firstName: data.user.first_name,
-        lastName: data.user.last_name,
-        profileImage: data.user.profile_img,
+        username: data.user.username,
+        first_name: data.user.first_name,
+        last_name: data.user.last_name,
+        email: data.user.email,
+        phone: data.user.phone,
+        profile_img: data.user.profile_img,
+        role: data.user.role,
+        isVerified: data.user.is_verified,
         id: data.user.id,
       });
     }
@@ -74,12 +78,32 @@ export const logoutUser = async () => {
   }
 };
 
-export const setUser = async (payload: object, id: number) => {
+type SetUserPayload = {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  phone: string;
+  profile_img: File;
+};
+
+export const setUser = async (formData: SetUserPayload, id: number) => {
+  const payload = new FormData();
+  payload.append("first_name", formData.first_name);
+  payload.append("last_name", formData.last_name);
+  payload.append("username", formData.username);
+  payload.append("email", formData.email);
+  payload.append("phone", formData.phone);
+  payload.append("profile_img", formData.profile_img);
   try {
     const response = await apiClient.patch(
       `/users/auth/set-profile/${id}`,
       payload,
     );
+
+    if (response.status === 200) {
+      await who();
+    }
 
     return response.data;
   } catch (err) {
@@ -92,6 +116,9 @@ export const who = async () => {
     const response = await apiClient.get("/users/auth/me/");
     const data = response.data;
 
+    console.log("====================================");
+    console.log(response.data);
+    console.log("====================================");
     if (response.status === 200) {
       const { setAuth, setUser } = useAuthStore.getState();
 
@@ -99,10 +126,14 @@ export const who = async () => {
 
       setUser({
         isAdmin: data.user.is_staff,
-        userName: data.user.username,
-        firstName: data.user.first_name,
-        lastName: data.user.last_name,
-        profileImage: data.user.profile_img,
+        username: data.user.username,
+        first_name: data.user.first_name,
+        last_name: data.user.last_name,
+        email: data.user.email,
+        phone: data.user.phone,
+        profile_img: data.user.profile_img,
+        role: data.user.role,
+        isVerified: data.user.is_verified,
         id: data.user.id,
       });
     }

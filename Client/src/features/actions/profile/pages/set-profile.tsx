@@ -1,10 +1,11 @@
-// import { Form } from "@/hooks/form";
+import { useAuthStore } from "@/zustand/auth";
+import { SetProfileForm } from "../../components/set-profile-form";
 
 const SetProfile = () => {
+  const { user } = useAuthStore();
   return (
     <div>
-      SetProfile
-      {/* <Form /> */}
+      <SetProfileForm userData={user} />
     </div>
   );
 };
