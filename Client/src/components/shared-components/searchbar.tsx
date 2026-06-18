@@ -11,12 +11,16 @@ const Searchbar = ({
   placeholder: string;
 }) => {
   return (
-    <InputGroup className="h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!">
+    <InputGroup
+      className={cn(
+        "h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!",
+        className,
+      )}
+    >
       <Input
         data-slot="command-input"
         className={cn(
           "w-full text-sm focus:outline-none border-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:border-transparent focus-visible:border-transparent",
-          className,
         )}
         placeholder={placeholder}
       />
