@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { BadgeCheckIcon, BadgeX, BellDotIcon, Bolt } from "lucide-react";
 import CustomTooltip from "@/components/custom-tooltip";
 import { useAuthStore } from "@/zustand/auth";
+import { getCloudinaryUrl } from "@/lib/utils";
 
 const Navbar = () => {
   const { user } = useAuthStore();
@@ -61,7 +62,7 @@ const Navbar = () => {
 
         <div className="flex gap-2">
           <Pic
-            img={user?.profile_img} //"https://github.com/shadcn.png"
+            img={getCloudinaryUrl(user?.profile_img)} //"https://github.com/shadcn.png"
             className="w-[2.5rem] h-[2.5rem]"
           />
 

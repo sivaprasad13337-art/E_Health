@@ -14,6 +14,7 @@ import type {
   ServiceType,
 } from "../../interface/interface";
 import { useEffect, useState } from "react";
+import { getCloudinaryUrl } from "@/lib/utils";
 // import { useEffect, useState } from "react";
 
 // interface ServiceProps {
@@ -64,9 +65,6 @@ const ServiceCard = ({
   console.log(checked);
   console.log("====================================");
 
-  const getCloudinaryUrl = (path: string) => {
-    return `https://res.cloudinary.com/dhpugjush/${path}`;
-  };
   return (
     <FieldGroup
       className="w-[48%] my- h-[7rem] bg-pink-30"

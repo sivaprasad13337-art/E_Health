@@ -49,6 +49,7 @@ def get_profile(request, id):
 def set_profile(request, id):
     user = get_object_or_404(User, id = id)
     data = request.data
+    print(request.data)
     
     profile_img = request.FILES.get('profile_img')
     print(profile_img)

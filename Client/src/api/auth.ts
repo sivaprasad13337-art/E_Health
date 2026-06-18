@@ -95,6 +95,10 @@ export const setUser = async (formData: SetUserPayload, id: number) => {
   payload.append("email", formData.email);
   payload.append("phone", formData.phone);
   payload.append("profile_img", formData.profile_img);
+
+  console.log("====================================");
+  console.log("this is setuser Data", formData);
+  console.log("====================================");
   try {
     const response = await apiClient.patch(
       `/users/auth/set-profile/${id}`,

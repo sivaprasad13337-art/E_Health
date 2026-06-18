@@ -39,7 +39,7 @@ export function SetProfileForm({ userData }: { userData: User }) {
 
   const onSubmit = async (data: z.infer<typeof SetUserFormSchema>) => {
     console.log("====================================");
-    console.log(data);
+    console.log("set User Form", data);
     console.log("====================================");
 
     await setUser(data, userData.id);

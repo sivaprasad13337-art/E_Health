@@ -68,7 +68,7 @@ export const SetUserFormSchema = z.object({
     .string()
     .regex(/^\d{10}$/, "Phone number must contain exactly 10 digits."),
 
-  profile_Image: z
+  profile_img: z
     .instanceof(File)
     .refine((file) => ACCEPTED_MIME_TYPES.includes(file.type), {
       message: "Invalid file type. Only JPEG, JPG and PNG are allowed.",

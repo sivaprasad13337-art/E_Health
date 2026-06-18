@@ -31,6 +31,6 @@ export const formatDateForBill = (date: string) => {
   return `${dayName}, ${d[2]} ${month} ${d[0]}`;
 };
 
-// console.log("====================================");
-// console.log(formateDateForBill("2026-12-08"));
-// console.log("====================================");
+export const getCloudinaryUrl = (path: string) => {
+  return `https://res.cloudinary.com/dhpugjush/${path}`;
+};
