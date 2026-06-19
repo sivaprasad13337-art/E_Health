@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CardFlat from "./components/doctor-card-flat";
+import CardFlat from "../components/doctor-card-flat";
 import {
   Pagination,
   PaginationContent,
@@ -174,10 +174,10 @@ const BrowseDoctors = () => {
     const getAlldoctors = async () => {
       const res = await getDoctors();
       setDoctors(res);
-      setData(res)
-      console.log('====================================');
+      setData(res);
+      console.log("====================================");
       console.log(res);
-      console.log('====================================');
+      console.log("====================================");
     };
 
     getAlldoctors();

@@ -10,7 +10,9 @@ import {
   MapPin,
   Verified,
 } from "lucide-react";
-import type { Doctor } from "../../interface/interface";
+import type { Doctor } from "../interface/interface";
+import { Link } from "react-router-dom";
+import { doctorProfile } from "@/data/paths";
 // ("@radix-ui/react-icons");
 
 // interface Doctor {
@@ -62,7 +64,10 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
       className="h-[15rem] w-[90%] bg-white rounded-2xl overflow-hidden flex my-6"
       key={doctor.id}
     >
-      <div className="w-[28%] h-full bg-gray-300 p-0 relative">
+      <Link
+        to={doctorProfile}
+        className="w-[28%] h-full bg-gray-300 p-0 relative"
+      >
         <img
           src="https://doccure.dreamstechnologies.com/html/template/assets/img/doctor-grid/doctor-list-01.jpg"
           alt=""
@@ -78,7 +83,7 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
             <HeartFilledIcon className="text-gray-400 w-[1.2rem] h-[1.2rem]" />
           </Button>
         </div>
-      </div>
+      </Link>
 
       <section className="w-[72%] h-full bg-pink-20 p-">
         <div className="flex justify-between p-4">
@@ -103,14 +108,14 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
         <div className="p-4">
           <div className="flex gap-48">
             <div>
-              <p className="font-bold">
+              <Link to={doctorProfile} className="font-bold hover:text-primary">
                 Dr. {doctor.user.first_name} {doctor.user.last_name}
                 <Verified className="w-[1.1rem] h-[1.1rem] inline-block text-green-600 -mt-1 ml-1" />
-              </p>
+              </Link>
               <p className="text-gray-700 w-[100%">
-                {doctor.education.map((item, idx) => (
-                  idx < 2 ? <span>{item}, </span> : ''
-                ))}{" "}
+                {doctor.education.map((item, idx) =>
+                  idx < 2 ? <span>{item}, </span> : "",
+                )}{" "}
                 - {doctor.department.name}
               </p>
               <p className="text-sm text-gray-600 mt-2">

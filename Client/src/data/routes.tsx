@@ -14,6 +14,7 @@ import {
   dashboard,
   detailedMedicalReport,
   diagnosis,
+  doctorProfile,
   doctors,
   medicalHistory,
   medicalRecords,
@@ -60,6 +61,7 @@ import Payment from "@/features/appointment/book/steps/payment";
 import Confirmation from "@/features/appointment/book/steps/confirmation";
 import MyDoctors from "@/features/doctor/my-doctors";
 import BrowseDoctors from "@/features/doctor/browse";
+import DoctorProfile from "@/features/doctor/prolile";
 
 export const routes = [
   {
@@ -134,6 +136,13 @@ export const routes = [
     element: AppointmentStatus,
     icon: ChartNoAxesColumnIncreasingIcon,
     title: "Appointment-Status",
+  },
+  {
+    parent: doctors,
+    path: doctorProfile,
+    element: DoctorProfile,
+    icon: Stethoscope,
+    title: "Doctor",
   },
   {
     parent: doctors,

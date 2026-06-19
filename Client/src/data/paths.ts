@@ -15,6 +15,7 @@ export const appointmentStatus = `${appointment}/appointment-status`;
 export const appointmentHistoy = `${appointment}/appointment-history`;
 
 export const doctors = `/doctors`;
+export const doctorProfile = `${doctors}/doctor`;
 export const my_doctors = `${doctors}/my-doctors`;
 export const browse_doctors = `${doctors}/browse-doctors`;
 
