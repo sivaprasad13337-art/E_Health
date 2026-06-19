@@ -3,8 +3,9 @@ import { Filter } from "@/components/shared-components/filter";
 import Searchbar from "@/components/shared-components/searchbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { detailedMedicalReport } from "@/data/paths";
 import {
   ArrowRight,
   Bone,
@@ -12,8 +13,8 @@ import {
   FlaskConical,
   HeartPulse,
   Stethoscope,
-  TestTube,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Reports = () => {
   const filters = [
@@ -115,6 +116,15 @@ const Reports = () => {
     console.log("====================================");
   };
 
+  const navigate = useNavigate();
+
+  const navigateToDetailPage = (cat: string) => {
+    const style = renderConditions.find((condition) =>
+      condition.code === cat ? condition.text : "",
+    );
+    navigate(detailedMedicalReport);
+  };
+
   return (
     <section>
       <div className="flex justify-between items-center">
@@ -173,14 +183,7 @@ const Reports = () => {
 
                 <Button
                   className="w-8 h-8 rounded-full bg-gray-200"
-                  onClick={() => {
-                    const style = renderConditions.find((condition) =>
-                      condition.code === report.cat ? condition.text : "",
-                    );
-                    console.log("====================================");
-                    console.log(style);
-                    console.log("====================================");
-                  }}
+                  onClick={() => navigateToDetailPage(report.cat)}
                 >
                   <ArrowRight className="text-gray-600" />
                 </Button>

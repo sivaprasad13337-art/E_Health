@@ -20,6 +20,7 @@ export const browse_doctors = `${doctors}/browse-doctors`;
 
 export const medicalRecords = `/medical-records`;
 export const medicalReport = `${medicalRecords}/medical-reports`;
+export const detailedMedicalReport = `${medicalReport}/report`;
 export const diagnosis = `${medicalRecords}/diagnosis`;
 export const medicalHistory = `${medicalRecords}/medical-history`;
 

@@ -12,6 +12,7 @@ import {
   bookAppointment,
   browse_doctors,
   dashboard,
+  detailedMedicalReport,
   diagnosis,
   doctors,
   medicalHistory,
@@ -31,6 +32,7 @@ import MedicalHistory from "@/features/medical/pages/history";
 import AppointmentStatus from "@/features/appointment/status";
 import Diagnosis from "@/features/medical/pages/diagnosis";
 import Reports from "@/features/medical/pages/reports";
+import MedicalDetailedReport from "@/features/medical/pages/detailed-report";
 import Profile from "@/features/actions/profile";
 import Transactions from "@/features/payments/transactions";
 import Refunds from "@/features/payments/refunds";
@@ -153,6 +155,13 @@ export const routes = [
     element: Reports,
     icon: ClipboardPlus,
     title: "Medical-Reports",
+  },
+  {
+    parent: medicalRecords,
+    path: detailedMedicalReport,
+    element: MedicalDetailedReport,
+    icon: ClipboardPlus,
+    title: "Medical-Report",
   },
   {
     parent: medicalRecords,
