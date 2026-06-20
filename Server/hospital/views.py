@@ -51,7 +51,7 @@ def get_doctors(rquest):
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 def get_doctor(request, id):
-        res = get_object_or_404(Doctor, id = id)
+        res = get_object_or_404(Doctor, user_id = id)
         doctor = DoctorSerializer(res).data
         return Response(doctor, status=status.HTTP_200_OK)
     

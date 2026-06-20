@@ -49,14 +49,14 @@ const Navbar = () => {
             trigger={
               <Button variant="outline" size="icon">
                 {" "}
-                {user?.isVerified ? (
+                {user?.is_verified ? (
                   <BadgeCheckIcon className="text-sky-500" />
                 ) : (
                   <BadgeX className="text-red-500" />
                 )}
               </Button>
             }
-            tip={user?.isVerified ? "Verified" : "Unverified"}
+            tip={user?.is_verified ? "Verified" : "Unverified"}
           />
         </div>
 

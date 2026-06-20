@@ -5,3 +5,9 @@ export const getDoctors = async () => {
 
   return response.data;
 };
+
+export const getDoctor = async (id: number) => {
+  const response = await apiClient.get(`/hospital/doctor/get/${id}`);
+
+  return response.data;
+};

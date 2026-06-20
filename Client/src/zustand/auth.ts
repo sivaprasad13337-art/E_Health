@@ -9,7 +9,7 @@ interface UserData {
   phone: string;
   profile_img: URL;
   role: string;
-  isVerified: boolean;
+  is_verified: boolean;
   id: number;
 }
 

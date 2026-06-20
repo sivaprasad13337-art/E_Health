@@ -8,4 +8,5 @@ export interface User {
   phone: string;
   role: string;
   is_staff: boolean;
+  is_verified: boolean;
 }

@@ -1,8 +1,5 @@
 import {
-  BriefcaseBusiness,
   Clock,
-  FileBadge,
-  GraduationCap,
   MapPin,
   Star,
 } from "lucide-react";
@@ -12,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { CheckCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import { CarouselSpacing } from "@/components/shared-components/custom-carousel-small";
 import { CarouselItem } from "@/components/ui/carousel";
+import Pic from "@/components/Pic";
+import DoctorEducationAndExperienceCard from "../components/doctor-edu-exp-card";
 
 const EducationAndExp = [
   { name: "MBBS", where: "AIIMS Delhi", when: "2006", type: "Edu" },
@@ -44,43 +43,55 @@ const Availability = [
   { day: "Sat", times: ["11-1"] },
 ];
 
+const Reviews = [
+  {
+    review:
+      "Exceptional doctor. Very thorough and took time to explain everything clearly.",
+    user: "Raj K",
+    rating: 3.9,
+  },
+  {
+    review:
+      "Highly recommend Dr. Meera. Diagnosed my condition quickly and accurately.",
+    user: "Priya S",
+    rating: 4,
+  },
+  {
+    review:
+      "Very professional. Wait time was a bit long but consultation was excellent.",
+    user: "Arjun M",
+    rating: 4.5,
+  },
+  {
+    review:
+      "Exceptional doctor. Very thorough and took time to explain everything clearly.",
+    user: "Raj K",
+    rating: 4.5,
+  },
+  {
+    review:
+      "Highly recommend Dr. Meera. Diagnosed my condition quickly and accurately.",
+    user: "Priya S",
+    rating: 5,
+  },
+  {
+    review:
+      "Very professional. Wait time was a bit long but consultation was excellent.",
+    user: "Arjun M",
+    rating: 5,
+  },
+];
+
+console.log("====================================");
+console.log(3.9 / 1);
+console.log("====================================");
 const DoctorProfile = () => {
   return (
     <div>
       <DetailedDoctorCard />
 
       <section className="flex justify-between my-6">
-        <Card className="p-4 w-[45%]">
-          <CardTitle className="text-sm font-semibold px-5">
-            <FileBadge className="inline-block w-4 h-4 -mt-1 text-primary" />{" "}
-            Qualifications & experience
-          </CardTitle>
-          <CardContent className="">
-            {EducationAndExp.map((item, idx) => (
-              <div
-                className="flex justify-between items-center bg-gray-200 p-2 rounded-md my-3"
-                key={idx}
-              >
-                <div className="flex gap-4 items-center">
-                  <div className="flex justify-center items-center bg-sky-100 w-10 h-10 rounded-md">
-                    {item.type === "Edu" ? (
-                      <GraduationCap className="w-6 h-6 text-sky-600" />
-                    ) : (
-                      <BriefcaseBusiness className="w-6 h-6 text-sky-600" />
-                    )}
-                  </div>
-
-                  <div>
-                    <p className="font-bold text-gray-700">{item.name}</p>
-                    <p className="text-[.9rem] text-gray-700 font-semibold">
-                      {item.where} · {item.when}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+       <DoctorEducationAndExperienceCard data={EducationAndExp}/>
 
         <Card className="p-4 w-[45%] h-auto">
           <CardTitle className="text-sm font-semibold px-4">
@@ -138,17 +149,31 @@ const DoctorProfile = () => {
 
         <CardContent>
           <CarouselSpacing>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem
-                key={index}
-                className="basis-1/2 pl-1 lg:basis-1/3 w-[30%]"
-              >
+            {Reviews.map((item, index) => (
+              <CarouselItem key={index} className="basis-1/2 pl-1 lg:basis-1/3">
                 <div className="p-1">
-                  <Card className="w-[60%] h-[8rem] bg-gray-200">
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                      <span className="text-2xl font-semibold">
-                        {index + 1}
-                      </span>
+                  <Card className="w-full h-[12rem] bg-gray-200">
+                    <CardContent className="">
+                      {/* flex items-center justify-center w-full h-full */}
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-4 items-center">
+                          <Pic className="" img="" />
+                          <p className="font-bold">{item.user}</p>
+                        </div>
+
+                        <div className="flex">
+                          {Array.from({ length: item.rating }).map((_, idx) => (
+                            <StarFilledIcon
+                              className="w-4 h-4 text-yellow-500"
+                              key={idx}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <p className="text-gray-600 font-semibold mt-4">
+                        {item.review}
+                      </p>
                     </CardContent>
                   </Card>
                 </div>

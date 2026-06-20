@@ -8,7 +8,7 @@ import {
 
 export function CarouselSpacing({ children }: { children: React.ReactNode }) {
   return (
-    <Carousel className="w-full h-[8rem]">
+    <Carousel className="w-full">
       <CarouselContent className="-ml-1">{children}</CarouselContent>
       <CarouselPrevious />
       <CarouselNext />
