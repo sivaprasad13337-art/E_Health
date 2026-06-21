@@ -14,7 +14,7 @@ const DoctorEducationAndExperienceCard = ({
   data: DoctorEducationAndExperienceCardProps[];
 }) => {
   return (
-    <Card className="p-4 w-[45%]">
+    <Card className="p-4">
       <CardTitle className="text-sm font-semibold px-5">
         <FileBadge className="inline-block w-4 h-4 -mt-1 text-primary" />{" "}
         Qualifications & experience

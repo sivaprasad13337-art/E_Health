@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Doctor } from "@/features/doctor/interface/interface";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 import {
   Building2,
   CircleDollarSign,
@@ -35,7 +36,7 @@ const ProfessionalInfo = ({ doctor }: { doctor: Doctor }) => {
           <Stethoscope className="inline-block w-4 h-4 -mt-1 text-primary" />{" "}
           Professional info
         </p>
-        <Badge className="py-3 px-3 bg-sky-100 text-sky-600">Doctor</Badge>
+        {/* <Badge className="py-3 px-3 bg-sky-100 text-sky-600">DOCTOR</Badge> */}
       </CardTitle>
       <CardContent className="">
         {AccountInfo.map((item) => (
@@ -46,7 +47,14 @@ const ProfessionalInfo = ({ doctor }: { doctor: Doctor }) => {
                 {item.title}
               </p>
 
-              <p className="font-bold text-gray-800 w-[40%]">{item.data}</p>
+              {item.title === "Rating" ? (
+                <p className="font-bold text-yellow-500 w-[40%]">
+                  <StarFilledIcon className="inline-block mr-1 -mt-0.5" />
+                  {item.data} / 5.0
+                </p>
+              ) : (
+                <p className="font-bold text-gray-800 w-[40%]">{item.data}</p>
+              )}
             </div>
             <Separator className="my-2" />
           </>

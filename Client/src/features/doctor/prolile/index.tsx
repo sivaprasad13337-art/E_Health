@@ -1,8 +1,4 @@
-import {
-  Clock,
-  MapPin,
-  Star,
-} from "lucide-react";
+import { Clock, MapPin, Star } from "lucide-react";
 import DetailedDoctorCard from "../components/detailed-doctor-card";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -91,7 +87,9 @@ const DoctorProfile = () => {
       <DetailedDoctorCard />
 
       <section className="flex justify-between my-6">
-       <DoctorEducationAndExperienceCard data={EducationAndExp}/>
+        <div className="w-[45%]">
+          <DoctorEducationAndExperienceCard data={EducationAndExp} />
+        </div>
 
         <Card className="p-4 w-[45%] h-auto">
           <CardTitle className="text-sm font-semibold px-4">

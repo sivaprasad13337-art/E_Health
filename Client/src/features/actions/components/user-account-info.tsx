@@ -38,7 +38,7 @@ const AccountInfo = ({ user }: { user: User }) => {
           <UserSquare className="inline-block w-4 h-4 -mt-1 text-primary" />{" "}
           Account info
         </p>
-        <Badge className="py-3 px-3 bg-sky-100 text-sky-600">Patient</Badge>
+        <Badge className="py-3 px-3 bg-sky-100 text-sky-600">{user.role}</Badge>
       </CardTitle>
       <CardContent className="">
         {AccountInfo.map((item) => (
