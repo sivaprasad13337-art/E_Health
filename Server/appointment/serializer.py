@@ -1,7 +1,29 @@
 from rest_framework import serializers
-from .models import Appointment, MedicalRecord, MedicalReport
+from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, Surgery, MedicalCondition
 from hospital.serializers import DoctorSerializer, PatientSerializer
 
+
+class LifeStyleHabitSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = LifeStyleHabit
+        fields = '__all__'
+        
+class AllergySerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Allergy
+        fields = '__all__'
+        
+        
+class SurgerySerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Surgery
+        fields = '__all__'
+        
+        
+class MedicalConditionSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = MedicalCondition
+        fields = '__all__'
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
@@ -33,26 +55,18 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         
 class MedicalRecordSerializer(serializers.ModelSerializer):
-    # patient = PatientSerializer(read_only=True)
-    # doctor = DoctorSerializer(read_only=True)
+    patient = PatientSerializer(read_only=True)
+    life_style_habits = LifeStyleHabitSerializer(read_only=True)
     
     class Meta():
         model = MedicalRecord
         fields = [
             'patient',
-            'doctor',
             'medications',
-            'diagnoses',
-            'allergies',
+            'life_style_habits',
             'treatment_history',
-            'surgery_history',
             'notes'
         ]
-        
-        extra_kwargs = {
-            'patient': {'read_only' : True},
-            'doctor': {'read_only' : True}
-        }
         
 
 class MedicalReportSerializer(serializers.ModelSerializer):

@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated
 from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
-from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer
-from .models import Appointment, MedicalRecord, MedicalReport
+from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer, LifeStyleHabitSerializer, AllergySerializer, MedicalConditionSerializer, SurgerySerializer
+from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery
 from utils.utils import get_doc_and_patient, generate_numeric_code
 import traceback
 
@@ -156,7 +156,9 @@ def update_medical_record(request, id):
 
 @api_view(['DELETE'])
 def delete_medical_record(request, id):
-    MedicalRecord.objects.delete(id = id)
+    medical_record = get_object_or_404(MedicalRecord, id = id)
+    medical_record.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
     
     # [
     #         'patient',
@@ -214,7 +216,7 @@ def update_medical_report(request, id):
     medical_report = get_object_or_404(MedicalReport, id = id)
     serializer = MedicalReportSerializer(medical_report, data=data)
     
-    if serializer.is_valid():
+    if serializer.is_valid(raise_exception=True):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -227,3 +229,152 @@ def update_medical_report(request, id):
 #             'vitals',
 #             'notes'
 #         ]
+
+# LifeStyle Views
+
+@api_view(['POST'])
+def create_life_style_habits(request):
+    patient = get_object_or_404(Patient, id = request.data['patient'])
+    serializer = LifeStyleHabitSerializer(data = request.data)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(patient = patient)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_life_style_habits(request, patient_id):
+    life_style_habits = get_list_or_404(LifeStyleHabit, patient_id = patient_id)
+    
+    return Response(LifeStyleHabitSerializer(life_style_habits, many=True).data, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+def update_life_style_habit(request, id):
+    life_style_habit = get_object_or_404(LifeStyleHabit, id = id)
+    serializer = LifeStyleHabitSerializer(life_style_habit, data = request.data, partial = True)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+def delete_life_style_habit(request, id):
+    life_style_habit = get_object_or_404(LifeStyleHabit, id = id)
+    life_style_habit.delete()
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+# Allergy Views
+@api_view(['POST'])
+def create_allergy(request):
+    patient = get_object_or_404(Patient, id = request.data['patient'])
+    serializer = AllergySerializer(data = request.data)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(patient = patient)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_allergys(request, patient_id):
+    allergy = get_list_or_404(Allergy, patient_id = patient_id)
+    
+    return Response(AllergySerializer(allergy, many=True).data, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+def update_allergy(request, id):
+    allergy = get_object_or_404(Allergy, id = id)
+    serializer = AllergySerializer(allergy, data = request.data, partial = True)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+def delete_allergy(request, id):
+    allergy = get_object_or_404(Allergy, id = id)
+    allergy.delete()
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+# MedicalCondition Views
+@api_view(['POST'])
+def create_medical_condition(request):
+    patient = get_object_or_404(Patient, id = request.data['patient'])
+    serializer = MedicalConditionSerializer(data = request.data)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(patient = patient)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_medical_conditions(request, patient_id):
+    medical_condition = get_list_or_404(MedicalCondition, patient_id = patient_id)
+    
+    return Response(MedicalConditionSerializer(medical_condition, many=True).data, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+def update_medical_condition(request, id):
+    medical_condition = get_object_or_404(MedicalCondition, id = id)
+    serializer = MedicalConditionSerializer(medical_condition, data = request.data, partial = True)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+def delete_medical_condition(request, id):
+    medical_condition = get_object_or_404(MedicalCondition, id = id)
+    medical_condition.delete()
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+# Surgery Views
+@api_view(['POST'])
+def create_surgery(request):
+    patient = get_object_or_404(Patient, id = request.data['patient'])
+    serializer = SurgerySerializer(data = request.data)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(patient = patient)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_surgery(request, patient_id):
+    surgery = get_list_or_404(Surgery, patient_id = patient_id)
+    
+    return Response(SurgerySerializer(surgery, many=True).data, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+def update_surgery(request, id):
+    surgery = get_object_or_404(Surgery, id = id)
+    serializer = SurgerySerializer(surgery, data = request.data, partial = True)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+def delete_surgery(request, id):
+    surgery = get_object_or_404(Surgery, id = id)
+    surgery.delete()
+    
+    return Response(status=status.HTTP_204_NO_CONTENT)

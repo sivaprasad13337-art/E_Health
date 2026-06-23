@@ -8,7 +8,7 @@ const VitalsCards = () => {
       <Card className="w-[20%]">
         <CardContent>
           <p className="text-sm text-gray-500 font-semibold">
-            <Heart className="inline-block w-[1rem] h-[1rem] text-red-500 -mt-0.5" />{" "}
+            <Heart className="inline-block w-4 h-4 text-red-500 -mt-0.5" />{" "}
             Heart Rate
           </p>
 
@@ -17,7 +17,7 @@ const VitalsCards = () => {
           </p>
           <Progress
             value={66}
-            className="w-[100%] bg-gray-200"
+            className="w-full bg-gray-200"
             indicatorClass="bg-red-500"
           />
         </CardContent>
@@ -27,7 +27,7 @@ const VitalsCards = () => {
       <Card className="w-[20%]">
         <CardContent>
           <p className="text-sm text-gray-500 font-semibold">
-            <Activity className="inline-block w-[1rem] h-[1rem] text-sky-500 -mt-0.5" />{" "}
+            <Activity className="inline-block w-4 h-4 text-sky-500 -mt-0.5" />{" "}
             Blood Pressure
           </p>
 
@@ -36,7 +36,7 @@ const VitalsCards = () => {
           </p>
           <Progress
             value={66}
-            className="w-[100%] bg-gray-200"
+            className="w-full bg-gray-200"
             indicatorClass="bg-sky-500"
           />
         </CardContent>
@@ -46,7 +46,7 @@ const VitalsCards = () => {
       <Card className="w-[20%] h-[]">
         <CardContent>
           <p className="text-sm text-gray-500 font-semibold">
-            <Droplet className="inline-block w-[1rem] h-[1rem] text-yellow-500 -mt-0.5" />{" "}
+            <Droplet className="inline-block w-4 h-4 text-yellow-500 -mt-0.5" />{" "}
             Blood Glucose
           </p>
 
@@ -55,7 +55,7 @@ const VitalsCards = () => {
           </p>
           <Progress
             value={66}
-            className="w-[100%] bg-gray-200"
+            className="w-full bg-gray-200"
             indicatorClass="bg-yellow-500"
           />
         </CardContent>
@@ -65,8 +65,7 @@ const VitalsCards = () => {
       <Card className="w-[20%] h-[]">
         <CardContent>
           <p className="text-sm text-gray-500 font-semibold">
-            <Weight className="inline-block w-[1rem] h-[1rem] text-primary -mt-0.5" />{" "}
-            BMI
+            <Weight className="inline-block w-4 h-4 text-primary -mt-0.5" /> BMI
           </p>
 
           <p className="my-2 text-sm text-gray-500 font-semibold">
@@ -75,7 +74,7 @@ const VitalsCards = () => {
           </p>
           <Progress
             value={66}
-            className="w-[100%] bg-gray-200"
+            className="w-full bg-gray-200"
             indicatorClass="bg-primary"
           />
         </CardContent>

@@ -19,6 +19,7 @@ import {
   doctors,
   doctors_requests,
   medicalHistory,
+  medicalHistory_form,
   medicalRecords,
   medicalReport,
   my_doctors,
@@ -89,6 +90,7 @@ import PaymentsDashboard from "@/features/payments/payments-dashboard";
 import Patients from "@/features/patient/patients";
 import Appointments from "@/features/appointment/pages/appointments";
 import DoctorRequests from "@/features/requests/doctor";
+import MedicalHistoryForm from "@/features/medical/pages/medical-history-form";
 
 export const routes = [
   {
@@ -233,6 +235,13 @@ export const routes = [
     element: MedicalHistory,
     icon: Library,
     title: "Medical-Records",
+  },
+  {
+    parent: medicalRecords,
+    path: medicalHistory_form,
+    element: MedicalHistoryForm,
+    icon: Library,
+    title: "Medical-Records-Form",
   },
   {
     parent: payments,
