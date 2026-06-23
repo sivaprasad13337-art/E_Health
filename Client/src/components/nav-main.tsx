@@ -24,6 +24,7 @@ export function NavMain({
     url: string;
     icon?: React.ReactNode;
     isActive?: boolean;
+    own?: boolean;
     items?: {
       title: string;
       url: string;
@@ -45,15 +46,16 @@ export function NavMain({
             defaultOpen={item.isActive}
             className="group/collapsible"
           >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
+            {item.own ? (
+              <SidebarMenuItem onClick={() => navigate(item.url)}>
+                {/* <CollapsibleTrigger asChild> */}
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon}
                   <span>{item.title}</span>
-                  <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  {/* <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" /> */}
                 </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
+                {/* </CollapsibleTrigger> */}
+                {/* <CollapsibleContent>
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
@@ -68,8 +70,35 @@ export function NavMain({
                     </SidebarMenuSubItem>
                   ))}
                 </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
+              </CollapsibleContent> */}
+              </SidebarMenuItem>
+            ) : (
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton tooltip={item.title}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                    <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenuSub>
+                    {item.items?.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton
+                          asChild
+                          onClick={() => navigate(subItem.url)}
+                        >
+                          <p className="cursor-pointer">
+                            <span>{subItem.title}</span>
+                          </p>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            )}
           </Collapsible>
         ))}
       </SidebarMenu>

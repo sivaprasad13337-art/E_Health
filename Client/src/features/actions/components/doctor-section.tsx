@@ -61,7 +61,7 @@ const DoctorSection = ({ user }: { user: User }) => {
     };
 
     getDoc();
-  });
+  },[]);
 
   const LanguageCanSpeak = ["English", "Tamil", "Telugu"];
   return (

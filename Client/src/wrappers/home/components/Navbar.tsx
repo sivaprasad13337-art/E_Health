@@ -67,8 +67,11 @@ const Navbar = () => {
           />
 
           <div>
-            <p className="font-semibold text-lg">Siva Prasad</p>
-            <p className="text-xs">Admin</p>
+            <p className="font-semibold text-lg">
+              {user?.role === "DOCTOR" ? "Dr. " : ""}
+              {user?.first_name} {user?.last_name}
+            </p>
+            <p className="text-xs">{user?.role}</p>
           </div>
         </div>
       </section>

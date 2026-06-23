@@ -46,7 +46,7 @@ export function SetProfileForm({ userData }: { userData: User }) {
   };
 
   return (
-    <Card className="w-full md:max-w-3xl">
+    <Card className="w-full">
       <CardHeader>
         {/* <CardTitle>Bug Report</CardTitle>
         <CardDescription>

@@ -1,14 +1,15 @@
 import {
   actions,
   appointment,
-  appointment_add_ons,
-  appointment_appointment,
-  appointment_confirmation,
-  appointment_payment,
-  appointment_personal_details,
-  appointment_service,
+  // appointment_add_ons,
+  // appointment_appointment,
+  // appointment_confirmation,
+  // appointment_payment,
+  // appointment_personal_details,
+  // appointment_service,
   appointmentHistoy,
   appointmentStatus,
+  availability_settings,
   bookAppointment,
   browse_doctors,
   dashboard,
@@ -16,14 +17,22 @@ import {
   diagnosis,
   doctorProfile,
   doctors,
+  doctors_requests,
   medicalHistory,
   medicalRecords,
   medicalReport,
   my_doctors,
+  notifications_settings,
+  password_settings,
+  patients,
   paymentAnalytics,
   payments,
+  practice_info_settings,
+  privacy_settings,
   profile,
   refunds,
+  set_profile_info,
+  settings,
   transaction,
 } from "./paths";
 import Dashboard from "@/features/actions/dashboard";
@@ -40,28 +49,46 @@ import Refunds from "@/features/payments/refunds";
 import Analytics from "@/features/payments/analytics";
 import {
   BanknoteArrowDown,
+  Bell,
   ChartArea,
   ChartNoAxesColumnIncreasingIcon,
   ClipboardClock,
   ClipboardPlus,
+  Clock,
   CreditCard,
   Dna,
+  GitPullRequest,
   HistoryIcon,
   LayoutDashboard,
   Library,
+  LockKeyhole,
   SearchIcon,
+  Shield,
   Stethoscope,
+  User,
   UserRound,
+  Users,
 } from "lucide-react";
-import Service from "@/features/appointment/book/steps/Service";
-import PersonalDetails from "@/features/appointment/book/steps/personal-details";
-import AddOns from "@/features/appointment/book/steps/appointment-type";
-import Appointments from "@/features/appointment/book/steps/date-time";
-import Payment from "@/features/appointment/book/steps/payment";
-import Confirmation from "@/features/appointment/book/steps/confirmation";
+// import Service from "@/features/appointment/book/steps/Service";
+// import PersonalDetails from "@/features/appointment/book/steps/personal-details";
+// import AddOns from "@/features/appointment/book/steps/appointment-type";
+// import Appointments from "@/features/appointment/book/steps/date-time";
+// import Payment from "@/features/appointment/book/steps/payment";
+// import Confirmation from "@/features/appointment/book/steps/confirmation";
 import MyDoctors from "@/features/doctor/my-doctors";
 import BrowseDoctors from "@/features/doctor/browse";
 import DoctorProfile from "@/features/doctor/prolile";
+import Settings from "@/features/settings";
+import SetProfile from "@/features/actions/profile/pages/set-profile";
+import Password from "@/features/settings/pages/password";
+import Notifactions from "@/features/settings/pages/notifactions";
+import Privacy from "@/features/settings/pages/privacy";
+import PracticeInfo from "@/features/settings/pages/practice-info";
+import Availability from "@/features/settings/pages/availability";
+import PaymentsDashboard from "@/features/payments/payments-dashboard";
+import Patients from "@/features/patient/patients";
+import Appointments from "@/features/appointment/pages/appointments";
+import DoctorRequests from "@/features/requests/doctor";
 
 export const routes = [
   {
@@ -84,44 +111,51 @@ export const routes = [
     element: Book,
     icon: ClipboardClock,
     title: "Book-Appointment",
-    subRoutes: [
-      {
-        path: appointment_service,
-        element: Service,
-        icon: ClipboardClock,
-        title: "Service",
-      },
-      {
-        path: appointment_personal_details,
-        element: PersonalDetails,
-        icon: ClipboardClock,
-        title: "Personal Details",
-      },
-      {
-        path: appointment_add_ons,
-        element: AddOns,
-        icon: ClipboardClock,
-        title: "Addons",
-      },
-      {
-        path: appointment_appointment,
-        element: Appointments,
-        icon: ClipboardClock,
-        title: "Appointment",
-      },
-      {
-        path: appointment_payment,
-        element: Payment,
-        icon: ClipboardClock,
-        title: "Payment",
-      },
-      {
-        path: appointment_confirmation,
-        element: Confirmation,
-        icon: ClipboardClock,
-        title: "Confirmation",
-      },
-    ],
+    // subRoutes: [
+    //   {
+    //     path: appointment_service,
+    //     element: Service,
+    //     icon: ClipboardClock,
+    //     title: "Service",
+    //   },
+    //   {
+    //     path: appointment_personal_details,
+    //     element: PersonalDetails,
+    //     icon: ClipboardClock,
+    //     title: "Personal Details",
+    //   },
+    //   {
+    //     path: appointment_add_ons,
+    //     element: AddOns,
+    //     icon: ClipboardClock,
+    //     title: "Addons",
+    //   },
+    //   {
+    //     path: appointment_appointment,
+    //     element: Appointments,
+    //     icon: ClipboardClock,
+    //     title: "Appointment",
+    //   },
+    //   {
+    //     path: appointment_payment,
+    //     element: Payment,
+    //     icon: ClipboardClock,
+    //     title: "Payment",
+    //   },
+    //   {
+    //     path: appointment_confirmation,
+    //     element: Confirmation,
+    //     icon: ClipboardClock,
+    //     title: "Confirmation",
+    //   },
+    // ],
+  },
+  {
+    parent: appointment,
+    path: appointment,
+    element: Appointments,
+    icon: ClipboardClock,
+    title: "Appointments",
   },
   {
     parent: appointment,
@@ -136,6 +170,13 @@ export const routes = [
     element: AppointmentStatus,
     icon: ChartNoAxesColumnIncreasingIcon,
     title: "Appointment-Status",
+  },
+  {
+    parent: patients,
+    path: patients,
+    element: Patients,
+    icon: Users,
+    title: "Patients",
   },
   {
     parent: doctors,
@@ -157,6 +198,13 @@ export const routes = [
     element: BrowseDoctors,
     icon: SearchIcon,
     title: "Browse Doctors",
+  },
+  {
+    parent: doctors,
+    path: doctors_requests,
+    element: DoctorRequests,
+    icon: GitPullRequest,
+    title: "Doctor Requests",
   },
   {
     parent: medicalRecords,
@@ -188,6 +236,13 @@ export const routes = [
   },
   {
     parent: payments,
+    path: payments,
+    element: PaymentsDashboard,
+    icon: CreditCard,
+    title: "Payments Dashboard",
+  },
+  {
+    parent: payments,
     path: transaction,
     element: Transactions,
     icon: CreditCard,
@@ -206,5 +261,53 @@ export const routes = [
     element: Analytics,
     icon: ChartArea,
     title: "Payment-Analytics",
+  },
+  {
+    parent: settings,
+    path: settings,
+    element: Settings,
+    icon: ChartArea,
+    title: "Settings",
+  },
+];
+
+export const settingsRoutes = [
+  {
+    path: set_profile_info,
+    element: SetProfile,
+    icon: User,
+    title: "Edit Profile",
+  },
+  {
+    path: password_settings,
+    element: Password,
+    icon: LockKeyhole,
+    title: "Password",
+  },
+  {
+    path: notifications_settings,
+    element: Notifactions,
+    icon: Bell,
+    title: "Notifactions",
+  },
+  {
+    path: privacy_settings,
+    element: Privacy,
+    icon: Shield,
+    title: "Privacy",
+  },
+  {
+    path: practice_info_settings,
+    element: PracticeInfo,
+    icon: Stethoscope,
+    title: "Practice Info",
+    role: "DOCTOR",
+  },
+  {
+    path: availability_settings,
+    element: Availability,
+    icon: Clock,
+    title: "Availability",
+    role: "DOCTOR",
   },
 ];
