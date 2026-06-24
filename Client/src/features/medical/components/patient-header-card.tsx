@@ -2,7 +2,7 @@ import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { medicalHistory_form } from "@/data/paths";
+import { medicalHistory_form, writeMedicalReport } from "@/data/paths";
 import {
   Mars,
   Stethoscope,
@@ -12,7 +12,19 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const PatientCard = () => {
+type PatientCardAppointment = {
+  apt_id: string;
+  date: string;
+  time: string;
+  location: string;
+  type: string;
+};
+
+const PatientCard = ({
+  appointment,
+}: {
+  appointment?: PatientCardAppointment;
+}) => {
   const patient = {
     age: 28,
     sex: "Male",
@@ -95,12 +107,24 @@ const PatientCard = () => {
           </section>
         </section>
 
-        <Link
-          to={medicalHistory_form}
-          className="block bg-primary text-white font-semibold py-3 px-7 rounded-sm"
-        >
-          Edit
-        </Link>
+        {appointment ? (
+          <div>
+            <p className="text-primary font-semibold">#{appointment.apt_id}</p>
+            <p className="text-gray-600 font-semibold">
+              {appointment.date} · {appointment.time}
+            </p>
+            <p className="text-gray-600 font-semibold">
+              {appointment.location} · {appointment.type}
+            </p>
+          </div>
+        ) : (
+          <Link
+            to={medicalHistory_form}
+            className="block bg-primary text-white font-semibold py-3 px-7 rounded-sm"
+          >
+            Edit
+          </Link>
+        )}
       </CardContent>
     </Card>
   );

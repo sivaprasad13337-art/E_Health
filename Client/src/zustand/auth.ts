@@ -7,8 +7,9 @@ interface UserData {
   last_name: string;
   email: string;
   phone: string;
-  profile_img: URL;
+  profile_img: string;
   role: string;
+  is_staff: boolean;
   is_verified: boolean;
   id: number;
 }

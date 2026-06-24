@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SurgeryHistorySchema } from "@/zod/medical-records";
-import CustomDatePicker from "../components/custom-date-picker";
+import CustomDatePicker from "../../components/custom-date-picker";
 import { Textarea } from "@/components/ui/textarea";
 
 const SurgeryHistoryForm = () => {

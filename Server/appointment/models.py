@@ -21,6 +21,10 @@ Severity_Options = (
     ("Mod", "Mod"),
     ("High", "High"),
     )
+
+# MedicalReportTypes = (
+#     ("")
+# )
 # Create your models here.
 class Appointment(models.Model):
     reason = models.TextField()
@@ -46,9 +50,12 @@ class MedicalReport(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
     appointment = models.ForeignKey(Appointment, on_delete = models.CASCADE, related_name='medical_reports')
     prescription = models.JSONField(default=list, blank=True)
+    title = models.CharField(max_length=100)
+    type = models.CharField(max_length=60)
     vitals = models.JSONField(default=list, blank=True)
-    tests = models.JSONField(default=list, blank=True)
+    diagnosis_and_findings = models.JSONField(default=list, blank=True)
     notes = models.TextField(blank=True)
+    follow_up = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
 

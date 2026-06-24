@@ -1,9 +1,10 @@
 import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getCloudinaryUrl } from "@/lib/utils";
 import type { User } from "@/types/users";
-import { BadgeX, Camera, Verified } from "lucide-react";
+import { BadgeX, SquarePen, Verified } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function ProfileHeader({ user }: { user: User }) {
   return (
@@ -12,7 +13,7 @@ function ProfileHeader({ user }: { user: User }) {
     >
       <CardContent className="flex justify-between items-center text-gray-200">
         <section className="flex gap-6 items-center">
-          <Pic className="w-20 h-20" img="" />
+          <Pic className="w-20 h-20" img={getCloudinaryUrl(user.profile_img)} />
 
           <div>
             <h2 className="text-lg font-bold">
@@ -52,9 +53,15 @@ function ProfileHeader({ user }: { user: User }) {
           </div>
         </section>
 
-        <Button className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-none px-6 py-6">
+        {/* <Button className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-none px-6 py-6">
           <Camera /> Change Photo
-        </Button>
+        </Button> */}
+        <Link
+          to={"/settings"}
+          className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-none px-6 py-3 rounded-md"
+        >
+          <SquarePen className="w-4 h-4 inline-block -mt-1" /> Edit
+        </Link>
       </CardContent>
     </Card>
   );

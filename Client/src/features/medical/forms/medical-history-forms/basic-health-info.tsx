@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { BasicHealthInfoSchema } from "@/zod/medical-records";
-import CustomSelectBar from "../components/custom-select";
+import CustomSelectBar from "../../components/custom-select";
 import { BloodGroups, Genders } from "@/data";
 
-import CustomDatePicker from "../components/custom-date-picker";
+import CustomDatePicker from "../../components/custom-date-picker";
 
 const BasicHealthInfoForm = () => {
   const defaultValues = {

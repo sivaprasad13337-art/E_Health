@@ -10,7 +10,10 @@ const CustomDatePicker = ({ field, label }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-full justify-start text-left">
+        <Button
+          variant="outline"
+          className="w-full justify-start text-left bg-transparent text-gray-500 text-sm"
+        >
           {field.value ? field.value.toLocaleDateString() : `Select ${label}`}
         </Button>
       </PopoverTrigger>

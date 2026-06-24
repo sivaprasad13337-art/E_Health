@@ -35,6 +35,7 @@ import {
   set_profile_info,
   settings,
   transaction,
+  writeMedicalReport,
 } from "./paths";
 import Dashboard from "@/features/actions/dashboard";
 import Book from "@/features/appointment/book";
@@ -91,6 +92,7 @@ import Patients from "@/features/patient/patients";
 import Appointments from "@/features/appointment/pages/appointments";
 import DoctorRequests from "@/features/requests/doctor";
 import MedicalHistoryForm from "@/features/medical/pages/medical-history-form";
+import WriteReport from "@/features/medical/pages/report-form";
 
 export const routes = [
   {
@@ -221,6 +223,13 @@ export const routes = [
     element: MedicalDetailedReport,
     icon: ClipboardPlus,
     title: "Medical-Report",
+  },
+  {
+    parent: medicalRecords,
+    path: writeMedicalReport,
+    element: WriteReport,
+    icon: ClipboardPlus,
+    title: "Write-Medical-Report",
   },
   {
     parent: medicalRecords,

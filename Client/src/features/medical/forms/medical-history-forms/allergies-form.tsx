@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { AllergySchema } from "@/zod/medical-records";
-import CustomSelectBar from "../components/custom-select";
+import CustomSelectBar from "../../components/custom-select";
 import { SeverityOptions } from "@/data";
 
 const AllergiesForm = () => {

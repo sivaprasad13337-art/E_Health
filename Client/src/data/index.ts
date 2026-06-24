@@ -19,3 +19,17 @@ export const ActivityOptions = [
 ];
 
 export const SleepQualityOptions = ["Poor", "Adequate", "Good"];
+
+export const ReportTypes = [
+      "Lab",
+      "Imaging",
+      "Prescription",
+      "Discharge Summary",
+      "Surgical",
+      "Vaccination",
+      "Cardiology",
+      "Neurology",
+      "Orthopedics",
+      "Dermatology",
+      "Other",
+    ]

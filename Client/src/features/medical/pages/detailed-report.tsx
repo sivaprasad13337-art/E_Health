@@ -3,16 +3,61 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Activity,
+  ActivitySquare,
   CalendarPlus,
   ClipboardList,
-  Heart,
+  HeartPulse,
   NotepadText,
   Pill,
   Stethoscope,
+  Thermometer,
   UserCircle,
+  Weight,
 } from "lucide-react";
 
 const MedicalDetailedReport = () => {
+  const Vitals = [
+    {
+      vital: "Blood pressure",
+      value: "138/88 mmHg",
+      status: "Elevated",
+      bg: "blue-100",
+      text: "blue-600",
+      icon: ActivitySquare,
+    },
+    {
+      vital: "Heart rate",
+      value: "88 bpm",
+      status: "Normal",
+      bg: "red-100",
+      text: "red-600",
+      icon: HeartPulse,
+    },
+    {
+      vital: "Temperature",
+      value: "98.4 °F",
+      status: "Normal",
+      bg: "yellow-100",
+      text: "yellow-500",
+      icon: Thermometer,
+    },
+    {
+      vital: "SpO₂",
+      value: "98%",
+      status: "Normal",
+      bg: "sky-100",
+      text: "sky-600",
+      icon: Stethoscope,
+    },
+    {
+      vital: "Weight",
+      value: "68 kg",
+      status: "Normal",
+      bg: "orange-100",
+      text: "orange-600",
+      icon: Weight,
+    },
+  ];
   return (
     <section>
       {" "}
@@ -118,28 +163,31 @@ const MedicalDetailedReport = () => {
               Doctor's notes
             </CardTitle>
             <CardContent className="">
-              {Array(5)
-                .fill(0)
-                .map((item) => (
-                  <div
-                    className="flex justify-between items-center bg-gray-200 p-2 rounded-md my-3"
-                    key={item}
-                  >
-                    <div className="flex gap-4 items-center">
-                      <div className="flex justify-center items-center bg-red-100 w-10 h-10 rounded-md">
-                        <Heart className="w-6 h-6 text-red-600" />
-                      </div>
-
-                      <p className="font-semibold text-gray-700">
-                        Blood pressure
-                      </p>
+              {Vitals.map((item) => (
+                <div
+                  className="flex justify-between items-center bg-gray-200 p-2 rounded-md my-3"
+                  key={item.vital}
+                >
+                  <div className="flex gap-4 items-center">
+                    <div
+                      className={`flex justify-center items-center bg-${item.bg} w-10 h-10 rounded-md`}
+                    >
+                      <item.icon className={`w-6 h-6 text-${item.text}`} />
                     </div>
-                    <p className="font-bold">138/88 mmHg</p>
-                    <Badge className="px-5 py-3 bg-red-200 text-red-600">
-                      Elevated
+
+                    <p className="font-semibold text-gray-700">{item.vital}</p>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <p className="font-bold">{item.value}</p>
+                    <Badge
+                      className={`px-5 py-3 bg-${item.status === "Elevated" ? "red-100" : item.status === "Normal" ? "green-100" : "yellow-100"} text-${item.status === "Elevated" ? "red-600" : item.status === "Normal" ? "green-600" : "yellow-500"}`}
+                    >
+                      {item.status}
                     </Badge>
                   </div>
-                ))}
+                </div>
+              ))}
             </CardContent>
           </Card>
 

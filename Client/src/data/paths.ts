@@ -25,6 +25,7 @@ export const doctors_requests = `${doctors}/requests`;
 export const medicalRecords = `/medical-records`;
 export const medicalReport = `${medicalRecords}/medical-reports`;
 export const detailedMedicalReport = `${medicalReport}/report`;
+export const writeMedicalReport = `${medicalReport}/write`;
 export const diagnosis = `${medicalRecords}/diagnosis`;
 export const medicalHistory = `${medicalRecords}/medical-history`;
 export const medicalHistory_form = `${medicalRecords}/medical-history-form`;

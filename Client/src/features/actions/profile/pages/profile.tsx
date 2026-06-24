@@ -15,7 +15,7 @@ const Profile = () => {
       <ProfileHeader user={user} />
 
       <section className="my-6 flex justify-between">
-        {isPatient && <UserSection />}
+        {isPatient && <UserSection user={user} />}
         {isDoctor && <DoctorSection user={user} />}
         {isAdmin && <AdminSection />}
       </section>

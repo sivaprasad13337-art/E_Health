@@ -6,11 +6,11 @@ import {
   Stethoscope,
 } from "lucide-react";
 import MedicalDataAccordionCard from "../components/medicaldata-card-acccordion";
-import BasicHealthInfoForm from "../forms/basic-health-info";
-import UnderlyingConditionsForm from "../forms/underlying-conditions-form";
-import SurgeryHistoryForm from "../forms/surgery-history-form";
-import AllergiesForm from "../forms/allergies-form";
-import LifestyleHabitsForm from "../forms/lifestyle-habits-form";
+import BasicHealthInfoForm from "../forms/medical-history-forms/basic-health-info";
+import UnderlyingConditionsForm from "../forms/medical-history-forms/underlying-conditions-form";
+import SurgeryHistoryForm from "../forms/medical-history-forms/surgery-history-form";
+import AllergiesForm from "../forms/medical-history-forms/allergies-form";
+import LifestyleHabitsForm from "../forms/medical-history-forms/lifestyle-habits-form";
 
 const CardRenderData = [
   {
