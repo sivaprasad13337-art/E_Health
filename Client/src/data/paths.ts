@@ -13,6 +13,7 @@ export const appointment = `/appointments`;
 export const bookAppointment = `${appointment}/book-appointment`;
 export const appointmentStatus = `${appointment}/appointment-status`;
 export const appointmentHistoy = `${appointment}/appointment-history`;
+export const appointment_detail = `${appointment}/appointment-detail`;
 
 export const patients = `/patients`;
 

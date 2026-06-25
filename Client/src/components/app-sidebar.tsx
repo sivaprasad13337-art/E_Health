@@ -5,7 +5,7 @@ import * as React from "react";
 import { NavMain } from "@/components/nav-main";
 // import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+// import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import {
   appointment,
+  appointment_detail,
   appointmentHistoy,
   appointmentStatus,
   bookAppointment,
@@ -97,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
           {
             title: "Status",
-            url: appointmentStatus,
+            url: appointment_detail, //appointmentStatus
           },
           {
             title: "History",
@@ -307,7 +308,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data?.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

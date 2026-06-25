@@ -152,4 +152,7 @@
   html {
     @apply font-sans;
   }
+  .icon-text {
+    @apply w-4 h-4 inline-block -mt-1;
+  }
 }

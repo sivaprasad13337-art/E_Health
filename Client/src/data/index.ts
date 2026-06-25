@@ -21,15 +21,17 @@ export const ActivityOptions = [
 export const SleepQualityOptions = ["Poor", "Adequate", "Good"];
 
 export const ReportTypes = [
-      "Lab",
-      "Imaging",
-      "Prescription",
-      "Discharge Summary",
-      "Surgical",
-      "Vaccination",
-      "Cardiology",
-      "Neurology",
-      "Orthopedics",
-      "Dermatology",
-      "Other",
-    ]
+  "Lab",
+  "Imaging",
+  "Prescription",
+  "Discharge Summary",
+  "Surgical",
+  "Vaccination",
+  "Cardiology",
+  "Neurology",
+  "Orthopedics",
+  "Dermatology",
+  "Other",
+];
+
+export const iconText = "w-4 h-4 -mt-1 inline-block";

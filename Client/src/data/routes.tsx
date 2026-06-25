@@ -1,6 +1,7 @@
 import {
   actions,
   appointment,
+  appointment_detail,
   // appointment_add_ons,
   // appointment_appointment,
   // appointment_confirmation,
@@ -93,6 +94,7 @@ import Appointments from "@/features/appointment/pages/appointments";
 import DoctorRequests from "@/features/requests/doctor";
 import MedicalHistoryForm from "@/features/medical/pages/medical-history-form";
 import WriteReport from "@/features/medical/pages/report-form";
+import AppointmentDetail from "@/features/appointment/pages/appointment";
 
 export const routes = [
   {
@@ -172,6 +174,13 @@ export const routes = [
     parent: appointment,
     path: appointmentStatus,
     element: AppointmentStatus,
+    icon: ChartNoAxesColumnIncreasingIcon,
+    title: "Appointment-Status",
+  },
+  {
+    parent: appointment,
+    path: appointment_detail,
+    element: AppointmentDetail,
     icon: ChartNoAxesColumnIncreasingIcon,
     title: "Appointment-Status",
   },
