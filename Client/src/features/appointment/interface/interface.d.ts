@@ -1,5 +1,7 @@
 // import type { DateValues } from "date-fns";
 
+import type { Doctor } from "@/types/hospital";
+
 export interface ServiceType {
   id: number;
   name: string;
@@ -93,38 +95,7 @@ export interface Appointment {
   appointment_code: string;
   symptoms: string[];
   patient: number;
-  doctor: {
-    id: number;
-    user: {
-      id: number;
-      first_name: string;
-      last_name: string;
-      username: string;
-      profile_img: string;
-      email: string;
-      phone: string;
-      role: string;
-      is_staff: boolean;
-    };
-    specialization: {
-      id: number;
-      name: string;
-      description: string;
-    };
-    department: {
-      id: number;
-      name: string;
-    };
-    education: string[];
-    experience: number;
-    location: string;
-    languages: string[];
-    consultation_fee: string;
-    availability: boolean;
-    rating: string;
-    specialization: number;
-    department: number;
-  };
+  doctor: Doctor;
   tests: Tests[];
   status: string;
   date: string;

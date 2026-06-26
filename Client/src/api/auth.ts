@@ -49,6 +49,7 @@ export const loginUser = async (payload: object) => {
         phone: data.user.phone,
         profile_img: data.user.profile_img,
         role: data.user.role,
+        is_staff: data.user.is_staff,
         is_verified: data.user.is_verified,
         id: data.user.id,
       });
@@ -137,6 +138,7 @@ export const who = async () => {
         phone: data.user.phone,
         profile_img: data.user.profile_img,
         role: data.user.role,
+        is_staff: data.user.is_staff,
         is_verified: data.user.is_verified,
         id: data.user.id,
       });

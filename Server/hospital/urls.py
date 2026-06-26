@@ -8,6 +8,7 @@ urlpatterns = [
     path('doctor/get/', views.get_doctors, name="Get-Doctors"),
     path('doctor/get/<int:id>', views.get_doctor, name="Get-Doctor"),
     path('doctor/update/<int:id>', views.update_doctor, name="Update-Doctor"),
+    path('doctor/update-availability/<int:id>', views.update_doctor_availability, name="Update-Doctor"),
     path('doctor/delete/<int:id>', views.delete_doctor, name="Update-Doctor"),
     
     path('specialization/create/', views.create_specialization, name="Create-Specialization"),

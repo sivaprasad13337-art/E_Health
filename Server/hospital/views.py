@@ -70,6 +70,16 @@ def update_doctor(request, id):
     return Response(doctor.data, status=status.HTTP_200_OK)
     
     # return Response(doctor.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
+@api_view(['PATCH'])
+def update_doctor_availability(request, id):
+    doctor = get_object_or_404(Doctor, id = id)
+    
+    doctor.availability = not doctor.availability
+    doctor.save()
+    
+    return Response(DoctorSerializer(doctor).data, status=status.HTTP_200_OK)
 
 
 @api_view(['DELETE'])

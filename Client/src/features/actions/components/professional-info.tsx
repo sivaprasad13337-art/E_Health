@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import type { Doctor } from "@/features/doctor/interface/interface";
+import type { Doctor } from "@/types/hospital";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import {
   Building2,

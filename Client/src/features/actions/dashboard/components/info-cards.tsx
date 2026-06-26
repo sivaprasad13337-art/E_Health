@@ -27,7 +27,7 @@ const InfoCards = () => {
     {
       title: "Pending bills",
       icon: ReceiptIndianRupeeIcon,
-      content: "₹840",
+      content: `\u20B9840`,
       description: "2 invoices due",
       text: "text-red-700",
       iconText: "text-amber-500",

@@ -6,6 +6,18 @@ const apiClient = axios.create({
 });
 
 apiClient.defaults.xsrfCookieName = "csrftoken";
-apiClient.defaults.xsrfHeaderName = "X-CSRFToken";
+// apiClient.defaults.xsrfHeaderName = "X-CSRFToken";
+apiClient.interceptors.request.use((config) => {
+  const token = document.cookie
+    .split("; ")
+    .find((c) => c.startsWith("csrftoken="))
+    ?.split("=")[1];
+
+  if (token) {
+    config.headers["X-CSRFToken"] = token;
+  }
+
+  return config;
+});
 
 export default apiClient;

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "./zustand/auth";
 import { who } from "./api/auth";
 import { useIsMobile } from "./hooks/use-mobile";
+import { getDoctor } from "./api/hospital";
 function App() {
   const { auth, user } = useAuthStore();
 
@@ -11,11 +12,13 @@ function App() {
   console.log("====================================");
 
   useEffect(() => {
-    const setUser = async () => {
-      await who();
+    const setUserAndRole = async () => {
+      const data = await who();
+
+      if (data.user.role === "DOCTOR") await getDoctor(data.user.id);
     };
 
-    setUser();
+    setUserAndRole();
   }, []);
 
   useEffect(() => {

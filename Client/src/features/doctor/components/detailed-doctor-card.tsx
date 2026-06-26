@@ -48,7 +48,7 @@ const DetailedDoctorCard = () => {
               </div>
 
               <div>
-                <h2 className="font-bold text-xl leading-5">₹800</h2>
+                <h2 className="font-bold text-xl leading-5">{"\u20B9"}800</h2>
                 <p className="text-xs font-semibold">Consult fee</p>
               </div>
             </div>
@@ -57,7 +57,8 @@ const DetailedDoctorCard = () => {
 
         <div className="flex flex-col items-end justify-between">
           <Badge className="px-3 py-3 bg-green-100 text-green-600">
-            <span className="w-2 h-2 rounded-full bg-green-600"></span> Available
+            <span className="w-2 h-2 rounded-full bg-green-600"></span>{" "}
+            Available
           </Badge>
           <Button className="py-5 px-6 bg-gray-100 text-primary hover:text-gray-100 rounded-sm">
             <CalendarPlus /> Book Appointment

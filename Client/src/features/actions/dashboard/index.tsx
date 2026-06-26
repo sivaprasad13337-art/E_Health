@@ -1,17 +1,18 @@
+import { useAuthStore } from "@/zustand/auth";
 import AdminDashboard from "./admin/dashboard";
 import DoctorDashboard from "./doctor/dashboard";
 import PatientDashboard from "./patient/dashboard";
 
-const index: React.FC = () => {
-  const user = "Patient";
+const Dashboard: React.FC = () => {
+  const { user } = useAuthStore();
 
-  return user === "Patient" ? (
-    <PatientDashboard />
-  ) : user === "Doctor" ? (
-    <DoctorDashboard />
-  ) : (
-    <AdminDashboard />
+  return (
+    <>
+      {user?.role === "PATIENT" && <PatientDashboard />}{" "}
+      {user?.role === "DOCTOR" && <DoctorDashboard user={user} />}{" "}
+      {user?.role === "ADMIN" && <AdminDashboard />}
+    </>
   );
 };
 
-export default index;
+export default Dashboard;

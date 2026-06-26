@@ -182,7 +182,7 @@ export const routes = [
     path: appointment_detail,
     element: AppointmentDetail,
     icon: ChartNoAxesColumnIncreasingIcon,
-    title: "Appointment-Status",
+    title: "Appointment-Detail",
   },
   {
     parent: patients,
@@ -235,7 +235,7 @@ export const routes = [
   },
   {
     parent: medicalRecords,
-    path: writeMedicalReport,
+    path: `${writeMedicalReport}/:id`,
     element: WriteReport,
     icon: ClipboardPlus,
     title: "Write-Medical-Report",

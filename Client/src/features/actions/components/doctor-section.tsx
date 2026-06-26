@@ -7,7 +7,7 @@ import AccountInfo from "./user-account-info";
 import ProfessionalInfo from "./professional-info";
 import { useEffect, useState } from "react";
 import { getDoctor } from "@/api/hospital";
-import type { Doctor } from "@/features/doctor/interface/interface";
+import type { Doctor } from "@/types/hospital";
 import DoctorEducationAndExperienceCard from "@/features/doctor/components/doctor-edu-exp-card";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,7 +61,7 @@ const DoctorSection = ({ user }: { user: User }) => {
     };
 
     getDoc();
-  },[]);
+  }, []);
 
   const LanguageCanSpeak = ["English", "Tamil", "Telugu"];
   return (
@@ -92,9 +92,11 @@ const DoctorSection = ({ user }: { user: User }) => {
             <div className="bg-teal-100 p-6 mt-6 text-primary text-[.9rem] flex justify-between items-center rounded-md">
               <div className="flex items-center gap-4 w-[40%]">
                 <span className="w-3 h-3 bg-teal-400 block rounded-full"></span>
-                <p className="font-semibold">Currently available for appointments</p>
+                <p className="font-semibold">
+                  Currently available for appointments
+                </p>
               </div>
-              <p className="text-lg font-semibold">₹800 / visit</p>
+              <p className="text-lg font-semibold">{"\u20B9"}800 / visit</p>
             </div>
           </CardContent>
         </Card>

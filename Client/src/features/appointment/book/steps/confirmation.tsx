@@ -72,7 +72,8 @@ const Confirmation = () => {
       <section className="mt-2">
         <Badge className="mx-auto flex items-center my-4 bg-teal-100 text-primary px-4 py-3">
           <p className="font-semibold">
-            <Check className="w-[.9rem] h-[.9rem] inline-block" /> Paid · ₹
+            <Check className="w-[.9rem] h-[.9rem] inline-block" /> Paid ·{" "}
+            {"\u20B9"}
             {Order?.amount_paid}
           </p>
         </Badge>

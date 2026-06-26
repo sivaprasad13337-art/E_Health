@@ -1,7 +1,7 @@
-import CustomCalender from "../shared-components/custom-calendar";
-import HeroSection from "../shared-components/hero-section";
-import InfoCards from "../shared-components/info-cards";
-import MedicalReportsTable from "../shared-components/medical-records-table";
+import CustomCalender from "../components/custom-calendar";
+import HeroSection from "../components/hero-section";
+import InfoCards from "../components/info-cards";
+import MedicalReportsTable from "../components/medical-records-table";
 
 const PatientDashboard = () => {
   return (
