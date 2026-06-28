@@ -148,7 +148,7 @@ const ReportTypeForm = ({ formData, setFormData }: MedicalReportFromProps) => {
             form="form-rhf-demo"
             className="py-5 px-10 rounded-sm"
           >
-            Submit
+            Save
           </Button>
         </Field>
       </div>

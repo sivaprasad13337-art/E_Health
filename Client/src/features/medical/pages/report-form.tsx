@@ -66,9 +66,10 @@ const WriteReport = () => {
 
   useEffect(() => {
     console.log("====================================");
-    console.log("This is Report Form Data: ", formData);
+    console.log("This is Report Form Data: ", formData.type);
     console.log("====================================");
   }, [formData]);
+
   const appointment = {
     apt_id: "APT-20260616-084",
     date: "Mon, 16 Jun 2026",

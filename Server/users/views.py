@@ -10,14 +10,16 @@ from hospital.models import Doctor, Patient, Specialization, Department
 from hospital.serializers import DoctorSerializer, PatientSerializer
 from django.db import transaction
 from utils.utils import delete_old_cloudinary_file, get_user_data, IsRoleAdmin
-from rest_framework.authentication import SessionAuthentication
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return  # skip CSRF
+from utils.parse import extract_text_from_pdf
+# from rest_framework.authentication import SessionAuthentication
+
+# class CsrfExemptSessionAuthentication(SessionAuthentication):
+#     def enforce_csrf(self, request):
+#         return  # skip CSRF
 # Create your views here.
 
 @api_view(['POST'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 @parser_classes([FormParser, MultiPartParser])
 def create_user(request):
     data = request.data
@@ -44,7 +46,7 @@ def get_profile(request, id):
 
 
 @api_view(['PATCH'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 @parser_classes([FormParser, MultiPartParser])
 def set_profile(request, id):
     user = get_object_or_404(User, id = id)
@@ -103,7 +105,7 @@ def approve_role_request(request):
 
 
 @api_view(['POST'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 def login_user(request):
     
     if request.user.is_authenticated:

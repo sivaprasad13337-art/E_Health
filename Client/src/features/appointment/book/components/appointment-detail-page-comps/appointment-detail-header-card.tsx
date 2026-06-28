@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { writeMedicalReport } from "@/data/paths";
 import {
   AlertTriangle,
   Building2,
@@ -13,6 +14,7 @@ import {
   User,
   X,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AppointmentDetailHeaderCard = () => {
   return (
@@ -78,9 +80,12 @@ const AppointmentDetailHeaderCard = () => {
         </section>
 
         <section className="w-[20%] flex flex-col gap-3">
-          <Button className="flex p-5 w-full bg-white text-gray-600 justify-start hover:bg-gray-100 cursor-pointer">
-            <FilePlus /> Write report
-          </Button>
+          <Link
+            to={`${writeMedicalReport}/rpt-16257`}
+            className="flex py-2.5 rounded-lg w-full bg-white text-gray-600 justify-start hover:bg-gray-100 cursor-pointer"
+          >
+            <FilePlus className="icon-text mt-0.5 ml-5 mr-1" /> Write report
+          </Link>
           <Button className="flex p-5 w-full bg-white/20 border border-white/50 text-white justify-start hover:bg-teal-500/40 cursor-pointer">
             <MessageSquareText /> Message patient
           </Button>

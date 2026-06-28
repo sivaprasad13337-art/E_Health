@@ -20,7 +20,7 @@ const DiagnosisAndFindingsForm = ({
   formData,
   setFormData,
 }: MedicalReportFromProps) => {
-  const defaultValues = formData.diagnosis_and_findings
+  const defaultValues = formData.diagnosis_and_findings;
 
   const form = useForm<z.infer<typeof DiagnosisAndFindingsSchema>>({
     resolver: zodResolver(DiagnosisAndFindingsSchema),
@@ -124,7 +124,7 @@ const DiagnosisAndFindingsForm = ({
             form="form-rhf-demo"
             className="py-5 px-10 rounded-sm"
           >
-            Submit
+            Save
           </Button>
         </Field>
       </div>

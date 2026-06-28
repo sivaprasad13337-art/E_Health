@@ -2,27 +2,29 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.decorators import api_view, permission_classes, authentication_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated
 from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
 from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer, LifeStyleHabitSerializer, AllergySerializer, MedicalConditionSerializer, SurgerySerializer
 from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery
 from utils.utils import get_doc_and_patient, generate_numeric_code
+from utils.parse import parse_lab_report
 import traceback
 
-from rest_framework.authentication import SessionAuthentication
+# from rest_framework.authentication import SessionAuthentication
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return  # skip CSRF
+# class CsrfExemptSessionAuthentication(SessionAuthentication):
+#     def enforce_csrf(self, request):
+#         return  # skip CSRF
 
 # Create your views here.
 # Appointment views
 # @csrf_exempt
 
 @api_view(['POST'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 def create_appointment(request):
     # patient_id = request.data.get('patient_id')
     # doctor_id = request.data.get('doctor_id')
@@ -229,6 +231,15 @@ def update_medical_report(request, id):
 #             'vitals',
 #             'notes'
 #         ]
+
+@api_view(['POST'])
+@parser_classes([FormParser, MultiPartParser])
+def parse(request):
+    file = request.FILES.get('pdf')
+    
+    if file:
+        report = parse_lab_report(pdf=file)
+        return Response(report, status=status.HTTP_200_OK)
 
 # LifeStyle Views
 

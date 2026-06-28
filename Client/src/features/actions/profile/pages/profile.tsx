@@ -12,7 +12,8 @@ const Profile = () => {
   const isAdmin = user?.role === "ADMIN";
   return (
     <div>
-      <ProfileHeader user={user} />
+      
+      {user && <ProfileHeader user={user} />}
 
       <section className="my-6 flex justify-between">
         {isPatient && <UserSection user={user} />}

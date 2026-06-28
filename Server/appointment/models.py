@@ -47,8 +47,8 @@ class Appointment(models.Model):
 
 class MedicalReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_reports')
-    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
-    appointment = models.ForeignKey(Appointment, on_delete = models.CASCADE, related_name='medical_reports')
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True) #doctor = models.ManyToManyField(Doctor, blank=True, related_name="reports")
+    appointment = models.ForeignKey(Appointment, on_delete = models.SET_NULL, null=True, related_name='medical_reports')
     prescription = models.JSONField(default=list, blank=True)
     title = models.CharField(max_length=100)
     type = models.CharField(max_length=60)
@@ -60,7 +60,7 @@ class MedicalReport(models.Model):
     
 
 class MedicalCondition(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_condition')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_conditions')
     condition = models.CharField(max_length=100)
     since = models.CharField(max_length=4)
     management = models.CharField(max_length=100)
@@ -82,7 +82,7 @@ class LifeStyleHabit(models.Model):
     taking_medication =  models.CharField(max_length=3)
     
 class Surgery(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='surgery')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='surgeries')
     surgery = models.CharField(max_length=100)
     reason = models.CharField(max_length=100)
     date = models.CharField(max_length=30)
@@ -91,7 +91,7 @@ class Surgery(models.Model):
     summary = models.TextField(null=True)
     
 class MedicalRecord(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_records')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_record')
     # doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
     medications = models.JSONField(default=list, blank=True)
     # conditions = models.ForeignKey(MedicalCondition, on_delete=models.CASCADE, related_name="medical_conditions")

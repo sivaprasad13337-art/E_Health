@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { ReportTypes } from "@/data";
 import { detailedMedicalReport } from "@/data/paths";
 import {
   ArrowRight,
@@ -14,21 +15,15 @@ import {
   HeartPulse,
   Stethoscope,
 } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Reports = () => {
-  const filters = [
-    "cardio",
-    "blood-report",
-    "Pulmonology",
-    "ECG",
-    "Echo",
-    "X-Ray",
-  ];
+  const filters = ReportTypes;
 
   const renderConditions = [
     {
-      code: "Cardiac",
+      code: "Cardiology",
       icon: HeartPulse,
       bg: "bg-red-50",
       text: "text-red-700",
@@ -40,13 +35,13 @@ const Reports = () => {
       text: "text-sky-600",
     },
     {
-      code: "Pulmonol",
+      code: "Pulmonology",
       icon: Stethoscope,
       bg: "bg-yellow-100",
       text: "text-yellow-600",
     },
     {
-      code: "X-ray",
+      code: "Imaging",
       icon: Bone,
       bg: "bg-blue-100",
       text: "text-blue-600",
@@ -59,7 +54,7 @@ const Reports = () => {
       from: "Dr. Meera Nair",
       date: "16 Jun 2026",
       status: "Normal",
-      cat: "Cardiac",
+      cat: "Cardiology",
     },
     {
       name: "CBC + Lipid Panel",
@@ -73,23 +68,26 @@ const Reports = () => {
       from: "Dr. Priya Sharma",
       date: "15 May 2026",
       status: "Review",
-      cat: "Pulmonol",
+      cat: "Pulmonology",
     },
     {
       name: "ECG Report",
       from: "Dr. Meera Nair",
       date: "1 May 2026",
       status: "Attention",
-      cat: "Cardiac",
+      cat: "Cardiology",
     },
     {
       name: "X-Ray Report",
       from: "Dr. Raj Kumar",
       date: "20 Apr 2026",
       status: "Normal",
-      cat: "X-ray",
+      cat: "Imaging",
     },
   ];
+
+  const [reports, setReports] = useState(Reports);
+  const [filter, setFilter] = useState("");
 
   const Icon = ({ cat }: { cat: string }) => {
     const style = renderConditions.find((condition) => condition.code === cat);
@@ -104,10 +102,9 @@ const Reports = () => {
       ""
     );
   };
-  const handler = (data: string) => {
-    console.log("====================================");
-    console.log(data);
-    console.log("====================================");
+  const handleFilter = (filter: string) => {
+    setReports(Reports.filter((item) => item.cat === filter));
+    setFilter(filter);
   };
 
   const handleDateFilter = (data: string) => {
@@ -118,11 +115,11 @@ const Reports = () => {
 
   const navigate = useNavigate();
 
-  const navigateToDetailPage = (cat: string) => {
-    const style = renderConditions.find((condition) =>
-      condition.code === cat ? condition.text : "",
-    );
-    navigate(detailedMedicalReport);
+  const navigateToDetailPage = () => {
+    // const style = renderConditions.find((condition) =>
+    //   condition.code === cat ? condition.text : "",
+    // );
+    navigate(`${detailedMedicalReport}/rpt-1526`);
   };
 
   return (
@@ -133,17 +130,18 @@ const Reports = () => {
         </div>
         <div className="flex gap-4 items-center">
           <Searchbar className="md:w-[60%]" placeholder="Search reports" />
-          <Filter values={filters} handler={handler} />
+          <Filter values={filters} handler={handleFilter} />
           <DateFilter onClick={handleDateFilter} />
         </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap justify-between">
-        {Reports.map((report) => (
-          <Card className="w-[22%] mt-4">
-            <CardContent>
-              <div className="flex justify-between">
-                {/* <div className="bg-green-100 w-10 h-10 rounded-md flex justify-center items-center">
+      <div className="mt-8 flex flex-wrap gap-8">
+        {reports.length ? (
+          reports.map((report) => (
+            <Card className="w-[22%] mt-4">
+              <CardContent>
+                <div className="flex justify-between">
+                  {/* <div className="bg-green-100 w-10 h-10 rounded-md flex justify-center items-center">
                   
                   <TestTube
                     className={
@@ -154,47 +152,52 @@ const Reports = () => {
                   />
                 </div> */}
 
-                <Icon cat={report.cat} />
+                  <Icon cat={report.cat} />
 
-                <Badge
-                  className={
-                    report.status === "Normal"
-                      ? "bg-green-100 py-3 px-4 text-green-600"
-                      : report.status === "Review"
-                        ? "bg-yellow-100 py-3 px-4 text-yellow-600"
-                        : "bg-red-100 py-3 px-4 text-red-600"
-                  }
-                >
-                  {report.status}
-                </Badge>
-              </div>
+                  <Badge
+                    className={
+                      report.status === "Normal"
+                        ? "bg-green-100 py-3 px-4 text-green-600"
+                        : report.status === "Review"
+                          ? "bg-yellow-100 py-3 px-4 text-yellow-600"
+                          : "bg-red-100 py-3 px-4 text-red-600"
+                    }
+                  >
+                    {report.status}
+                  </Badge>
+                </div>
 
-              <div className="my-4">
-                <h2 className="font-bold text-gray-700">{report.name}</h2>
-                <p className="font-semibold text-gray-500">{report.from}</p>
-              </div>
-              <Separator className="mt-2" />
+                <div className="my-4">
+                  <h2 className="font-bold text-gray-700">{report.name}</h2>
+                  <p className="font-semibold text-gray-500">{report.from}</p>
+                </div>
+                <Separator className="mt-2" />
 
-              <div className="flex justify-between items-center mt-4">
-                <p className="text-gray-500 text-sm font-semibold">
-                  <Calendar1 className="w-4 h-4 inline-block -mt-1" />{" "}
-                  {report.date}
-                </p>
+                <div className="flex justify-between items-center mt-4">
+                  <p className="text-gray-500 text-sm font-semibold">
+                    <Calendar1 className="w-4 h-4 inline-block -mt-1" />{" "}
+                    {report.date}
+                  </p>
 
-                <Button
-                  className="w-8 h-8 rounded-full bg-gray-200"
-                  onClick={() => navigateToDetailPage(report.cat)}
-                >
-                  <ArrowRight className="text-gray-600" />
-                </Button>
-              </div>
-            </CardContent>
+                  <Button
+                    className="w-8 h-8 rounded-full bg-gray-200 cursor-pointer"
+                    onClick={() => navigateToDetailPage()}
+                  >
+                    <ArrowRight className="text-gray-600" />
+                  </Button>
+                </div>
+              </CardContent>
 
-            {/* <CardFooter>
+              {/* <CardFooter>
             
           </CardFooter> */}
-          </Card>
-        ))}
+            </Card>
+          ))
+        ) : (
+          <h1 className="text-center mt-10 w-full text-lg text-gray-400 font-semibold">
+            No Reports Found on {filter}
+          </h1>
+        )}
       </div>
     </section>
   );

@@ -98,7 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
           {
             title: "Status",
-            url: appointment_detail, //appointmentStatus
+            url: `${appointment_detail}/apt-17282`, //appointmentStatus
           },
           {
             title: "History",
