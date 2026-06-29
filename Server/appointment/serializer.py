@@ -43,13 +43,19 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'tests',
             'status',
             'date',
-            'time'
+            'time',
+            "created_at",
+            "updated_at"
+            
         ]
         
         extra_kwargs = {
             'patient': {'read_only' : True},
             'status': {'read_only': True},
-            'appointment_code': {'read_only': True}
+            'appointment_code': {'read_only': True},
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True}
+            
         }
         
         

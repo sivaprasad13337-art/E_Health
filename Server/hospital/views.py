@@ -16,7 +16,7 @@ from utils.utils import delete_old_cloudinary_file, delete_cloudinary_file
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 def get_patient(request, id):
-        res = get_object_or_404(Patient, id = id)
+        res = get_object_or_404(Patient, user_id = id)
         patient = PatientSerializer(res).data
         return Response(patient, status=status.HTTP_200_OK)
     

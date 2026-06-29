@@ -36,3 +36,15 @@ export const verifyPayment = async (payload: VerifyPayload) => {
     console.error(err);
   }
 };
+
+export const GetBillByAPt = async (apt_id: number) => {
+  try {
+    const response = await apiClient.get(
+      `api/payments/get/bill-by-apt/${apt_id}`,
+    );
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

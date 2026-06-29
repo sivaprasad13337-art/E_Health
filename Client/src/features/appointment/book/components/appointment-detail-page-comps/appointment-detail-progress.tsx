@@ -1,11 +1,38 @@
+import { GetBillByAPt } from "@/api/payment-services";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import type { Appointment } from "@/features/appointment/interface/interface";
+import { formateDateAndTime } from "@/lib/utils";
+import type { BillingDetail } from "@/types/payment";
 import { Check, CheckCircle, GitPullRequest } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+// import { data } from "react-router-dom";
 
-const AppointmentDetailProgress = () => {
-  const Steps = [
-    { step: "Booked", date: "25 Jun", time: "9:42 AM" },
-    { step: "Payment done", date: "25 Jun", time: "9:44 AM" },
+const AppointmentDetailProgress = ({
+  appointment,
+}: {
+  appointment: Appointment;
+}) => {
+  const [bill, setBill] = useState<BillingDetail>();
+
+  useEffect(() => {
+    const getBillingDetail = async () => {
+      const data = await GetBillByAPt(appointment.id);
+      setBill(data);
+    };
+    getBillingDetail();
+  }, []);
+
+  const [steps, setSteps] = [
+    {
+      step: "Booked",
+      date: formateDateAndTime(appointment.created_at)[0],
+      time: formateDateAndTime(appointment.created_at)[1],
+    },
+    {
+      step: "Payment done",
+      date: formateDateAndTime(bill?.created_at)[0],
+      time: formateDateAndTime(bill?.updated_at)[1],
+    },
     { step: "Confirmed", date: "25 Jun", time: "9:44 AM" },
     { step: "In Progress", date: "2 Jul", time: "10:30 AM" },
     { step: "Report written", date: "2 Jul", time: "4:30 PM" },
@@ -14,7 +41,7 @@ const AppointmentDetailProgress = () => {
 
   const [active, setAtive] = useState("In Progress");
   const [Completed, setCompleted] = useState(
-    Steps.findIndex((item) => item.step === active),
+    steps.findIndex((item) => item.step === active),
   );
   return (
     <Card className="p-6">
@@ -24,7 +51,7 @@ const AppointmentDetailProgress = () => {
       </CardTitle>
 
       <CardContent className="flex justify-center gap-2">
-        {Steps.map((step, idx) => (
+        {steps.map((step, idx) => (
           <section>
             <div className="flex gap-2 items-center mb-2">
               <div

@@ -64,6 +64,16 @@ def get_appointment_by_id(request,id):
     except Exception as e:
         traceback.print_exc()
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+@api_view(['GET'])
+def get_appointment_by_code(request, apt_code):
+        appointment = get_object_or_404(Appointment, appointment_code = apt_code)
+        data = AppointmentSerializer(appointment).data
+        return Response(data, status=status.HTTP_200_OK)
+    # except Exception as e:
+    #     traceback.print_exc()
+    #     return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])

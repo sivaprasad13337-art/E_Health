@@ -14,7 +14,9 @@ import {
   FlaskConical,
   HeartPulse,
   Stethoscope,
+  FilterIcon,
 } from "lucide-react";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -113,6 +115,12 @@ const Reports = () => {
     console.log("====================================");
   };
 
+  const handleSearchBar = (data: string) => {
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
+  };
+
   const navigate = useNavigate();
 
   const navigateToDetailPage = () => {
@@ -129,8 +137,17 @@ const Reports = () => {
           <p className="font-bold">Medical Reports</p>
         </div>
         <div className="flex gap-4 items-center">
-          <Searchbar className="md:w-[60%]" placeholder="Search reports" />
-          <Filter values={filters} handler={handleFilter} />
+          <Searchbar
+            handler={handleSearchBar}
+            className="md:w-[60%]"
+            placeholder="Search reports"
+          />
+          <Filter
+            icon={FilterIcon}
+            text="Filter"
+            values={filters}
+            handler={handleFilter}
+          />
           <DateFilter onClick={handleDateFilter} />
         </div>
       </div>

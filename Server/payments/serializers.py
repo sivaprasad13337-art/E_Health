@@ -33,6 +33,21 @@ class BillingDetailSerializer(serializers.ModelSerializer):
                   'discount_code',
                   'discount_percentage',
                   'amount_paid',
-                  'transaction_status'
+                  'transaction_status',
+                  'created_at',
+                  'updated_at'
                  ]
+        
+        extra_kwargs = {
+            "created_at": {"read_only": True},
+            "updated_at": {"read_only": True},
+            "add_ons": {"read_only": True},
+            "transaction_status": {"read_only": True},
+            "amount_paid": {"read_only": True},
+            "discount": {"read_only": True},
+            "total_amount": {"read_only": True},
+            "discount_percentage": {"read_only": True},
+            "discount_code": {"read_only": True},
+            
+        }
         

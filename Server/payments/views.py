@@ -13,7 +13,7 @@ from payments.services import client, verify_signature
 from payments.models import BillingDetail, Discounts
 from django.db import transaction
 from users.models import User
-from rest_framework.authentication import SessionAuthentication
+# from rest_framework.authentication import SessionAuthentication
 # Create your views here.
 
 def get_total_amount_and_detail(appointment, discount_code):
@@ -41,16 +41,16 @@ def get_total_amount_and_detail(appointment, discount_code):
         return total_amount, detailed_info, discount_info
 
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return  # skip CSRF
+# class CsrfExemptSessionAuthentication(SessionAuthentication):
+#     def enforce_csrf(self, request):
+#         return  # skip CSRF
 
 # Create your views here.
 # Appointment views
 # @csrf_exempt
 
 @api_view(['POST'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 def create_order(request):
     serializer = CreateOrderSerializer(data = request.data)
     serializer.is_valid(raise_exception=True)
@@ -87,7 +87,7 @@ def create_order(request):
 
 
 @api_view(['POST'])
-@authentication_classes([CsrfExemptSessionAuthentication])
+# @authentication_classes([CsrfExemptSessionAuthentication])
 def verify_payment(request):
     
     serializer = VerifyPaymentSerializer(data = request.data)
@@ -164,3 +164,15 @@ def verify_payment(request):
             appointment.save()
             
             return Response(BillingDetailSerializer(bill).data, status=status.HTTP_200_OK)
+        
+
+@api_view(['GET'])
+def get_Bill(request, id):
+    bill = get_object_or_404(BillingDetail, id = id)
+    return Response(BillingDetailSerializer(bill).data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_Bill_by_apt(request, apt_id):
+    bill = get_object_or_404(BillingDetail, appointment_id = apt_id)
+    print(bill)
+    return Response(BillingDetailSerializer(bill).data, status=status.HTTP_200_OK)

@@ -13,10 +13,11 @@ import type {
 import { useAuthStore } from "@/zustand/auth";
 import { createAppointment } from "@/api/appointment";
 import { createOrder } from "@/api/payment-services";
+import { useHospitalStore } from "@/zustand/hospital";
 
 const Book = () => {
   const steps: Step[] = bookingSteps;
-  const { user } = useAuthStore();
+  const { patient } = useHospitalStore();
 
   const [active, setActive] = useState(1);
   const [completed, setCompleted] = useState<string[]>([]);
@@ -32,7 +33,7 @@ const Book = () => {
     date: new Date(),
     symptoms: [],
     doctor: 1,
-    patient: 1,
+    patient: patient?.id,
     discount_code: "",
   });
 

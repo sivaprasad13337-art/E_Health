@@ -3,56 +3,10 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
 
 type SubTest = {
   name: string;
@@ -125,12 +79,30 @@ export function TestsTable({ tests }: { tests: TestsTableProps[] }) {
             </TableRow>
             {item.subtests.map((test) => (
               <TableRow>
-                <TableCell className="font-medium">{test.name}</TableCell>
+                <TableCell className="font-semibold">{test.name}</TableCell>
                 <TableCell>
-                  {test.value.numeric} {test.unit}
+                  <span
+                    className={`font-extrabold ${
+                      test.status === "Low" || test.status === "High"
+                        ? "text-red-600"
+                        : test.status === "Normal"
+                          ? "text-green-600"
+                          : "text-amber-600"
+                    }`}
+                  >
+                    {test.value.numeric}
+                  </span>{" "}
+                  <span className="text-gray-600 font-semibold">
+                    {test.unit}
+                  </span>
                 </TableCell>
                 <TableCell className="">
-                  {JSON.stringify(test.reference_range)}
+                  {/* {Object.entries(test.reference_range).length
+                    ? Object.entries(test.reference_range).map((item) => item)
+                    : ""} */}
+                  <p className="">
+                    {JSON.stringify(test.reference_range).replace('"', "")}
+                  </p>
                 </TableCell>
               </TableRow>
             ))}

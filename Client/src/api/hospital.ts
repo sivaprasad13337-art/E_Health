@@ -1,6 +1,22 @@
 import apiClient from "@/lib/api-client";
 import { useHospitalStore } from "@/zustand/hospital";
 
+export const getPatient = async (id: number) => {
+  try {
+    const response = await apiClient.get(`/hospital/patient/get/${id}`);
+
+    if (response.status === 200) {
+      const { setPatient } = useHospitalStore.getState();
+
+      setPatient(response.data);
+    }
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const getDoctors = async () => {
   try {
     const response = await apiClient.get("/hospital/doctor/get/");

@@ -23,3 +23,12 @@ export interface Doctor {
   availability: boolean;
   rating: string;
 }
+
+export interface Patient {
+  id: number;
+  user: User
+  age: number;
+  height: number;
+  weight: number;
+  blood_group: string;
+}

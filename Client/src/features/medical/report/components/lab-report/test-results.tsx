@@ -4,7 +4,7 @@ import { TestsTable } from "./tests-table";
 
 const TestResultes = ({ tests }) => {
   return (
-    <Card className="p-4">
+    <Card className="p-4 overflow-x-auto">
       <CardTitle className="px-4">
         <Grid2X2 className="icon-text text-primary" /> Test results
       </CardTitle>

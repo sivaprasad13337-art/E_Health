@@ -22,3 +22,32 @@ export const createAppointment = async (formData: AppointmentPayload) => {
     console.error(err);
   }
 };
+
+export const getAppointmentByCode = async (apt_code: string) => {
+  try {
+    const response = await apiClient.get(
+      `/appointment/get/apt-code/${apt_code}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAppointmentsByPatient = async (pat_id: number) => {
+  try {
+    const response = await apiClient.get(`/appointment/get/patient/${pat_id}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAppointmentsByDoctor = async (doc_id: number) => {
+  try {
+    const response = await apiClient.get(`/appointment/get/doctor/${doc_id}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

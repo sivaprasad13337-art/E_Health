@@ -1,11 +1,11 @@
-import type { Doctor } from "@/types/hospital";
+import type { Doctor, Patient } from "@/types/hospital";
 import { create } from "zustand";
 
 interface useHospitalState {
-  patient: Doctor | null;
+  patient: Patient | null;
   doctor: Doctor | null;
 
-  setPatient: (patientData: Doctor | null) => void;
+  setPatient: (patientData: Patient | null) => void;
 
   setDoctor: (doctordata: Doctor | null) => void;
 }
@@ -14,7 +14,7 @@ export const useHospitalStore = create<useHospitalState>((set) => ({
   patient: null,
   doctor: null,
 
-  setPatient: (patientData: Doctor | null) =>
+  setPatient: (patientData: Patient | null) =>
     set({
       patient: patientData,
     }),

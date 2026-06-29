@@ -5,6 +5,7 @@ urlpatterns = [
     path('create/', views.create_appointment, name="Create-Appointment"),
     path('get-all/', views.get_appointments, name="Get-Appointments"),
     path('get/<int:id>', views.get_appointment_by_id, name="Get-Appointment-By-Id"),
+    path('get/apt-code/<str:apt_code>', views.get_appointment_by_code, name="Get-Appointment-By-Code"),
     path('get/patient/<int:id>', views.get_appointments_by_patient, name="Get-Appointment-By-Patient"),
     path('get/doctor/<int:id>', views.get_appointments_by_doctor, name="Get-Appointment-By-Doctor"),
     path('update-status/<int:id>', views.update_appointment, name="Update_Appointment_Status"),

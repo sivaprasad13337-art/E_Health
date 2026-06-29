@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "./zustand/auth";
 import { who } from "./api/auth";
 import { useIsMobile } from "./hooks/use-mobile";
-import { getDoctor } from "./api/hospital";
+import { getDoctor, getPatient } from "./api/hospital";
 function App() {
   const { auth, user } = useAuthStore();
 
@@ -16,6 +16,7 @@ function App() {
       const data = await who();
 
       if (data.user.role === "DOCTOR") await getDoctor(data.user.id);
+      if (data.user.role === "PATIENT") await getPatient(data.user.id);
     };
 
     setUserAndRole();

@@ -6,19 +6,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FilterIcon } from "lucide-react";
+import type React from "react";
 
 interface FilterProps {
   values: string[];
   handler: (arg: string) => void;
+  icon: React.ElementType;
+  text: string;
 }
 
-export function Filter({ values, handler }: FilterProps) {
+export function Filter({ values, handler, icon, text }: FilterProps) {
+  const Icon = icon;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="text-gray-500">
-          <FilterIcon /> Filter
+          <Icon /> {text}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="start">
@@ -28,10 +32,6 @@ export function Filter({ values, handler }: FilterProps) {
               {item}
             </DropdownMenuItem>
           ))}
-          {/* <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem> */}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

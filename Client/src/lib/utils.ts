@@ -34,3 +34,23 @@ export const formatDateForBill = (date: string) => {
 export const getCloudinaryUrl = (path: string) => {
   return `https://res.cloudinary.com/dhpugjush/${path}`;
 };
+
+export const formateDateAndTime = (timestamp: string) => {
+  const date = new Date(timestamp);
+
+  const formatted = date
+    .toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .split(" ");
+
+  return [
+    `${formatted[0]} ${formatted[1]} ${formatted[2]}`,
+    `${formatted[4]} ${formatted[5]}`,
+  ];
+};

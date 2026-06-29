@@ -2,6 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { writeMedicalReport } from "@/data/paths";
+import type { Appointment } from "@/features/appointment/interface/interface";
+import { formatDateForBill } from "@/lib/utils";
 import {
   AlertTriangle,
   Building2,
@@ -16,7 +18,11 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const AppointmentDetailHeaderCard = () => {
+const AppointmentDetailHeaderCard = ({
+  appointment,
+}: {
+  appointment: Appointment;
+}) => {
   return (
     <Card
       style={{
@@ -31,18 +37,20 @@ const AppointmentDetailHeaderCard = () => {
 
           {/*  */}
           <div>
-            <p className="text-gray-300 text-xs mb-1">#APT-20260616-084</p>
+            <p className="text-gray-300 text-xs mb-1">
+              #{appointment.appointment_code}
+            </p>
             <h1 className="text-[1.9rem] leading-[1.9rem] font-bold text-white">
-              Cardiology Consultation
+              {appointment.doctor.department.name} Consultation
             </h1>
             <div className="text-gray-200 flex gap-6 my-2">
               <p className="font-semibold">
-                <LucideCalendar1 className="w-4 h-4 inline-block -mt-1" /> Mon,
-                16 Jun 2026
+                <LucideCalendar1 className="w-4 h-4 inline-block -mt-1" />{" "}
+                {formatDateForBill(appointment.date)}
               </p>
               <p className="font-semibold">
-                <Clock className="w-4 h-4 inline-block -mt-1" /> 10:30 AM –
-                11:15 AM
+                <Clock className="w-4 h-4 inline-block -mt-1" />{" "}
+                {appointment.time} – 11:15 AM
               </p>
             </div>
 
@@ -52,23 +60,30 @@ const AppointmentDetailHeaderCard = () => {
                 Hospital, Chennai
               </p>
               <p className="font-semibold">
-                <User className="w-4 h-4 inline-block -mt-1" /> In-person · 45
-                min
+                <User className="w-4 h-4 inline-block -mt-1" />{" "}
+                {["Clinic", "Home Visit"].includes(appointment.appointment_type)
+                  ? "In-person"
+                  : ["Video Call", "Audio Call", "Chat"].includes(
+                        appointment.appointment_type,
+                      )
+                    ? `Online consultation - ${appointment.appointment_type}`
+                    : ""}{" "}
+                · 15 min
               </p>
             </div>
 
             <div className="mt-4 flex gap-4">
               <Badge className="bg-teal-500 py-3 px-4 font-semibold text-[.8rem]">
                 <Check className="w-4 h-4 inline-block" />
-                Confirmed
+                {appointment.status}
               </Badge>
 
               <Badge className="bg-white/20 border border-white/20 py-3 px-4 font-semibold text-[.8rem]">
-                Cardiology
+                {appointment.doctor.department.name}
               </Badge>
 
               <Badge className="bg-white/20 border border-white/20 py-3 px-4 font-semibold text-[.8rem]">
-                Routine checkup
+                {appointment.reason}
               </Badge>
 
               <Badge className="bg-yellow-600 border border-white/20 py-3 px-4 font-semibold text-[.8rem]">
