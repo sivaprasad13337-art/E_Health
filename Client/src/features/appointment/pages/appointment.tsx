@@ -7,9 +7,13 @@ import AppointmentPaymentAndFollowUpCards from "../book/components/appointment-d
 import PeopleInvolved from "../book/components/appointment-detail-page-comps/people-involved-card";
 import { useEffect, useState } from "react";
 import { getAppointmentByCode } from "@/api/appointment";
+import { GetBillByAPt } from "@/api/payment-services";
+import type { Appointment } from "../interface/interface";
+import type { BillingDetail } from "@/types/payment";
 
 const AppointmentDetail = () => {
-  const [appointment, setAppointment] = useState();
+  const [appointment, setAppointment] = useState<Appointment>();
+  const [bill, setBill] = useState<BillingDetail>();
   const { id } = useParams();
   console.log("====================================");
   console.log(id);
@@ -18,28 +22,31 @@ const AppointmentDetail = () => {
   useEffect(() => {
     const getAppointment = async () => {
       const data = await getAppointmentByCode(id);
+      const Bill = await GetBillByAPt(data.id);
 
       setAppointment(data);
+      if (Bill) setBill(Bill);
     };
 
     getAppointment();
   }, []);
+
   return (
     appointment && (
       <>
         <AppointmentDetailHeaderCard appointment={appointment} />
 
-        <AppointmentDetailProgress appointment={appointment} />
+        <AppointmentDetailProgress appointment={appointment} bill={bill} />
 
-        <PeopleInvolved />
+        <PeopleInvolved patient={appointment.patient} doctor={appointment.doctor}/>
 
         <section className="flex gap-6">
           <div className="w-[60%]">
-            <AppointmentDetailsCard />
+            <AppointmentDetailsCard appointment={appointment}/>
           </div>
 
           <div className="w-[40%]">
-            <AppointmentPaymentAndFollowUpCards />
+            {bill && <AppointmentPaymentAndFollowUpCards bill={bill}/>}
           </div>
         </section>
 

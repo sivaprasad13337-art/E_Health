@@ -1,28 +1,28 @@
-import { GetBillByAPt } from "@/api/payment-services";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import type { Appointment } from "@/features/appointment/interface/interface";
-import { formateDateAndTime } from "@/lib/utils";
+import { formatDateForBill, formateDateAndTime } from "@/lib/utils";
 import type { BillingDetail } from "@/types/payment";
 import { Check, CheckCircle, GitPullRequest } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import { data } from "react-router-dom";
+
+type Steps = {
+  step: string;
+  date: string;
+  time: string;
+};
+
+interface AppointmentDetailProgressProps {
+  appointment: Appointment;
+  bill?: BillingDetail;
+}
 
 const AppointmentDetailProgress = ({
   appointment,
-}: {
-  appointment: Appointment;
-}) => {
-  const [bill, setBill] = useState<BillingDetail>();
-
-  useEffect(() => {
-    const getBillingDetail = async () => {
-      const data = await GetBillByAPt(appointment.id);
-      setBill(data);
-    };
-    getBillingDetail();
-  }, []);
-
-  const [steps, setSteps] = [
+  bill,
+}: AppointmentDetailProgressProps) => {
+  // const [bill, setBill] = useState<BillingDetail>();
+  const [steps, setSteps] = useState<Steps[]>([
     {
       step: "Booked",
       date: formateDateAndTime(appointment.created_at)[0],
@@ -30,19 +30,35 @@ const AppointmentDetailProgress = ({
     },
     {
       step: "Payment done",
-      date: formateDateAndTime(bill?.created_at)[0],
-      time: formateDateAndTime(bill?.updated_at)[1],
+      date: bill ? formateDateAndTime(bill.created_at)[0] : "Payment",
+      time: bill ? formateDateAndTime(bill.created_at)[1] : "Pending",
     },
-    { step: "Confirmed", date: "25 Jun", time: "9:44 AM" },
-    { step: "In Progress", date: "2 Jul", time: "10:30 AM" },
-    { step: "Report written", date: "2 Jul", time: "4:30 PM" },
-    { step: "Completed", date: "2 Jul", time: "4:30 PM" },
-  ];
-
-  const [active, setAtive] = useState("In Progress");
+    {
+      step: "Confirmed",
+      date: bill ? formateDateAndTime(bill.created_at)[0] : "",
+      time: bill ? formateDateAndTime(bill.created_at)[1] : "",
+    },
+    {
+      step: "In Progress",
+      date: formatDateForBill(appointment.date),
+      time: appointment.time,
+    },
+    { step: "Report written", date: "", time: "" },
+    { step: "Completed", date: "", time: "" },
+  ]);
+  const [active, setActive] = useState(
+    appointment.status === "CONFIRMED"
+      ? "In Progress"
+      : bill
+        ? "Booked"
+        : appointment.status === "COMPLETED"
+          ? "Completed"
+          : "Booked",
+  );
   const [Completed, setCompleted] = useState(
     steps.findIndex((item) => item.step === active),
   );
+
   return (
     <Card className="p-6">
       <CardTitle className="font-semibold p-4">

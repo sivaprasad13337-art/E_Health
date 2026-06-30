@@ -18,10 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 const ReportCards = () => {
   const navigate = useNavigate();
   return (
-    <Card
-      className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6 cursor-pointer"
-      onClick={() => navigate(`${writeMedicalReport}/rpt-16257`)}
-    >
+    <Card className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6 cursor-pointer">
       <div className="absolute top-0 left-0 bg-sky-400 h-full w-1.5"></div>
       <CardContent className="flex justify-between">
         <section className="flex gap-6 items-center">
@@ -45,7 +42,10 @@ const ReportCards = () => {
 
         <section className="flex flex-col items-end gap-2">
           <Badge className="p-4 text-blue-600 bg-blue-100">Needs review</Badge>
-          <Button className="flex text-blue-600 bg-blue-100 py-6 px-5 hover:bg-blue-200 cursor-pointer">
+          <Button
+            className="flex text-blue-600 bg-blue-100 py-6 px-5 hover:bg-blue-200 cursor-pointer"
+            onClick={() => navigate(`${writeMedicalReport}/rpt-16257`)}
+          >
             <NotebookText /> View & add notes
           </Button>
         </section>

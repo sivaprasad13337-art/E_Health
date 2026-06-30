@@ -3,6 +3,7 @@ import {
   CalendarPlus,
   ClipboardList,
   FileText,
+  FlaskConical,
   Pill,
 } from "lucide-react";
 import PatientCard from "../components/patient-header-card";
@@ -13,9 +14,11 @@ import DiagnosisAndFindingsForm from "../forms/medical-reports-forms/diagnosis-f
 import PrescriptionForm from "../forms/medical-reports-forms/prescription-form";
 import FollowUpForm from "../forms/medical-reports-forms/follow-up";
 import { useEffect, useState } from "react";
+import LabDetailsForm from "../forms/medical-reports-forms/lab/lab-details";
+import ParseLabReport from "../forms/medical-reports-forms/lab/lap-report-parse";
 
 const WriteReport = () => {
-  const [formData, setFormData] = useState({
+  const [appointmentFormData, setAppointmentFormData] = useState({
     title: "Cardiology",
     type: "Cardiology",
     notes:
@@ -64,11 +67,13 @@ const WriteReport = () => {
     },
   });
 
+  const [labFormData, setLabFormData] = useState();
+
   useEffect(() => {
     console.log("====================================");
-    console.log("This is Report Form Data: ", formData.type);
+    console.log("This is Report Form Data: ", appointmentFormData.type);
     console.log("====================================");
-  }, [formData]);
+  }, [appointmentFormData]);
 
   const appointment = {
     apt_id: "APT-20260616-084",
@@ -78,16 +83,17 @@ const WriteReport = () => {
     type: " In-person",
   };
 
-  const CardRenderData = [
-    {
-      title: "Report type",
-      description: "What kind of report is this?",
-      Icon: FileText,
-      bg: "yellow-100",
-      text: "yellow-600",
-      children: ReportTypeForm,
-      required: true,
-    },
+  const ReportType = {
+    title: "Report type",
+    description: "What kind of report is this?",
+    Icon: FileText,
+    bg: "yellow-100",
+    text: "yellow-600",
+    children: ReportTypeForm,
+    required: true,
+  };
+
+  const AppointmentReportRender = [
     {
       title: "Vitals recorded",
       description: "Measured during this visit",
@@ -125,25 +131,108 @@ const WriteReport = () => {
       required: false,
     },
   ];
+
+  const LabReportRender = [
+    {
+      title: "Parse",
+      description: "Upload & parse your lab report with AI!",
+      Icon: FlaskConical,
+      bg: "green-100",
+      text: "green-600",
+      children: ParseLabReport,
+      required: false,
+    },
+    {
+      title: "Lab Details",
+      description: "Measured during this visit",
+      Icon: FlaskConical,
+      bg: "blue-100",
+      text: "blue-600",
+      children: LabDetailsForm,
+      required: false,
+    },
+    
+  ];
+
   return (
     <>
       <PatientCard appointment={appointment} />
 
       <div>
-        {CardRenderData.map((card, idx) => (
-          <MedicalDataAccordionCard
-            title={card.title}
-            description={card.description}
-            Icon={card.Icon}
-            bg={card.bg}
-            text={card.text}
-            children={
-              <card.children formData={formData} setFormData={setFormData} />
-            }
-            required={card.required}
-            key={idx}
-          />
-        ))}
+        <MedicalDataAccordionCard
+          title={ReportType.title}
+          description={ReportType.description}
+          Icon={ReportType.Icon}
+          bg={ReportType.bg}
+          text={ReportType.text}
+          children={
+            <ReportType.children
+              formData={appointmentFormData}
+              setFormData={setAppointmentFormData}
+            />
+          }
+          required={ReportType.required}
+        />
+
+        {/* [
+  "Lab",
+  "Imaging",
+  "Prescription",
+  "Discharge Summary",
+  "Surgical",
+  "Vaccination",
+  "Cardiology",
+  "Neurology",
+  "Pulmonology",
+  "Orthopedics",
+  "Dermatology",
+  "Other",
+] */}
+        {[
+          "Prescription",
+          "Discharge Summary",
+          "Vaccination",
+          "Cardiology",
+          "Neurology",
+          "Pulmonology",
+          "Orthopedics",
+          "Dermatology",
+          "Other",
+        ].includes(appointmentFormData.type)
+          ? AppointmentReportRender.map((card, idx) => (
+              <MedicalDataAccordionCard
+                title={card.title}
+                description={card.description}
+                Icon={card.Icon}
+                bg={card.bg}
+                text={card.text}
+                children={
+                  <card.children
+                    formData={appointmentFormData}
+                    setFormData={setAppointmentFormData}
+                  />
+                }
+                required={card.required}
+                key={idx}
+              />
+            ))
+          : LabReportRender.map((card, idx) => (
+              <MedicalDataAccordionCard
+                title={card.title}
+                description={card.description}
+                Icon={card.Icon}
+                bg={card.bg}
+                text={card.text}
+                children={
+                  <card.children
+                    formData={appointmentFormData}
+                    setFormData={setAppointmentFormData}
+                  />
+                }
+                required={card.required}
+                key={idx}
+              />
+            ))}
       </div>
     </>
   );

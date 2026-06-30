@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { formateDateAndTime } from "@/lib/utils";
+import type { BillingDetail } from "@/types/payment";
 import {
   AlertTriangle,
-  Badge,
   BadgeCheck,
   CalendarCheck2,
   CalendarMinus2,
@@ -11,7 +12,11 @@ import {
   X,
 } from "lucide-react";
 
-const AppointmentPaymentAndFollowUpCards = () => {
+const AppointmentPaymentAndFollowUpCards = ({
+  bill,
+}: {
+  bill: BillingDetail;
+}) => {
   return (
     <section className="flex flex-col gap-6">
       {/* Follow-up Card */}
@@ -45,12 +50,18 @@ const AppointmentPaymentAndFollowUpCards = () => {
           <section>
             <div className="flex justify-between text-primary">
               <p>Consultation fee</p>
-              <p className="font-semibold">{"\u20B9"}1000</p>
+              <p className="font-semibold">
+                {"\u20B9"}
+                {bill.appointment.doctor.consultation_fee}
+              </p>
             </div>
 
             <div className="flex justify-between text-primary my-2">
               <p>Addons</p>
-              <p className="font-semibold">{"\u20B9"}3500</p>
+              <p className="font-semibold">
+                {"\u20B9"}
+                {bill.add_ons.reduce((amount, item) => amount + item.price, 0)}
+              </p>
             </div>
 
             <div className="flex justify-between text-primary my-2">
@@ -72,11 +83,17 @@ const AppointmentPaymentAndFollowUpCards = () => {
 
           <div className="flex justify-between text-teal-700 my-2 text-lg">
             <p className="font-semibold">Total paid</p>
-            <p className="font-semibold">{"\u20B9"}5368</p>
+            <p className="font-semibold">
+              {"\u20B9"}
+              {bill.amount_paid}
+            </p>
           </div>
 
           <p className="text-primary">
-            <BadgeCheck className="icon-text" /> Paid via Razorpay · 25 Jun 2026
+            <BadgeCheck className="icon-text" /> Paid via Razorpay ·{" "}
+            {formateDateAndTime(bill.created_at).map((item) => (
+              <>{item} </>
+            ))}
           </p>
         </CardContent>
       </Card>

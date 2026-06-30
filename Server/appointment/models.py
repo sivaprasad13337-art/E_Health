@@ -1,5 +1,6 @@
 from django.db import models
 from hospital.models import Patient, Doctor
+from cloudinary.models import CloudinaryField
 
 Status_Options = (
 ('PENDING', 'Pending'),
@@ -47,16 +48,43 @@ class Appointment(models.Model):
 
 class MedicalReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_reports')
-    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True) #doctor = models.ManyToManyField(Doctor, blank=True, related_name="reports")
-    appointment = models.ForeignKey(Appointment, on_delete = models.SET_NULL, null=True, related_name='medical_reports')
-    prescription = models.JSONField(default=list, blank=True)
+    doctor = models.ManyToManyField(Doctor, blank=True, related_name="medical_reports")
+    appointment = models.ForeignKey(Appointment, on_delete = models.SET_NULL, blank=True, null=True, related_name='medical_reports')
     title = models.CharField(max_length=100)
     type = models.CharField(max_length=60)
-    vitals = models.JSONField(default=list, blank=True)
-    diagnosis_and_findings = models.JSONField(default=list, blank=True)
-    notes = models.TextField(blank=True)
     follow_up = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Vitals(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='vitals')
+    heart_rate = models.PositiveSmallIntegerField(null=True, blank=True)
+    temperature = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    spo2 = models.PositiveSmallIntegerField(null=True, blank=True)
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    blood_pressure = models.CharField(max_length=7, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+class AppointmentReport(MedicalReport):
+    notes = models.TextField()
+    prescription = models.JSONField(default=list, blank=True)
+    vitals = models.ForeignKey(Vitals, on_delete=models.SET_NULL, blank=True, null=True, related_name='vitals')
+    diagnosis_and_findings = models.JSONField(default=list, blank=True)
+    
+class LabReport(MedicalReport):
+    tests = models.JSONField(default=list, blank=True)
+    lab_notes = models.TextField()
+    doctor_notes = models.TextField()
+    
+class ImagingReport(MedicalReport):
+    scan = CloudinaryField('image', blank=True, null=True)
+    findings = models.TextField()
+    impression = models.TextField()
+    
+class SurgeryReport(MedicalReport):
+    surgery_name = models.CharField(max_length=100)
+    surgeon_notes = models.TextField()
     
 
 class MedicalCondition(models.Model):

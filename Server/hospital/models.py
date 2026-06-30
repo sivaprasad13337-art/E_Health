@@ -38,6 +38,7 @@ class Test(models.Model):
 class Patient(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False, null=False)
     age = models.PositiveIntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=15)    
     height = models.PositiveIntegerField(blank=True, null=True)
     weight = models.PositiveIntegerField(blank=True, null=True)
     blood_group = models.CharField(max_length=5, choices=BLOOD_GROUPS,  blank=True, null=True)

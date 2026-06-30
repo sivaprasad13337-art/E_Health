@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import type { Appointment } from "@/features/appointment/interface/interface";
+import { formatDateForBill, formateDateAndTime } from "@/lib/utils";
 import {
   AlertTriangle,
   BookText,
@@ -16,7 +18,11 @@ import {
   Stethoscope,
 } from "lucide-react";
 
-const AppointmentDetailsCard = () => {
+const AppointmentDetailsCard = ({
+  appointment,
+}: {
+  appointment: Appointment;
+}) => {
   return (
     <Card className="p-4">
       <CardTitle className="px-4">
@@ -30,7 +36,7 @@ const AppointmentDetailsCard = () => {
             <Calendar1 className="icon-text text-primary" /> Date{" "}
           </p>
           <p className="text-gray-700 font-bold w-[65%]">
-            Monday, 16 June 2026
+            {formatDateForBill(appointment.date)}
           </p>
         </div>
         <Separator className="bg-gray-300 my-2" />
@@ -40,7 +46,7 @@ const AppointmentDetailsCard = () => {
             <Clock className="icon-text text-primary" /> Time{" "}
           </p>
           <p className="text-gray-700 font-bold w-[65%]">
-            10:30 AM – 11:15 AM (45 min)
+            {appointment.time} AM – 11:15 AM (45 min)
           </p>
         </div>
         <Separator className="bg-gray-300 my-2" />
@@ -59,7 +65,9 @@ const AppointmentDetailsCard = () => {
           <p className="font-semibold">
             <Stethoscope className="icon-text text-primary" /> Department{" "}
           </p>
-          <p className="text-gray-700 font-bold w-[65%]">Cardiac Sciences</p>
+          <p className="text-gray-700 font-bold w-[65%]">
+            {appointment.doctor.department.name}
+          </p>
         </div>
         <Separator className="bg-gray-300 my-2" />
 
@@ -69,7 +77,13 @@ const AppointmentDetailsCard = () => {
           </p>
           <p className="text-gray-700 font-bold w-[65%]">
             <Badge className="px-5 py-3 bg-sky-100 text-sky-600 text-[.9rem]">
-              In-person
+              {["Clinic", "Home Visit"].includes(appointment.appointment_type)
+                ? `In-person - ${appointment.appointment_type}`
+                : ["Video Call", "Audio Call", "Chat"].includes(
+                      appointment.appointment_type,
+                    )
+                  ? `Online consultation - ${appointment.appointment_type}`
+                  : ""}{" "}
             </Badge>
           </p>
         </div>
@@ -80,7 +94,7 @@ const AppointmentDetailsCard = () => {
             <BookText className="icon-text text-primary" /> Reason{" "}
           </p>
           <p className="text-gray-700 font-bold w-[65%]">
-            Routine cardiology checkup — hypertension follow-up
+            {appointment.reason}
           </p>
         </div>
         <Separator className="bg-gray-300 my-2" />
@@ -101,7 +115,9 @@ const AppointmentDetailsCard = () => {
           <p className="font-semibold">
             <Hash className="icon-text text-primary" /> Booking ID{" "}
           </p>
-          <p className="text-primary font-semibold w-[65%]">#APT-20260616-084</p>
+          <p className="text-primary font-semibold w-[65%]">
+            #{appointment.appointment_code}
+          </p>
         </div>
         <Separator className="bg-gray-300 my-2" />
 
@@ -110,7 +126,9 @@ const AppointmentDetailsCard = () => {
             <CalendarPlus className="icon-text text-primary" /> Booked on{" "}
           </p>
           <p className="text-gray-700 font-bold w-[65%]">
-            14 Jun 2026 at 9:42 AM
+            {formateDateAndTime(appointment.created_at).map((item) => (
+              <>{item} </>
+            ))}
           </p>
         </div>
         <Separator className="bg-gray-300 my-2" />

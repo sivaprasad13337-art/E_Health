@@ -1,6 +1,6 @@
 // import type { DateValues } from "date-fns";
 
-import type { Doctor } from "@/types/hospital";
+import type { Doctor, Patient } from "@/types/hospital";
 
 export interface ServiceType {
   id: number;
@@ -94,12 +94,14 @@ export interface Appointment {
   appointment_type: string;
   appointment_code: string;
   symptoms: string[];
-  patient: number;
+  patient: Patient;
   doctor: Doctor;
   tests: Tests[];
   status: string;
   date: string;
   time: string;
+  created_at: string;
+  updated_at: string;
 }
 export interface OrderDataType {
   order_id: string;

@@ -26,8 +26,9 @@ export interface Doctor {
 
 export interface Patient {
   id: number;
-  user: User
+  user: User;
   age: number;
+  gender: string;
   height: number;
   weight: number;
   blood_group: string;

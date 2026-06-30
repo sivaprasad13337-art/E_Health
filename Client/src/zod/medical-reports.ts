@@ -108,3 +108,26 @@ export const PrescriptionItemSchema = z.object({
 export const PrescriptionSchema = z.object({
   medicines: z.array(PrescriptionItemSchema).min(1),
 });
+
+export const LabDetails_Schema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Lab name must be at least 2 characters")
+    .max(150, "Lab name must be below 150 characters"),
+  location: z
+    .string()
+    .trim()
+    .min(10, "Location must be at least 10 characters")
+    .max(250, "Location must be below 250 characters"),
+  collected: z
+    .string()
+    .trim()
+    .min(2, "Lab name must be at least 2 characters")
+    .max(150, "Lab name must be below 150 characters"),
+  reported: z
+    .string()
+    .trim()
+    .min(2, "Lab name must be at least 2 characters")
+    .max(150, "Lab name must be below 150 characters"),
+});

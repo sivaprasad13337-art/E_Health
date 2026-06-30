@@ -3141,6 +3141,9 @@ const History = () => {
   const [id, setId] = useState();
   const { doctor, patient } = useHospitalStore();
 
+  console.log('====================================');
+  console.log(patient);
+  console.log('====================================');
   // if (user?.role === "DOCTOR") {
   //   setId(doctor?.id);
   // } else if (user?.role === "PATIENT") {
@@ -3160,6 +3163,7 @@ const History = () => {
 
     getAppointments();
   }, []);
+
   return (
     <>
       <InfoCards appointments={appointments} />

@@ -29,7 +29,7 @@ class MedicalConditionSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
     # patient = PatientSerializer(read_only=True)
     doctor = DoctorSerializer(read_only=True)
-    
+    patient = PatientSerializer(read_only=True)
     class Meta():
         model = Appointment
         fields = [
@@ -50,7 +50,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
         ]
         
         extra_kwargs = {
-            'patient': {'read_only' : True},
             'status': {'read_only': True},
             'appointment_code': {'read_only': True},
             'created_at': {'read_only': True},
