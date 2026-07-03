@@ -10,38 +10,70 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { LifestyleHabitsSchema } from "@/zod/medical-records";
 import CustomSelectBar from "../../components/custom-select";
 import {
   ActivityOptions,
-  BloodGroups,
-  Genders,
+  // BloodGroups,
+  // Genders,
   SleepQualityOptions,
   SmokingAndAlcoholOptions,
 } from "@/data";
+import { createLifeStyle, getLifeStyle, updateLifeStyle } from "@/api/records";
+import { useHospitalStore } from "@/zustand/hospital";
+import { useEffect, useState } from "react";
+import type { LifestyleType } from "../../interface";
 
-import CustomDatePicker from "../../components/custom-date-picker";
+// import CustomDatePicker from "../../components/custom-date-picker";
 
 const LifestyleHabitsForm = () => {
-  const defaultValues = {
-    smoking: "",
-    alcohol: "",
-    activity: "",
-    diet: "",
-    sleep: "",
-    taking_medication: "",
-  };
+  const [mode, setMode] = useState<"create" | "edit">("create");
+  const { patient } = useHospitalStore();
   const form = useForm<z.infer<typeof LifestyleHabitsSchema>>({
     resolver: zodResolver(LifestyleHabitsSchema),
-    defaultValues: defaultValues,
+    defaultValues: {
+      smoking: "",
+      alcohol: "",
+      activity: "",
+      diet: "",
+      sleep: "",
+      taking_medication: "",
+    },
   });
 
-  const onSubmit = async (data: z.infer<typeof LifestyleHabitsSchema>) => {
-    console.log("====================================");
-    console.log("set User Form", data);
-    console.log("====================================");
+  useEffect(() => {
+    const getLifeStyleDetails = async () => {
+      if (!patient?.id) return;
 
+      const data = await getLifeStyle(patient.id);
+
+      if (!data) return;
+      setMode('')
+
+      form.reset({
+        smoking: data.smoking ?? "",
+        alcohol: data.alcohol ?? "",
+        activity: data.activity ?? "",
+        diet: data.diet ?? "",
+        sleep: data.sleep ?? "",
+        taking_medication: data.taking_medication ?? "",
+      });
+    };
+
+    getLifeStyleDetails();
+  }, [patient?.id, form]);
+
+  const onSubmit = async (data: z.infer<typeof LifestyleHabitsSchema>) => {
+    const payload = {
+      patient: patient?.id,
+      ...data,
+    };
+    if (mode === "create") {
+      await createLifeStyle(payload);
+    } else {
+      await updateLifeStyle(patient?.id, payload);
+    }
     // await setUser(data, userData.id);
   };
 
@@ -192,7 +224,7 @@ const LifestyleHabitsForm = () => {
             form="form-rhf-demo"
             className="py-5 px-10 rounded-sm"
           >
-            Submit
+            {mode === "create" ? "Add Lifestyle" : "Update Lifestyle"}
           </Button>
         </Field>
       </div>

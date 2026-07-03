@@ -117,6 +117,17 @@ export type Surgery = {
   summary: string;
 };
 
+export type LifestyleType = {
+  id: number,
+  patient: number,
+  smoking: string;
+  alcohol: string;
+  activity: string;
+  diet: string;
+  sleep: string;
+  taking_medication: string;
+};
+
 export interface PatientDetails {
   age: number;
   sex: string;
@@ -125,5 +136,5 @@ export interface PatientDetails {
   bloog_grp: string;
   allergies: Allergy[];
   medicalConditions: MedicalCondition[];
-  surgeries: Surgery[]
+  surgeries: Surgery[];
 }

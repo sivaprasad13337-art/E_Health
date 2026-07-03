@@ -410,14 +410,14 @@ def create_life_style_habits(request):
 
 @api_view(['GET'])
 def get_life_style_habits(request, patient_id):
-    life_style_habits = get_list_or_404(LifeStyleHabit, patient_id = patient_id)
+    life_style_habits = get_object_or_404(LifeStyleHabit, patient_id = patient_id)
     
-    return Response(LifeStyleHabitSerializer(life_style_habits, many=True).data, status=status.HTTP_200_OK)
+    return Response(LifeStyleHabitSerializer(life_style_habits).data, status=status.HTTP_200_OK)
 
 
 @api_view(['PATCH'])
 def update_life_style_habit(request, id):
-    life_style_habit = get_object_or_404(LifeStyleHabit, id = id)
+    life_style_habit = get_object_or_404(LifeStyleHabit, patient_id = id)
     serializer = LifeStyleHabitSerializer(life_style_habit, data = request.data, partial = True)
     
     if serializer.is_valid(raise_exception=True):
