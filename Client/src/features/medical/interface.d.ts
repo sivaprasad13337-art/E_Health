@@ -35,9 +35,10 @@ export interface MedicalReport {
 export interface MedicalReportFromProps {
   formData: MedicalReport;
   setFormData: (args: MedicalReport) => void;
+  setType?: (args: string) => void;
 }
 
-export interface LabReport {
+export interface LabReportPart {
   patient_name: string;
   lab_details: {
     name: string;
@@ -66,6 +67,63 @@ export interface LabReport {
   ];
 }
 export interface LabReportFromProps {
-  formData: LabReport;
-  setFormData: (args: LabReport) => void;
+  formData: LabReportPart;
+  setFormData: (args: LabReportPart) => void;
+}
+
+type MedicalHistory = {
+  surgery: {
+    patient: number;
+    surgery: string;
+    reason: string;
+    date: string;
+    hospital: string;
+    notes: string;
+    summary: string;
+  };
+};
+
+// export interface MedicalHistoryFormProps {
+//   formData: MedicalHistory;
+//   setFormData: (args: MedicalHistory) => void;
+// }
+
+export type MedicalCondition = {
+  id: number;
+  patient: number;
+  condition: string;
+  since: string;
+  management: string;
+  medication: string;
+};
+
+type Severity = "High" | "Moderate" | "Low";
+
+export type Allergy = {
+  id: 1;
+  patient: number;
+  allergy: string;
+  severity: Severity;
+  note: string;
+};
+
+export type Surgery = {
+  id: number;
+  surgery: string;
+  date: string;
+  reason: string;
+  hospital: string;
+  notes: string;
+  summary: string;
+};
+
+export interface PatientDetails {
+  age: number;
+  sex: string;
+  dob: string;
+  pat_id: string;
+  bloog_grp: string;
+  allergies: Allergy[];
+  medicalConditions: MedicalCondition[];
+  surgeries: Surgery[]
 }

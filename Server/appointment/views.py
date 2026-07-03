@@ -13,6 +13,21 @@ from utils.utils import get_doc_and_patient, generate_numeric_code
 from utils.parse import parse_lab_report
 import traceback
 
+from .serializer import (
+    AppointmentReportSerializer,
+    LabReportSerializer,
+    ImagingReportSerializer,
+    SurgeryReportSerializer,
+)
+
+
+REPORT_SERIALIZERS = {
+    "APPOINTMENT": AppointmentReportSerializer,
+    "LAB": LabReportSerializer,
+    "IMAGING": ImagingReportSerializer,
+    "SURGERY": SurgeryReportSerializer,
+}
+
 # from rest_framework.authentication import SessionAuthentication
 
 # class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -185,54 +200,54 @@ def delete_medical_record(request, id):
     
 
 # Medical Report Views
-@api_view(['POST'])
-def create_medical_report(request):
-    data = request.data
-    patient, doctor = get_doc_and_patient(request)
-    appointment = get_object_or_404(Appointment, id = request.data.get('appointment_id'))
-    serializer = MedicalReportSerializer(data=data)
+# @api_view(['POST'])
+# def create_medical_report(request):
+#     data = request.data
+#     patient, doctor = get_doc_and_patient(request)
+#     appointment = get_object_or_404(Appointment, id = request.data.get('appointment_id'))
+#     serializer = MedicalReportSerializer(data=data)
     
-    if serializer.is_valid():
-        serializer.save(patient=patient, doctor=doctor, appointment=appointment)
+#     if serializer.is_valid():
+#         serializer.save(patient=patient, doctor=doctor, appointment=appointment)
         
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#     return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['Get'])
-def get_medical_report_by_id(request, id):
-    try:
-        medical_report = get_object_or_404(MedicalReport, id = id)
-        data = MedicalReportSerializer(medical_report).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# @api_view(['Get'])
+# def get_medical_report_by_id(request, id):
+#     try:
+#         medical_report = get_object_or_404(MedicalReport, id = id)
+#         data = MedicalReportSerializer(medical_report).data
+#         return Response(data, status=status.HTTP_200_OK)
+#     except Exception as e:
+#         traceback.print_exc()
+#         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     
-@api_view(['Get'])
-def get_medical_reports_by_patient(request, id):
-    try:
-        medical_reports = get_list_or_404(MedicalReport, id = id)
-        data = MedicalReportSerializer(medical_reports, many = True).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# @api_view(['Get'])
+# def get_medical_reports_by_patient(request, id):
+#     try:
+#         medical_reports = get_list_or_404(MedicalReport, id = id)
+#         data = MedicalReportSerializer(medical_reports, many = True).data
+#         return Response(data, status=status.HTTP_200_OK)
+#     except Exception as e:
+#         traceback.print_exc()
+#         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 
-@api_view(['PATCH'])
-def update_medical_report(request, id):
-    data = request.data
-    medical_report = get_object_or_404(MedicalReport, id = id)
-    serializer = MedicalReportSerializer(medical_report, data=data)
+# @api_view(['PATCH'])
+# def update_medical_report(request, id):
+#     data = request.data
+#     medical_report = get_object_or_404(MedicalReport, id = id)
+#     serializer = MedicalReportSerializer(medical_report, data=data)
     
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#     return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 #  [
 #             'patient',
 #             'doctor',
@@ -250,6 +265,136 @@ def parse(request):
     if file:
         report = parse_lab_report(pdf=file)
         return Response(report, status=status.HTTP_200_OK)
+    
+    
+@api_view(["POST"])
+def create_medical_report(request):
+
+    report_type = request.data.get("type")
+    print(report_type)
+
+    serializer_class = REPORT_SERIALIZERS.get(report_type)
+
+    if serializer_class is None:
+        return Response(
+            {"error": "Invalid report type"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = serializer_class(data=request.data)
+
+    if serializer.is_valid():
+        print(serializer.validated_data)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["PATCH"])
+def update_medical_report(request, report_type, pk):
+
+    serializer_class = REPORT_SERIALIZERS.get(report_type)
+
+    if serializer_class is None:
+        return Response(
+            {"error": "Invalid report type"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    report = serializer_class.Meta.model.objects.get(pk=pk)
+
+    serializer = serializer_class(
+        report,
+        data=request.data,
+        partial=True
+    )
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(["GET"])
+def get_medical_reports(request, report_type):
+
+    serializer_class = REPORT_SERIALIZERS.get(report_type)
+
+    if serializer_class is None:
+        return Response(
+            {"error": "Invalid report type"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    reports = serializer_class.Meta.model.objects.all()
+
+    serializer = serializer_class(reports, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_medical_report_by_id(request, report_type, id):
+
+    serializer_class = REPORT_SERIALIZERS.get(report_type)
+
+    if serializer_class is None:
+        return Response(
+            {"error": "Invalid report type"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    report = serializer_class.Meta.model.objects.get(id = id)
+
+    serializer = serializer_class(report)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_medical_reports_by_patient(request, id):
+    
+    data = []
+
+    for serializer_class in REPORT_SERIALIZERS.values():
+        reports = serializer_class.Meta.model.objects.filter(patient_id=id)
+        serializer = serializer_class(reports, many=True)
+        data.extend(serializer.data)
+
+    return Response(data)
+
+
+@api_view(["GET"])
+def get_medical_reports_by_appointment(request, id):
+    
+    data = []
+
+    for serializer_class in REPORT_SERIALIZERS.values():
+        reports = serializer_class.Meta.model.objects.filter(appointment_id=id)
+        serializer = serializer_class(reports, many=True)
+        data.extend(serializer.data)
+
+    return Response(data)
+
+
+@api_view(["DELETE"])
+def delete_medical_report(request, report_type, pk):
+
+    serializer_class = REPORT_SERIALIZERS.get(report_type)
+
+    if serializer_class is None:
+        return Response(
+            {"error": "Invalid report type"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    report = serializer_class.Meta.model.objects.get(pk=pk)
+    report.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 # LifeStyle Views
 

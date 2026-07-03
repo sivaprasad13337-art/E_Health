@@ -19,7 +19,7 @@ Appointment_Types = (
 
 Severity_Options = (
     ("Low", "Low"),
-    ("Mod", "Mod"),
+    ("Moderate", "Moderate"),
     ("High", "High"),
     )
 
@@ -43,7 +43,7 @@ class Appointment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.title
+        return self.reason
 
 
 class MedicalReport(models.Model):
@@ -69,13 +69,15 @@ class Vitals(models.Model):
 class AppointmentReport(MedicalReport):
     notes = models.TextField()
     prescription = models.JSONField(default=list, blank=True)
-    vitals = models.ForeignKey(Vitals, on_delete=models.SET_NULL, blank=True, null=True, related_name='vitals')
+    # vitals = models.ForeignKey(Vitals, on_delete=models.SET_NULL, blank=True, null=True, related_name='vitals')
+    vitals = models.JSONField(default=list, blank=True)
     diagnosis_and_findings = models.JSONField(default=list, blank=True)
     
 class LabReport(MedicalReport):
+    lab_details = models.JSONField(default=list, blank=True)
     tests = models.JSONField(default=list, blank=True)
-    lab_notes = models.TextField()
-    doctor_notes = models.TextField()
+    lab_notes = models.TextField(blank=True)
+    doctor_notes = models.TextField(blank=True)
     
 class ImagingReport(MedicalReport):
     scan = CloudinaryField('image', blank=True, null=True)
@@ -97,7 +99,7 @@ class MedicalCondition(models.Model):
 class Allergy(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='allergies')
     allergy = models.CharField(max_length=100)
-    severity = models.CharField(max_length=4, choices=Severity_Options, default="Mod")
+    severity = models.CharField(max_length=8, choices=Severity_Options, default="Mod")
     note = models.CharField(max_length=100)
     
 class LifeStyleHabit(models.Model):

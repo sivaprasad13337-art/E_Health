@@ -25,7 +25,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { MedicalReportFromProps } from "../../interface";
 
-const ReportTypeForm = ({ formData, setFormData }: MedicalReportFromProps) => {
+const ReportTypeForm = ({
+  formData,
+  setFormData,
+  setType,
+}: MedicalReportFromProps) => {
   const defaultValues = {
     title: formData.title,
     note: formData.notes,
@@ -42,10 +46,11 @@ const ReportTypeForm = ({ formData, setFormData }: MedicalReportFromProps) => {
     console.log("set User Form", data);
     console.log("====================================");
 
+    setType(data.type);
     setFormData((prev) => ({
       ...prev,
       title: data.title,
-      type: data.type,
+      // type: data.type,
       notes: data.note,
     }));
   };

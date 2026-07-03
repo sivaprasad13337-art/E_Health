@@ -1,8 +1,9 @@
+import { getMedicalReportsByAppointment } from "@/api/appointment";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { writeMedicalReport } from "@/data/paths";
+import { detailedMedicalReport, medicalReport, writeMedicalReport } from "@/data/paths";
 import {
   AlertTriangle,
   Clock,
@@ -13,12 +14,14 @@ import {
   NotebookText,
   Stethoscope,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const ReportCards = () => {
+const ReportCards = ({ report }) => {
   const navigate = useNavigate();
+
   return (
-    <Card className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6 cursor-pointer">
+    <Card className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6">
       <div className="absolute top-0 left-0 bg-sky-400 h-full w-1.5"></div>
       <CardContent className="flex justify-between">
         <section className="flex gap-6 items-center">
@@ -27,7 +30,7 @@ const ReportCards = () => {
           </div>
 
           <div>
-            <p className="text-lg font-semibold">CBC + Lipid Panel</p>
+            <p className="text-lg font-semibold">{report.title}</p>
             <p className="text-gray-600 font-semibold">
               Uploaded by City Diagnostics Lab · 3 Jun 2026 · Fasting blood
               sample · Auto-parsed ✓
@@ -44,7 +47,7 @@ const ReportCards = () => {
           <Badge className="p-4 text-blue-600 bg-blue-100">Needs review</Badge>
           <Button
             className="flex text-blue-600 bg-blue-100 py-6 px-5 hover:bg-blue-200 cursor-pointer"
-            onClick={() => navigate(`${writeMedicalReport}/rpt-16257`)}
+            onClick={() => navigate(`${detailedMedicalReport}/${report.type}-${report.id}`)}
           >
             <NotebookText /> View & add notes
           </Button>
@@ -54,7 +57,23 @@ const ReportCards = () => {
   );
 };
 
-const AppoitmentReportsAndDocuments = () => {
+const AppoitmentReportsAndDocuments = ({
+  appointment_id,
+}: {
+  appointment_id: number;
+}) => {
+  const [reports, setReports] = useState([]);
+  const [appointmentReport, setAppointmentReport] = useState([]);
+  useEffect(() => {
+    const getReports = async () => {
+      const data = await getMedicalReportsByAppointment(appointment_id);
+
+      setAppointmentReport(data.filter((item) => item.type == "APPOINTMENT"));
+      setReports(data.filter((item) => item.type !== "APPOINTMENT"));
+    };
+
+    getReports();
+  }, []);
   return (
     <Card className="px-4 py-6">
       <CardTitle className="px-4">
@@ -63,21 +82,22 @@ const AppoitmentReportsAndDocuments = () => {
 
       <CardContent>
         <p className="bg-blue-50 text-blue-600 py-2 px-4 rounded-md font-semibold text-[.9rem]">
-          <FlaskConical className="icon-text" /> Access point 1 — Lab tests &
-          imaging (uploaded by lab or patient, auto-parsed)
+          <FlaskConical className="icon-text" /> Lab tests & imaging (uploaded
+          by lab or patient, auto-parsed)
         </p>
 
-        <ReportCards />
-        <ReportCards />
+        {reports.length &&
+          reports.map((item) => <ReportCards report={item} key={item.title} />)}
 
         <Separator className="bg-gray-400 my-4" />
 
         <p className="bg-teal-50 text-primary py-2 px-4 rounded-md font-semibold text-[.9rem]">
-          <Stethoscope className="icon-text" /> Access point 2 — Appointment
-          consultation report (written by doctor after visit)
+          <Stethoscope className="icon-text" /> Appointment consultation report
+          (written by doctor after visit)
         </p>
 
-        <ReportCards />
+        {appointmentReport.length &&
+          appointmentReport.map((item) => <ReportCards report={item} />)}
 
         <Separator className="bg-gray-400 my-4" />
 

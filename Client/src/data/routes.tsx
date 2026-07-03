@@ -337,4 +337,11 @@ export const settingsRoutes = [
     title: "Availability",
     role: "DOCTOR",
   },
+  // {
+  //   path: practice_info_settings,
+  //   element: PracticeInfo,
+  //   icon: Stethoscope,
+  //   title: "Practice Info",
+  //   role: "PATIENT",
+  // },
 ];

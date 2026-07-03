@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { LabDetails_Schema } from "@/zod/medical-reports";
 
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import type { LabReportFromProps } from "@/features/medical/interface";
 
 const LabDetailsForm = ({ formData, setFormData }: LabReportFromProps) => {
@@ -26,7 +26,7 @@ const LabDetailsForm = ({ formData, setFormData }: LabReportFromProps) => {
 
   const onSubmit = async (data: z.infer<typeof LabDetails_Schema>) => {
     console.log("====================================");
-    console.log("set User Form", data);
+    console.log("Lab Details data", data);
     console.log("====================================");
 
     setFormData((prev) => ({ ...prev, lab_details: data }));

@@ -1,6 +1,7 @@
 import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import type { AppointmentMedicalReport } from "@/types/reports";
 import {
   Activity,
   ActivitySquare,
@@ -15,7 +16,13 @@ import {
   Weight,
 } from "lucide-react";
 
-const AppointmentReport = () => {
+const AppointmentReport = ({
+  report,
+}: {
+  report: AppointmentMedicalReport;
+}) => {
+  console.log(report);
+
   const Vitals = [
     {
       vital: "Blood pressure",
@@ -74,7 +81,7 @@ const AppointmentReport = () => {
               <Stethoscope />
             </div>
             <p>
-              Cardiology Report Visit on Mon, 16 Jun 2026 · Apollo Hospital,
+              {report.title} Report Visit on Mon, 16 Jun 2026 · Apollo Hospital,
               Chennai
             </p>
           </div>

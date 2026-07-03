@@ -51,3 +51,38 @@ export const getAppointmentsByDoctor = async (doc_id: number) => {
     console.error(err);
   }
 };
+
+//
+export const createMedicalReport = async (payload) => {
+  try {
+    const response = await apiClient.post(
+      "appointment/medical-report/create/",
+      payload,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getMedicalReportsByAppointment = async (id: number) => {
+  try {
+    const response = await apiClient.get(
+      `appointment/medical-report/appointment/get/${id}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getMedicalReportById = async (type: string, id: number) => {
+  try {
+    const response = await apiClient.get(
+      `appointment/medical-report/get/${type}/${id}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

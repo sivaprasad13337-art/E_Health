@@ -16,8 +16,12 @@ import CustomSelectBar from "../../components/custom-select";
 import { BloodGroups, Genders } from "@/data";
 
 import CustomDatePicker from "../../components/custom-date-picker";
+import { calculateAge } from "@/lib/utils";
+import { updatePatient } from "@/api/hospital";
+import { useHospitalStore } from "@/zustand/hospital";
 
 const BasicHealthInfoForm = () => {
+  const { patient } = useHospitalStore();
   const defaultValues = {
     DOB: "",
     blood_group: "",
@@ -25,12 +29,23 @@ const BasicHealthInfoForm = () => {
     height: "",
     weight: "",
   };
+
   const form = useForm<z.infer<typeof BasicHealthInfoSchema>>({
     resolver: zodResolver(BasicHealthInfoSchema),
     defaultValues: defaultValues,
   });
 
   const onSubmit = async (data: z.infer<typeof BasicHealthInfoSchema>) => {
+    const payload = {
+      DOB: data.DOB,
+      age: calculateAge(data.DOB),
+      blood_group: data.blood_group,
+      gender: data.gender,
+      height: data.height,
+      weight: data.weight,
+    };
+
+    await updatePatient(patient?.id, payload);
     console.log("====================================");
     console.log("set User Form", data);
     console.log("====================================");

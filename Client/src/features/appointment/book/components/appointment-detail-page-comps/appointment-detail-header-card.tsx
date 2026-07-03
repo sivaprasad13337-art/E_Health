@@ -96,7 +96,7 @@ const AppointmentDetailHeaderCard = ({
 
         <section className="w-[20%] flex flex-col gap-3">
           <Link
-            to={`${writeMedicalReport}/rpt-16257`}
+            to={`${writeMedicalReport}/${appointment.appointment_code}`}
             className="flex py-2.5 rounded-lg w-full bg-white text-gray-600 justify-start hover:bg-gray-100 cursor-pointer"
           >
             <FilePlus className="icon-text mt-0.5 ml-5 mr-1" /> Write report

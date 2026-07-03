@@ -60,7 +60,7 @@ interface TestsTableProps {
 export function TestsTable({ tests }: { tests: TestsTableProps[] }) {
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption>A list of your Reports.</TableCaption>
       <TableHeader>
         <TableRow className="bg-gray-200">
           <TableHead className="">Test</TableHead>
@@ -100,7 +100,7 @@ export function TestsTable({ tests }: { tests: TestsTableProps[] }) {
                   {/* {Object.entries(test.reference_range).length
                     ? Object.entries(test.reference_range).map((item) => item)
                     : ""} */}
-                  <p className="">
+                  <p className="w-[25rem]">
                     {JSON.stringify(test.reference_range).replace('"', "")}
                   </p>
                 </TableCell>

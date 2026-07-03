@@ -4,9 +4,32 @@ import { useHospitalStore } from "@/zustand/hospital";
 export const getPatient = async (id: number) => {
   try {
     const response = await apiClient.get(`/hospital/patient/get/${id}`);
-    console.log('====================================');
+    console.log("====================================");
     console.log(response.data);
-    console.log('====================================');
+    console.log("====================================");
+
+    if (response.status === 200) {
+      const { setPatient } = useHospitalStore.getState();
+
+      setPatient(response.data);
+    }
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updatePatient = async (id: number, payload: object) => {
+  try {
+    const response = await apiClient.patch(
+      `/hospital/patient/update/${id}`,
+      payload,
+    );
+
+    // console.log("====================================");
+    // console.log(response.data);
+    // console.log("====================================");
 
     if (response.status === 200) {
       const { setPatient } = useHospitalStore.getState();

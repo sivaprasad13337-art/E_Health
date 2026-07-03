@@ -10,21 +10,23 @@ import {
   TriangleAlert,
   UtensilsCrossed,
 } from "lucide-react";
+import type { MedicalCondition, PatientDetails, Surgery } from "../interface";
+import { formateDateAndTime } from "@/lib/utils";
 
-type ConditionType = {
-  name: string;
-  since: string;
-  note: string;
-};
+// type ConditionType = {
+//   name: string;
+//   since: string;
+//   note: string;
+// };
 
-type SurgeryTpe = {
-  name: string;
-  date: string;
-  reason: string;
-  hospital: string;
-};
+// type SurgeryTpe = {
+//   name: string;
+//   date: string;
+//   reason: string;
+//   hospital: string;
+// };
 
-const SurgeryCard = ({ surgery }: { surgery: SurgeryTpe }) => {
+const SurgeryCard = ({ surgery }: { surgery: Surgery }) => {
   return (
     <div className="bg-gray-100 my-4 p-4 rounded-sm flex justify-between items-center">
       <div className="flex gap-2 items-center">
@@ -32,25 +34,29 @@ const SurgeryCard = ({ surgery }: { surgery: SurgeryTpe }) => {
         <div>
           <h2 className="font-bold text-gray-800">{surgery.reason}</h2>
           <p className="text-gray-500 font-semibold">
-            {surgery.hospital} · {surgery.name}
+            {surgery.hospital} · {surgery.surgery}
           </p>
         </div>
       </div>
 
-      <p className="mt-2 text-gray-500 font-semibold">{surgery.date}</p>
+      <p className="mt-2 text-gray-500 font-semibold">
+        {formateDateAndTime(surgery.date)[0]}
+      </p>
     </div>
   );
 };
 
-const ConditionCard = ({ condition }: { condition: ConditionType }) => {
+const ConditionCard = ({ condition }: { condition: MedicalCondition }) => {
   return (
     <div className="bg-gray-100 my-4 p-4 rounded-sm">
       <div className="flex justify-between">
-        <h2 className="font-bold text-gray-800">{condition.name}</h2>
+        <h2 className="font-bold text-gray-800">{condition.condition}</h2>
         <p className="text-gray-500">{condition.since}</p>
       </div>
 
-      <p className="mt-2 text-gray-500 font-semibold">{condition.note}</p>
+      <p className="mt-2 text-gray-500 font-semibold">
+        {condition.management} · {condition.medication}
+      </p>
     </div>
   );
 };
@@ -73,20 +79,20 @@ const Conditions = [
   },
 ];
 
-const Surgeries = [
-  {
-    name: "Laparoscopic",
-    date: "2019",
-    reason: "Appendectomy",
-    hospital: "Apollo Hospital",
-  },
-  {
-    name: " FESS surgery",
-    date: "2022",
-    reason: "Deviated nasal septum",
-    hospital: "Fortis Hospital",
-  },
-];
+// const Surgeries = [
+//   {
+//     name: "Laparoscopic",
+//     date: "2019",
+//     reason: "Appendectomy",
+//     hospital: "Apollo Hospital",
+//   },
+//   {
+//     name: " FESS surgery",
+//     date: "2022",
+//     reason: "Deviated nasal septum",
+//     hospital: "Fortis Hospital",
+//   },
+// ];
 
 const Allergies = [
   { name: "Penicillin", note: "Severe — anaphylaxis risk", effect: "High" },
@@ -106,7 +112,7 @@ const Lifestyle = [
   { name: "Sleep", status: "7–8 hrs", icon: Cigarette },
   { name: "Medication", status: "Active", icon: Pill },
 ];
-const ConditionsAndSurgeries = () => {
+const ConditionsAndSurgeries = ({ patient }: { patient: PatientDetails }) => {
   return (
     <section>
       <p className="font-bold">Medical History</p>
@@ -123,9 +129,9 @@ const ConditionsAndSurgeries = () => {
           </CardHeader>
 
           <CardContent className="h-full">
-            {Conditions.length ? (
-              Conditions.map((item) => (
-                <ConditionCard condition={item} key={item.name} />
+            {patient.medicalConditions.length ? (
+              patient.medicalConditions.map((condition) => (
+                <ConditionCard condition={condition} key={condition.id} />
               ))
             ) : (
               <div className="flex justify-center items-center bg-gray-100 h-[90%] m-4 rounded-sm">
@@ -145,9 +151,9 @@ const ConditionsAndSurgeries = () => {
           </CardHeader>
 
           <CardContent className="h-full">
-            {Surgeries.length ? (
-              Surgeries.map((item) => (
-                <SurgeryCard surgery={item} key={item.name} />
+            {patient.surgeries.length ? (
+              patient.surgeries.map((item) => (
+                <SurgeryCard surgery={item} key={item.id} />
               ))
             ) : (
               <div className="flex justify-center items-center bg-gray-100 h-[90%] m-4 rounded-sm">
@@ -171,14 +177,14 @@ const ConditionsAndSurgeries = () => {
           </CardHeader>
 
           <CardContent className="h-full">
-            {Allergies.length ? (
-              Allergies.map((allergy) => (
+            {patient.allergies.length ? (
+              patient.allergies.map((allergy) => (
                 <div className="bg-gray-100 my-4 p-4 rounded-sm flex gap-2 items-center">
                   <div
                     className={
-                      allergy.effect === "High"
+                      allergy.severity === "High"
                         ? "w-4 h-4 bg-red-600 rounded-full"
-                        : allergy.effect === "Mod"
+                        : allergy.severity === "Moderate"
                           ? "w-4 h-4 bg-yellow-500 rounded-full"
                           : "w-4 h-4 bg-sky-600 rounded-full"
                     }
@@ -187,23 +193,23 @@ const ConditionsAndSurgeries = () => {
                   <div className="w-full">
                     <div className="flex justify-between">
                       <h2 className="font-bold text-gray-800">
-                        {allergy.name}
+                        {allergy.allergy}
                       </h2>
                       <p
                         className={
-                          allergy.effect === "High"
+                          allergy.severity === "High"
                             ? "text-red-600"
-                            : allergy.effect === "Mod"
+                            : allergy.severity === "Moderate"
                               ? "text-yellow-500"
                               : "text-sky-600"
                         }
                       >
-                        {allergy.effect === "High" ? (
+                        {allergy.severity === "High" ? (
                           <TriangleAlert className="w-4 h-4 inline-block -mt-1" />
                         ) : (
                           ""
                         )}{" "}
-                        {allergy.effect}
+                        {allergy.severity}
                       </p>
                     </div>
 

@@ -2,7 +2,44 @@ from rest_framework import serializers
 from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, Surgery, MedicalCondition
 from hospital.serializers import DoctorSerializer, PatientSerializer
 
+from rest_framework import serializers
+from .models import (
+    AppointmentReport,
+    LabReport,
+    ImagingReport,
+    SurgeryReport,
+    Vitals
+)
+class VitalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vitals
+        fields = "__all__"
 
+
+class AppointmentReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppointmentReport
+        fields = "__all__"
+
+
+class LabReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LabReport
+        fields = "__all__"
+
+
+class ImagingReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImagingReport
+        fields = "__all__"
+
+
+class SurgeryReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SurgeryReport
+        fields = "__all__"
+        
+        
 class LifeStyleHabitSerializer(serializers.ModelSerializer):
     class Meta():
         model = LifeStyleHabit

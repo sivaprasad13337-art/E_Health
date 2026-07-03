@@ -16,11 +16,23 @@ import FollowUpForm from "../forms/medical-reports-forms/follow-up";
 import { useEffect, useState } from "react";
 import LabDetailsForm from "../forms/medical-reports-forms/lab/lab-details";
 import ParseLabReport from "../forms/medical-reports-forms/lab/lap-report-parse";
+import { createMedicalReport, getAppointmentByCode } from "@/api/appointment";
+import { useParams } from "react-router-dom";
+import type { Appointment } from "@/features/appointment/interface/interface";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+// import { useHospitalStore } from "@/zustand/hospital";
 
 const WriteReport = () => {
+  const { id } = useParams();
+  const [type, setType] = useState("");
   const [appointmentFormData, setAppointmentFormData] = useState({
     title: "Cardiology",
-    type: "Cardiology",
+    type: "APPOINTMENT",
+    patient: 0,
+    doctor: [0],
+    appointment: 0,
+    follow_up: [],
     notes:
       "Patient is responding well to Amlodipine 5mg. Advised to reduce sodium intake, maintain regular exercise routine, and monitor BP at home twice daily. Stress management techniques recommended. Return for follow-up in 4 weeks.",
     vitals: {
@@ -61,19 +73,68 @@ const WriteReport = () => {
         },
       ],
     },
-    follow_up: {
-      date: "2026-07-10T18:30:00.000Z",
-      time: "11:00",
-    },
   });
 
-  const [labFormData, setLabFormData] = useState();
+  const [labFormData, setLabFormData] = useState({
+    title: "Cardiology",
+    type: "LAB",
+    patient: 0,
+    doctor: [0],
+    appointment: 0,
+    follow_up: [],
+    lab_details: {
+      name: "",
+      location: "",
+      collected: "",
+      reported: "",
+    },
+    tests: [],
+    lab_notes: "",
+    doctor_notes: "",
+  });
+
+  useEffect(() => {
+    const getAppointment = async () => {
+      const appointment: Appointment = await getAppointmentByCode(id);
+
+      if (appointment)
+        if (type === "Lab") {
+          setLabFormData((prev) => ({
+            ...prev,
+            appointment: appointment.id,
+            patient: appointment.patient.id,
+            doctor: [appointment.doctor.id],
+          }));
+        } else {
+          setAppointmentFormData((prev) => ({
+            ...prev,
+            appointment: appointment.id,
+            patient: appointment.patient.id,
+            doctor: [appointment.doctor.id],
+          }));
+        }
+    };
+
+    getAppointment();
+  }, [id, type]);
 
   useEffect(() => {
     console.log("====================================");
-    console.log("This is Report Form Data: ", appointmentFormData.type);
+    console.log("This is Report Form Data: ", labFormData);
     console.log("====================================");
-  }, [appointmentFormData]);
+  }, [labFormData]);
+
+  const handleUpload = async () => {
+    let payload;
+    if (type === "Lab") {
+      payload = labFormData;
+    } else {
+      payload = appointmentFormData;
+    }
+
+    const res = await createMedicalReport(payload);
+    console.log(res);
+  };
 
   const appointment = {
     apt_id: "APT-20260616-084",
@@ -151,11 +212,10 @@ const WriteReport = () => {
       children: LabDetailsForm,
       required: false,
     },
-    
   ];
 
   return (
-    <>
+    <section>
       <PatientCard appointment={appointment} />
 
       <div>
@@ -169,6 +229,7 @@ const WriteReport = () => {
             <ReportType.children
               formData={appointmentFormData}
               setFormData={setAppointmentFormData}
+              setType={setType}
             />
           }
           required={ReportType.required}
@@ -198,7 +259,7 @@ const WriteReport = () => {
           "Orthopedics",
           "Dermatology",
           "Other",
-        ].includes(appointmentFormData.type)
+        ].includes(type)
           ? AppointmentReportRender.map((card, idx) => (
               <MedicalDataAccordionCard
                 title={card.title}
@@ -216,25 +277,35 @@ const WriteReport = () => {
                 key={idx}
               />
             ))
-          : LabReportRender.map((card, idx) => (
-              <MedicalDataAccordionCard
-                title={card.title}
-                description={card.description}
-                Icon={card.Icon}
-                bg={card.bg}
-                text={card.text}
-                children={
-                  <card.children
-                    formData={appointmentFormData}
-                    setFormData={setAppointmentFormData}
-                  />
-                }
-                required={card.required}
-                key={idx}
-              />
-            ))}
+          : type === "Lab"
+            ? LabReportRender.map((card, idx) => (
+                <MedicalDataAccordionCard
+                  title={card.title}
+                  description={card.description}
+                  Icon={card.Icon}
+                  bg={card.bg}
+                  text={card.text}
+                  children={
+                    <card.children
+                      formData={labFormData}
+                      setFormData={setLabFormData}
+                    />
+                  }
+                  required={card.required}
+                  key={idx}
+                />
+              ))
+            : null}
       </div>
-    </>
+
+      <Card className="sticky left-0 bottom-0 rounded-none shadow-2xl">
+        <CardContent className="flex justify-end">
+          <Button className="rounded-sm px-6 py-5" onClick={handleUpload}>
+            Upload
+          </Button>
+        </CardContent>
+      </Card>
+    </section>
   );
 };
 

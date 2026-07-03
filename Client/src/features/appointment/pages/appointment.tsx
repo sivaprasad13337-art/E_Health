@@ -38,19 +38,22 @@ const AppointmentDetail = () => {
 
         <AppointmentDetailProgress appointment={appointment} bill={bill} />
 
-        <PeopleInvolved patient={appointment.patient} doctor={appointment.doctor}/>
+        <PeopleInvolved
+          patient={appointment.patient}
+          doctor={appointment.doctor}
+        />
 
         <section className="flex gap-6">
           <div className="w-[60%]">
-            <AppointmentDetailsCard appointment={appointment}/>
+            <AppointmentDetailsCard appointment={appointment} />
           </div>
 
           <div className="w-[40%]">
-            {bill && <AppointmentPaymentAndFollowUpCards bill={bill}/>}
+            {bill && <AppointmentPaymentAndFollowUpCards bill={bill} />}
           </div>
         </section>
 
-        <AppoitmentReportsAndDocuments />
+        <AppoitmentReportsAndDocuments appointment_id={appointment.id} />
       </>
     )
   );

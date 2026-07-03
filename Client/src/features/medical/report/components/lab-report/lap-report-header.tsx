@@ -1,9 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { formatDateForBill, formateDateAndTime } from "@/lib/utils";
+import type { LabReport } from "@/types/reports";
 import { AlertTriangle, BadgeX, FlaskConical } from "lucide-react";
 // import { Link } from "react-router-dom";
 
-function LabReportHeader({ action }: { action: boolean }) {
+function LabReportHeader({
+  report,
+  action,
+}: {
+  report: LabReport;
+  action: boolean;
+}) {
   // "patient_name": "Mr.SIVA PRASAD",
   //   "lab_details": {
   //       "name": "SRINIVASA CLINICAL LAB",
@@ -13,7 +21,7 @@ function LabReportHeader({ action }: { action: boolean }) {
   //   },
   return (
     <Card
-    className="px-6 py-10"
+      className="px-6 py-10"
       style={{ background: "linear-gradient(90deg, #166a9e 0%, #199193 100%)" }}
     >
       <CardContent className="flex justify-between items-center text-gray-200">
@@ -23,10 +31,11 @@ function LabReportHeader({ action }: { action: boolean }) {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold">CBC + Lipid Panel</h2>
+            <h2 className="text-xl font-bold">{report.title}</h2>
             <p className="text-sm font-semibold text-gray-300 my-2">
-              City Diagnostics Lab · Sample collected 3 Jun 2026, 8:00 AM ·
-              Fasting
+              {report.lab_details.name} · Sample collected{" "}
+              {formateDateAndTime(report.lab_details.collected)[0]}{" "}
+              {formateDateAndTime(report.lab_details.collected)[1]} · Fasting
             </p>
 
             <div className="my-2">
@@ -66,7 +75,11 @@ function LabReportHeader({ action }: { action: boolean }) {
           </div>
 
           <div>
-            <p className="text-gray-400">Reported</p> <p>3 Jun 2026, 4:30 PM</p>
+            <p className="text-gray-400">Reported</p>{" "}
+            <p>
+              {formateDateAndTime(report.lab_details.reported)[0]}{" "}
+              {formateDateAndTime(report.lab_details.reported)[1]}
+            </p>
           </div>
         </section>
         {/* <Link

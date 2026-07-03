@@ -11,6 +11,7 @@ import UnderlyingConditionsForm from "../forms/medical-history-forms/underlying-
 import SurgeryHistoryForm from "../forms/medical-history-forms/surgery-history-form";
 import AllergiesForm from "../forms/medical-history-forms/allergies-form";
 import LifestyleHabitsForm from "../forms/medical-history-forms/lifestyle-habits-form";
+// import { useState } from "react";
 
 const CardRenderData = [
   {
@@ -60,6 +61,19 @@ const CardRenderData = [
   },
 ];
 const MedicalHistoryForm = () => {
+  // const [formData, setFormData] = useState({
+  //   surgeryHistory: [
+  //     {
+  //       patient: 0,
+  //       surgery: "",
+  //       reason: "",
+  //       date: "",
+  //       hospital: "",
+  //       notes: "",
+  //       summary: "",
+  //     },
+  //   ],
+  // });
   return (
     <div>
       {CardRenderData.map((card, idx) => (
