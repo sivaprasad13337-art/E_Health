@@ -118,8 +118,8 @@ export type Surgery = {
 };
 
 export type LifestyleType = {
-  id: number,
-  patient: number,
+  id: number;
+  patient: number;
   smoking: string;
   alcohol: string;
   activity: string;
@@ -137,4 +137,5 @@ export interface PatientDetails {
   allergies: Allergy[];
   medicalConditions: MedicalCondition[];
   surgeries: Surgery[];
+  lifyeStyle: LifestyleType;
 }

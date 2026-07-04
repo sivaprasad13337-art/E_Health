@@ -95,7 +95,7 @@ const Service = ({ formData, setFormData }: CompsProps) => {
   };
 
   const handleService = (service: ServiceType) => {
-    console.log("CLICKED", service.id, "CURRENT:", formData.services);
+    // console.log("CLICKED", service.id, "CURRENT:", formData.services);
 
     setFormData((prev) => {
       const exists = prev.services.find((item) => item.id === service.id);

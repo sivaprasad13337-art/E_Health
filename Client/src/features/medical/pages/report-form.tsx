@@ -28,7 +28,7 @@ const WriteReport = () => {
   const [type, setType] = useState("");
   const [appointmentFormData, setAppointmentFormData] = useState({
     title: "Cardiology",
-    type: "APPOINTMENT",
+    type: "Cardiology",
     patient: 0,
     doctor: [0],
     appointment: 0,
@@ -73,11 +73,12 @@ const WriteReport = () => {
         },
       ],
     },
+    status: "Normal",
   });
 
   const [labFormData, setLabFormData] = useState({
     title: "Cardiology",
-    type: "LAB",
+    type: "Lab",
     patient: 0,
     doctor: [0],
     appointment: 0,
@@ -91,6 +92,7 @@ const WriteReport = () => {
     tests: [],
     lab_notes: "",
     doctor_notes: "",
+    status: "Normal",
   });
 
   useEffect(() => {

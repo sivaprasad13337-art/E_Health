@@ -50,7 +50,7 @@ const ReportTypeForm = ({
     setFormData((prev) => ({
       ...prev,
       title: data.title,
-      // type: data.type,
+      type: data.type,
       notes: data.note,
     }));
   };

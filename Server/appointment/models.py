@@ -52,6 +52,7 @@ class MedicalReport(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete = models.SET_NULL, blank=True, null=True, related_name='medical_reports')
     title = models.CharField(max_length=100)
     type = models.CharField(max_length=60)
+    status = models.CharField(max_length=20)
     follow_up = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

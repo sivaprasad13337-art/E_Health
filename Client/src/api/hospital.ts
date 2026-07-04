@@ -55,13 +55,29 @@ export const getDoctors = async () => {
 
 export const getDoctor = async (id: number) => {
   try {
-    const response = await apiClient.get(`/hospital/doctor/get/${id}`);
+    const response = await apiClient.get(`/hospital/doctor/get-by-uid/${id}`);
 
     if (response.status === 200) {
       const { setDoctor } = useHospitalStore.getState();
 
       setDoctor(response.data);
     }
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getDoctorByDocID = async (id: number) => {
+  try {
+    const response = await apiClient.get(`/hospital/doctor/get/${id}`);
+
+    // if (response.status === 200) {
+    //   const { setDoctor } = useHospitalStore.getState();
+
+    //   setDoctor(response.data);
+    // }
 
     return response.data;
   } catch (err) {

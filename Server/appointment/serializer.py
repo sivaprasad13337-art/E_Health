@@ -113,7 +113,7 @@ class MedicalRecordSerializer(serializers.ModelSerializer):
 
 class MedicalReportSerializer(serializers.ModelSerializer):
     # patient = PatientSerializer(read_only=True)
-    # doctor = DoctorSerializer(read_only=True)
+    doctor = DoctorSerializer(read_only=True, many = True)
     # appointment = AppointmentSerializer(read_only=True)
     
     class Meta():
@@ -131,5 +131,5 @@ class MedicalReportSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'appointment': {'read_only' : True},
             'patient': {'read_only' : True},
-            'doctor': {'read_only' : True}
+            # 'doctor': {'read_only' : True}
         }

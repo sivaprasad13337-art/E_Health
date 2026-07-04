@@ -1,3 +1,8 @@
+import {
+  getMedicalReportById,
+  getMedicalReportsByPatient,
+} from "@/api/appointment";
+import { getDoctor } from "@/api/hospital";
 import { DateFilter } from "@/components/shared-components/date-filter";
 import { Filter } from "@/components/shared-components/filter";
 import Searchbar from "@/components/shared-components/searchbar";
@@ -7,6 +12,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ReportTypes } from "@/data";
 import { detailedMedicalReport } from "@/data/paths";
+import { formateDateAndTime } from "@/lib/utils";
+import type { Doctor } from "@/types/hospital";
+import { useHospitalStore } from "@/zustand/hospital";
 import {
   ArrowRight,
   Bone,
@@ -17,11 +25,39 @@ import {
   FilterIcon,
 } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+interface Report {
+  id: number;
+  title: string;
+  type: string;
+  status: string;
+  lab_details: {
+    name: string;
+    location: string;
+    reported: string;
+    collected: string;
+  };
+  created_at: string;
+  updated_at: string;
+  patient: number;
+  appointment: number;
+  doctor: number[];
+}
 
 const Reports = () => {
   const filters = ReportTypes;
+  const { patient } = useHospitalStore();
+  const [reports, setReports] = useState<Report[]>([]);
+  useEffect(() => {
+    const getMedicalReports = async () => {
+      const data = await getMedicalReportsByPatient(patient?.id);
+      setReports(data);
+    };
+
+    getMedicalReports();
+  }, []);
 
   const renderConditions = [
     {
@@ -88,7 +124,7 @@ const Reports = () => {
     },
   ];
 
-  const [reports, setReports] = useState(Reports);
+  // const [reports, setReports] = useState(Reports);
   const [filter, setFilter] = useState("");
 
   const Icon = ({ cat }: { cat: string }) => {
@@ -104,6 +140,7 @@ const Reports = () => {
       ""
     );
   };
+
   const handleFilter = (filter: string) => {
     setReports(Reports.filter((item) => item.cat === filter));
     setFilter(filter);
@@ -123,11 +160,19 @@ const Reports = () => {
 
   const navigate = useNavigate();
 
-  const navigateToDetailPage = () => {
+  const navigateToDetailPage = (type: string, id: number) => {
     // const style = renderConditions.find((condition) =>
     //   condition.code === cat ? condition.text : "",
     // );
-    navigate(`${detailedMedicalReport}/rpt-1526`);
+    navigate(`${detailedMedicalReport}/${type}-${id}`);
+  };
+
+  const renderDoctor = async (ids: number[]) => {
+    console.log("====================================");
+    console.log(ids[0]);
+    console.log("====================================");
+    const doctor: Doctor = await getDoctor(ids[0]);
+    return `Dr. ${doctor.user.first_name} ${doctor.user.last_name}`;
   };
 
   return (
@@ -169,7 +214,7 @@ const Reports = () => {
                   />
                 </div> */}
 
-                  <Icon cat={report.cat} />
+                  <Icon cat={report.type} />
 
                   <Badge
                     className={
@@ -185,20 +230,24 @@ const Reports = () => {
                 </div>
 
                 <div className="my-4">
-                  <h2 className="font-bold text-gray-700">{report.name}</h2>
-                  <p className="font-semibold text-gray-500">{report.from}</p>
+                  <h2 className="font-bold text-gray-700">{report.title}</h2>
+                  <p className="font-semibold text-gray-500">
+                    {report.lab_details?.name
+                      ? report.lab_details.name
+                      : renderDoctor(report.doctor)}
+                  </p>
                 </div>
                 <Separator className="mt-2" />
 
                 <div className="flex justify-between items-center mt-4">
                   <p className="text-gray-500 text-sm font-semibold">
                     <Calendar1 className="w-4 h-4 inline-block -mt-1" />{" "}
-                    {report.date}
+                    {formateDateAndTime(report.created_at)[0]}
                   </p>
 
                   <Button
                     className="w-8 h-8 rounded-full bg-gray-200 cursor-pointer"
-                    onClick={() => navigateToDetailPage()}
+                    onClick={() => navigateToDetailPage(report.type, report.id)}
                   >
                     <ArrowRight className="text-gray-600" />
                   </Button>

@@ -10,9 +10,10 @@ import {
   MapPin,
   Verified,
 } from "lucide-react";
-import type { Doctor } from "../interface/interface";
-import { Link } from "react-router-dom";
-import { doctorProfile } from "@/data/paths";
+import { Link, useNavigate } from "react-router-dom";
+import { bookAppointment, doctorProfile } from "@/data/paths";
+import { useAppointmentStore } from "@/zustand/appointment";
+import type { Doctor } from "@/types/hospital";
 // ("@radix-ui/react-icons");
 
 // interface Doctor {
@@ -55,7 +56,17 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
   const color = specializations.find(
     (item) => item.specialization === doctor.specialization.name,
   );
+  const { Appointment, setAppointment } = useAppointmentStore();
+  const navigate = useNavigate();
 
+  const navigatToBooking = (doctor_id: number) => {
+    setAppointment({
+      ...Appointment!,
+      doctor: doctor_id,
+    });
+
+    navigate(bookAppointment);
+  };
   console.log("====================================");
   console.log(doctor);
   console.log("====================================");
@@ -151,7 +162,10 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
               </p>
             </div>
 
-            <Button className="py-6 px-6 rounded-4xl">
+            <Button
+              className="py-6 px-6 rounded-4xl"
+              onClick={() => navigatToBooking(doctor.id)}
+            >
               <CalendarDays /> Book Appointment
             </Button>
           </div>

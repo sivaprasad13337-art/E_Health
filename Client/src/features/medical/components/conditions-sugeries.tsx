@@ -104,15 +104,15 @@ const Allergies = [
   },
 ];
 
-const Lifestyle = [
-  { name: "Smoking", status: "NO", icon: Cigarette },
-  { name: "Alcohol", status: "Occasional", icon: Beer },
-  { name: "Exercise", status: "3x/week", icon: SportShoe },
-  { name: "Diet", status: "Vegetarian", icon: UtensilsCrossed },
-  { name: "Sleep", status: "7–8 hrs", icon: Cigarette },
-  { name: "Medication", status: "Active", icon: Pill },
-];
 const ConditionsAndSurgeries = ({ patient }: { patient: PatientDetails }) => {
+  const Lifestyle = [
+    { name: "Smoking", status: patient.lifyeStyle?.smoking, icon: Cigarette },
+    { name: "Alcohol", status: patient.lifyeStyle?.alcohol, icon: Beer },
+    { name: "Activity", status: patient.lifyeStyle?.activity, icon: SportShoe },
+    { name: "Diet", status: patient.lifyeStyle?.diet, icon: UtensilsCrossed },
+    { name: "Sleep", status: patient.lifyeStyle?.sleep, icon: Cigarette },
+    { name: "Medication", status: patient.lifyeStyle?.taking_medication, icon: Pill },
+  ];
   return (
     <section>
       <p className="font-bold">Medical History</p>

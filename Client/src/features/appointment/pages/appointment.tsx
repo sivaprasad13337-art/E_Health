@@ -53,7 +53,7 @@ const AppointmentDetail = () => {
           </div>
         </section>
 
-        <AppoitmentReportsAndDocuments appointment_id={appointment.id} />
+        <AppoitmentReportsAndDocuments appointment={appointment} />
       </>
     )
   );

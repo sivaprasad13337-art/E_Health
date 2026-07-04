@@ -15,6 +15,8 @@ export interface BillingDetail {
   discount_percentage: string;
   amount_paid: string;
   transaction_status: string;
+  payment_method: string;
+  razorpay_payment_id: string;
   created_at: string;
   updated_at: string;
 }

@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
 from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer, LifeStyleHabitSerializer, AllergySerializer, MedicalConditionSerializer, SurgerySerializer
-from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery
+from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery, AppointmentReport, ImagingReport, LabReport, SurgeryReport
 from utils.utils import get_doc_and_patient, generate_numeric_code
 from utils.parse import parse_lab_report
 import traceback
@@ -22,10 +22,14 @@ from .serializer import (
 
 
 REPORT_SERIALIZERS = {
-    "APPOINTMENT": AppointmentReportSerializer,
-    "LAB": LabReportSerializer,
-    "IMAGING": ImagingReportSerializer,
-    "SURGERY": SurgeryReportSerializer,
+    "Cardiology": AppointmentReportSerializer,
+    "Neurology": AppointmentReportSerializer,
+    "Pulmonology": AppointmentReportSerializer,
+    "Orthopedics": AppointmentReportSerializer,
+    "Dermatology": AppointmentReportSerializer,
+    "Lab": LabReportSerializer,
+    "Imaging": ImagingReportSerializer,
+    "Surgical": SurgeryReportSerializer,
 }
 
 # from rest_framework.authentication import SessionAuthentication
@@ -353,16 +357,20 @@ def get_medical_report_by_id(request, report_type, id):
 
     return Response(serializer.data)
 
-
 @api_view(["GET"])
 def get_medical_reports_by_patient(request, id):
     
     data = []
 
-    for serializer_class in REPORT_SERIALIZERS.values():
-        reports = serializer_class.Meta.model.objects.filter(patient_id=id)
-        serializer = serializer_class(reports, many=True)
-        data.extend(serializer.data)
+    appointment_reports = AppointmentReport.objects.filter(patient_id=id)
+    lab_reports = LabReport.objects.filter(patient_id=id)
+    imaging_reports = ImagingReport.objects.filter(patient_id=id)
+    surgery_reports = SurgeryReport.objects.filter(patient_id=id)
+
+    data.extend(AppointmentReportSerializer(appointment_reports, many=True).data)
+    data.extend(LabReportSerializer(lab_reports, many=True).data)
+    data.extend(ImagingReportSerializer(imaging_reports, many=True).data)
+    data.extend(SurgeryReportSerializer(surgery_reports, many=True).data)
 
     return Response(data)
 
@@ -371,14 +379,23 @@ def get_medical_reports_by_patient(request, id):
 def get_medical_reports_by_appointment(request, id):
     
     data = []
+# for serializer_class in REPORT_SERIALIZERS.values():
+#         reports = serializer_class.Meta.model.objects.filter(appointment_id=id)
+#         serializer = serializer_class(reports, many=True)
+#         data.extend(serializer.data)
 
-    for serializer_class in REPORT_SERIALIZERS.values():
-        reports = serializer_class.Meta.model.objects.filter(appointment_id=id)
-        serializer = serializer_class(reports, many=True)
-        data.extend(serializer.data)
+#     return Response(data)
+    appointment_reports = AppointmentReport.objects.filter(appointment_id=id)
+    lab_reports = LabReport.objects.filter(appointment_id=id)
+    imaging_reports = ImagingReport.objects.filter(appointment_id=id)
+    surgery_reports = SurgeryReport.objects.filter(appointment_id=id)
+
+    data.extend(AppointmentReportSerializer(appointment_reports, many=True).data)
+    data.extend(LabReportSerializer(lab_reports, many=True).data)
+    data.extend(ImagingReportSerializer(imaging_reports, many=True).data)
+    data.extend(SurgeryReportSerializer(surgery_reports, many=True).data)
 
     return Response(data)
-
 
 @api_view(["DELETE"])
 def delete_medical_report(request, report_type, pk):

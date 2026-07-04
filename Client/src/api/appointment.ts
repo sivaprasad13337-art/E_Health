@@ -86,3 +86,14 @@ export const getMedicalReportById = async (type: string, id: number) => {
     console.error(err);
   }
 };
+
+export const getMedicalReportsByPatient = async (id: number) => {
+  try {
+    const response = await apiClient.get(
+      `appointment/medical-report/patient/get/${id}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

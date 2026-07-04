@@ -19,12 +19,35 @@ const MedicalDetailedReport = () => {
     getReport();
   }, []);
 
+  //   [
+  //   "Lab",
+  //   "Imaging",
+  //   "Prescription",
+  //   "Discharge Summary",
+  //   "Surgical",
+  //   "Vaccination",
+  //   "Cardiology",
+  //   "Neurology",
+  //   "Pulmonology",
+  //   "Orthopedics",
+  //   "Dermatology",
+  //   "Other",
+  // ];
+
   return (
     <>
       {report
-        ? type[0] === "APPOINTMENT" && <AppointmentReport report={report} />
+        ? [
+            "Cardiology",
+            "Neurology",
+            "Pulmonology",
+            "Orthopedics",
+            "Dermatology",
+          ].includes(type[0]) && <AppointmentReport report={report} />
         : null}
-      {report ? type[0] === "LAB" && <LabReport report={report} /> : null}
+      {report
+        ? ["Lab"].includes(type[0]) && <LabReport report={report} />
+        : null}
     </>
   );
 };

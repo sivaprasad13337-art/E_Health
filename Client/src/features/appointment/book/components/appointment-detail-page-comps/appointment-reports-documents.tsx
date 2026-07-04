@@ -3,10 +3,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { detailedMedicalReport, medicalReport, writeMedicalReport } from "@/data/paths";
+import {
+  detailedMedicalReport,
+  medicalReport,
+  writeMedicalReport,
+} from "@/data/paths";
+import type { Appointment } from "@/features/appointment/interface/interface";
 import {
   AlertTriangle,
   Clock,
+  Eye,
   FileClock,
   // FilePenLineIcon,
   FilePlus,
@@ -47,7 +53,9 @@ const ReportCards = ({ report }) => {
           <Badge className="p-4 text-blue-600 bg-blue-100">Needs review</Badge>
           <Button
             className="flex text-blue-600 bg-blue-100 py-6 px-5 hover:bg-blue-200 cursor-pointer"
-            onClick={() => navigate(`${detailedMedicalReport}/${report.type}-${report.id}`)}
+            onClick={() =>
+              navigate(`${detailedMedicalReport}/${report.type}-${report.id}`)
+            }
           >
             <NotebookText /> View & add notes
           </Button>
@@ -57,23 +65,99 @@ const ReportCards = ({ report }) => {
   );
 };
 
+const DoctorReportCard = ({ report }) => {
+  const navigate = useNavigate();
+
+  return (
+    <Card className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6">
+      <div className="absolute top-0 left-0 bg-amber-400 h-full w-1.5"></div>
+      <CardContent className="flex justify-between">
+        <section className="flex gap-6 items-center">
+          <div className="w-14 h-14 flex justify-center items-center rounded-md bg-amber-100 text-amber-600">
+            <FlaskConical />
+          </div>
+
+          <div>
+            <p className="text-lg font-semibold">
+              {report.title} Consultation Report
+            </p>
+            <p className="text-gray-600 font-semibold">
+              Written by Dr. Meera Nair after this visit · Covers: diagnosis,
+              vitals recorded during visit, prescription, doctor notes,
+              follow-up recommendation
+            </p>
+
+            {/* <Badge className="p-3 mt-3 bg-yellow-100 text-yellow-700">
+              <AlertTriangle className="icon-text mt-0.5" /> Not written yet —
+              appointment is in progress
+            </Badge> */}
+          </div>
+        </section>
+
+        <section className="flex flex-col items-end gap-2">
+          {/* <Badge className="p-4 text-blue-600 bg-blue-100">Needs review</Badge> */}
+          <Button
+            className="flex text-amber-600 bg-amber-100 py-6 px-5 hover:bg-amber-200 cursor-pointer"
+            onClick={() =>
+              navigate(`${detailedMedicalReport}/${report.type}-${report.id}`)
+            }
+          >
+            <Eye /> View
+          </Button>
+        </section>
+      </CardContent>
+    </Card>
+  );
+};
+
 const AppoitmentReportsAndDocuments = ({
-  appointment_id,
+  appointment,
 }: {
-  appointment_id: number;
+  appointment: Appointment;
 }) => {
   const [reports, setReports] = useState([]);
   const [appointmentReport, setAppointmentReport] = useState([]);
   useEffect(() => {
     const getReports = async () => {
-      const data = await getMedicalReportsByAppointment(appointment_id);
+      const data = await getMedicalReportsByAppointment(appointment.id);
+      console.log("====================================");
+      console.log(data);
+      console.log("====================================");
 
-      setAppointmentReport(data.filter((item) => item.type == "APPOINTMENT"));
-      setReports(data.filter((item) => item.type !== "APPOINTMENT"));
+      setAppointmentReport(
+        data.filter((item) =>
+          [
+            "Cardiology",
+            "Neurology",
+            "Pulmonology",
+            "Orthopedics",
+            "Dermatology",
+            "Other",
+          ].includes(item.type),
+        ),
+      );
+      setReports(
+        data.filter((item) =>
+          [
+            "Lab",
+            "Imaging",
+            "Prescription",
+            "Discharge Summary",
+            "Surgical",
+            "Vaccination",
+          ].includes(item.type),
+        ),
+      );
     };
 
     getReports();
   }, []);
+
+  useEffect(() => {
+    console.log("====================================");
+    console.log(appointmentReport, reports);
+    console.log("====================================");
+  }, [reports, appointmentReport]);
   return (
     <Card className="px-4 py-6">
       <CardTitle className="px-4">
@@ -86,8 +170,13 @@ const AppoitmentReportsAndDocuments = ({
           by lab or patient, auto-parsed)
         </p>
 
-        {reports.length &&
-          reports.map((item) => <ReportCards report={item} key={item.title} />)}
+        {reports.length ? (
+          reports.map((item) => <ReportCards report={item} key={item.title} />)
+        ) : (
+          <div className="text-center my-4 font-semibold text-lg text-gray-500">
+            No Reports have been uploaded
+          </div>
+        )}
 
         <Separator className="bg-gray-400 my-4" />
 
@@ -96,8 +185,13 @@ const AppoitmentReportsAndDocuments = ({
           (written by doctor after visit)
         </p>
 
-        {appointmentReport.length &&
-          appointmentReport.map((item) => <ReportCards report={item} />)}
+        {appointmentReport.length ? (
+          appointmentReport.map((item) => <DoctorReportCard report={item} />)
+        ) : (
+          <div className="text-center my-4 font-semibold text-lg text-gray-500">
+            Not written yet — appointment is in progress
+          </div>
+        )}
 
         <Separator className="bg-gray-400 my-4" />
 
@@ -129,7 +223,7 @@ const AppoitmentReportsAndDocuments = ({
 
             <section className="w-[30%]">
               <Link
-                to={`${writeMedicalReport}/rpt-16257`}
+                to={`${writeMedicalReport}/${appointment.appointment_code}`}
                 className="flex text-gray-700 bg-white py-3.5 justify-center rounded-md hover:bg-gray-100 cursor-pointer w-full"
               >
                 <FilePlus className="icon-text mt-0.5 mr-1" /> Start writing

@@ -49,7 +49,7 @@ const LifestyleHabitsForm = () => {
       const data = await getLifeStyle(patient.id);
 
       if (!data) return;
-      setMode('')
+      setMode('edit')
 
       form.reset({
         smoking: data.smoking ?? "",

@@ -34,6 +34,8 @@ class BillingDetailSerializer(serializers.ModelSerializer):
                   'discount_percentage',
                   'amount_paid',
                   'transaction_status',
+                  'payment_method',
+                  'razorpay_payment_id',
                   'created_at',
                   'updated_at'
                  ]

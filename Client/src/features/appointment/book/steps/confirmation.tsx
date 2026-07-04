@@ -13,6 +13,9 @@ import {
   Verified,
   // VideoIcon,
 } from "lucide-react";
+import InvoiceDocument, { InvoiceDownloadButton } from "../components/invoice";
+import { Link } from "react-router-dom";
+import { dashboard } from "@/data/paths";
 
 const Confirmation = () => {
   const { Order } = useOrderStore();
@@ -99,6 +102,17 @@ const Confirmation = () => {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="flex mt-6 justify-around">
+        <InvoiceDownloadButton className="p-3 block w-[45%] text-center border border-white bg-primary/80 text-white rounded-2xl hover:bg-primary/90" />
+
+        <Link
+          to={dashboard}
+          className="p-3 block w-[45%] text-center border border-gray-700 rounded-2xl font-bold text-gray-600 hover:bg-gray-300"
+        >
+          Go to Dashboard
+        </Link>
       </section>
     </section>
   );

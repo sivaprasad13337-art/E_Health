@@ -191,6 +191,7 @@ const BrowseDoctors = () => {
   //   callPaginate();
   // }, []);
 
+
   return (
     <section>
       <section>

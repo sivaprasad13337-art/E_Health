@@ -56,6 +56,14 @@ def get_doctor(request, id):
         return Response(doctor, status=status.HTTP_200_OK)
     
 
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_doctor_by_id(request, id):
+        print("hitting the right one")
+        res = get_object_or_404(Doctor, id = id)
+        doctor = DoctorSerializer(res).data
+        return Response(doctor, status=status.HTTP_200_OK)
+
 @api_view(['PATCH'])
 # @permission_classes([IsAuthenticated, IsOwnerOrAdmin])
 def update_doctor(request, id):

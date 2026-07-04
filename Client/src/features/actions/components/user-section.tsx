@@ -2,33 +2,35 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Activity, Clock3, Droplet, Ruler, Scale } from "lucide-react";
 import AccountInfo from "./user-account-info";
 import type { User } from "@/types/users";
+import { useHospitalStore } from "@/zustand/hospital";
 
 const UserSection = ({ user }: { user: User }) => {
+  const {patient} = useHospitalStore()
   const HealthInfo = [
     {
       title: "Blood group",
-      data: "B+",
+      data: patient?.blood_group,
       icon: Droplet,
       bg: "bg-red-100",
       text: "text-red-600",
     },
     {
       title: "Age yrs",
-      data: "23",
+      data: patient?.age,
       icon: Clock3,
       bg: "bg-teal-100",
       text: "text-teal-600",
     },
     {
       title: "Height cm",
-      data: "181",
+      data: patient?.height,
       icon: Ruler,
       bg: "bg-sky-100",
       text: "text-sky-600",
     },
     {
       title: "Weight kg",
-      data: "80",
+      data: patient?.weight,
       icon: Scale,
       bg: "bg-blue-100",
       text: "text-blue-600",

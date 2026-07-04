@@ -1,7 +1,12 @@
 import ConditionsAndSurgeries from "../components/conditions-sugeries";
 import PatientCard from "../components/patient-header-card";
 import VitalsCards from "../components/vitals-cards";
-import { getAllergies, getMedicalConditions, getSurgeries } from "@/api/records";
+import {
+  getAllergies,
+  getLifeStyle,
+  getMedicalConditions,
+  getSurgeries,
+} from "@/api/records";
 import { useHospitalStore } from "@/zustand/hospital";
 import { useEffect, useState } from "react";
 import type { PatientDetails } from "../interface";
@@ -23,28 +28,34 @@ const History = () => {
     bloog_grp: patient?.blood_group || "",
     allergies: [],
     medicalConditions: [],
-    surgeries: []
+    surgeries: [],
   });
 
-  const getMedicalConditionsBypatient = async () => {
+  const getMedicalConditionsByPatient = async () => {
     const data = await getMedicalConditions(patient?.id);
     setPatientDetails((prev) => ({ ...prev, medicalConditions: data }));
   };
 
-  const getAllergiesBypatient = async () => {
+  const getAllergiesByPatient = async () => {
     const data = await getAllergies(patient?.id);
     setPatientDetails((prev) => ({ ...prev, allergies: data }));
   };
 
-    const getSurgeriessBypatient = async () => {
+  const getSurgeriesByPatient = async () => {
     const data = await getSurgeries(patient?.id);
     setPatientDetails((prev) => ({ ...prev, surgeries: data }));
   };
 
+  const getLifestyleByPatient = async () => {
+    const data = await getLifeStyle(patient?.id);
+    setPatientDetails((prev) => ({ ...prev, lifyeStyle: data }));
+  };
+
   useEffect(() => {
-    getMedicalConditionsBypatient();
-    getAllergiesBypatient();
-    getSurgeriessBypatient()
+    getMedicalConditionsByPatient();
+    getAllergiesByPatient();
+    getSurgeriesByPatient();
+    getLifestyleByPatient();
   }, []);
   return (
     <>
@@ -52,7 +63,7 @@ const History = () => {
 
       <VitalsCards />
 
-      <ConditionsAndSurgeries patient={patientDetails}/>
+      <ConditionsAndSurgeries patient={patientDetails} />
     </>
   );
 };
