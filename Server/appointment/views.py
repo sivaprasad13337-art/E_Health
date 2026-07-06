@@ -277,7 +277,9 @@ def parse(request):
 def create_medical_report(request):
 
     report_type = request.data.get("type")
-    print(report_type)
+    # doctor = get_object_or_404(Doctor, id = request.data["doctor"][0])
+    appointment = get_object_or_404(Appointment, id = request.data["appointment"])
+    print(request.data)
 
     serializer_class = REPORT_SERIALIZERS.get(report_type)
 
@@ -291,7 +293,7 @@ def create_medical_report(request):
 
     if serializer.is_valid():
         print(serializer.validated_data)
-        serializer.save()
+        serializer.save(appointment = appointment, doctor = request.data["doctor"])
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -332,14 +334,15 @@ def get_medical_reports(request, report_type):
     if serializer_class is None:
         return Response(
             {"error": "Invalid report type"},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
-    reports = serializer_class.Meta.model.objects.all()
+    reports = (serializer_class.Meta.model.objects.filter(type=report_type).order_by("-created_at"))
 
     serializer = serializer_class(reports, many=True)
 
     return Response(serializer.data)
+
 
 
 @api_view(["GET"])

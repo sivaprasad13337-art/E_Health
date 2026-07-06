@@ -33,22 +33,23 @@ const History = () => {
 
   const getMedicalConditionsByPatient = async () => {
     const data = await getMedicalConditions(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, medicalConditions: data }));
+    if (data)
+      setPatientDetails((prev) => ({ ...prev, medicalConditions: data }));
   };
 
   const getAllergiesByPatient = async () => {
     const data = await getAllergies(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, allergies: data }));
+    if (data) setPatientDetails((prev) => ({ ...prev, allergies: data }));
   };
 
   const getSurgeriesByPatient = async () => {
     const data = await getSurgeries(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, surgeries: data }));
+    if (data) setPatientDetails((prev) => ({ ...prev, surgeries: data }));
   };
 
   const getLifestyleByPatient = async () => {
     const data = await getLifeStyle(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, lifyeStyle: data }));
+    if (data) setPatientDetails((prev) => ({ ...prev, lifyeStyle: data }));
   };
 
   useEffect(() => {

@@ -23,13 +23,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { MedicalReportFromProps } from "../../interface";
+// import type { MedicalReportFromProps } from "../../interface";
+
+type ReportType = { title: string; type: string; notes: string };
+interface ReportTypeFormProps {
+  formData: ReportType;
+  setFormData: (args: ReportType) => void;
+}
 
 const ReportTypeForm = ({
   formData,
   setFormData,
-  setType,
-}: MedicalReportFromProps) => {
+  // setType,
+}: ReportTypeFormProps) => {
   const defaultValues = {
     title: formData.title,
     note: formData.notes,
@@ -46,13 +52,18 @@ const ReportTypeForm = ({
     console.log("set User Form", data);
     console.log("====================================");
 
-    setType(data.type);
-    setFormData((prev) => ({
-      ...prev,
+    // setType(data.type);
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   title: data.title,
+    //   type: data.type,
+    //   notes: data.note,
+    // }));
+    setFormData({
       title: data.title,
       type: data.type,
       notes: data.note,
-    }));
+    });
   };
 
   return (

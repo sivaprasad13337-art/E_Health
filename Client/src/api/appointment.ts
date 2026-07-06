@@ -87,6 +87,18 @@ export const getMedicalReportById = async (type: string, id: number) => {
   }
 };
 
+// medical-report/get/
+export const getMedicalReportsByType = async (type: string) => {
+  try {
+    const response = await apiClient.get(
+      `appointment/medical-report/get/${type}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const getMedicalReportsByPatient = async (id: number) => {
   try {
     const response = await apiClient.get(

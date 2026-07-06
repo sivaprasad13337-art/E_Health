@@ -1,8 +1,9 @@
 import {
-  getMedicalReportById,
+  // getMedicalReportById,
+  getMedicalReportsByType,
   getMedicalReportsByPatient,
 } from "@/api/appointment";
-import { getDoctor, getDoctorByDocID } from "@/api/hospital";
+// import { getDoctor, getDoctorByDocID } from "@/api/hospital";
 import { DateFilter } from "@/components/shared-components/date-filter";
 import { Filter } from "@/components/shared-components/filter";
 import Searchbar from "@/components/shared-components/searchbar";
@@ -43,7 +44,7 @@ interface Report {
   updated_at: string;
   patient: number;
   appointment: number;
-  doctor: number[];
+  doctor: Doctor[];
 }
 
 const Reports = () => {
@@ -141,9 +142,12 @@ const Reports = () => {
     );
   };
 
-  const handleFilter = (filter: string) => {
-    setReports(Reports.filter((item) => item.cat === filter));
-    setFilter(filter);
+  const handleFilter = async (filter: string) => {
+    const data = await getMedicalReportsByType(filter);
+    if (data) {
+      setReports(data);
+      setFilter(filter);
+    }
   };
 
   const handleDateFilter = (data: string) => {
@@ -167,13 +171,13 @@ const Reports = () => {
     navigate(`${detailedMedicalReport}/${type}-${id}`);
   };
 
-  const renderDoctor = async (ids: number[]) => {
-    console.log("====================================");
-    console.log(ids[0]);
-    console.log("====================================");
-    const doctor: Doctor = await getDoctorByDocID(ids[0]);
-    return `Dr. ${doctor.user.first_name} ${doctor.user.last_name}`;
-  };
+  // const renderDoctor = async (ids: number[]) => {
+  //   console.log("====================================");
+  //   console.log(ids[0]);
+  //   console.log("====================================");
+  //   const doctor: Doctor = await getDoctorByDocID(ids[0]);
+  //   return `Dr. ${doctor.user.first_name} ${doctor.user.last_name}`;
+  // };
 
   return (
     <section>
@@ -234,7 +238,13 @@ const Reports = () => {
                   <p className="font-semibold text-gray-500">
                     {report.lab_details?.name
                       ? `${report.lab_details.name} Lab`
-                      : `Dr. ${report?.doctor[0]?.user.first_name} ${report?.doctor[0]?.user.last_name}`}
+                      : `Dr. ${
+                          report.doctor.length > 1
+                            ? ` ${report?.doctor[0]?.user.first_name}
+                              ${report?.doctor[0]?.user.last_name} & ...`
+                            : ` ${report?.doctor[0]?.user.first_name}
+                              ${report?.doctor[0]?.user.last_name}`
+                        } `}
                   </p>
                 </div>
                 <Separator className="mt-2" />

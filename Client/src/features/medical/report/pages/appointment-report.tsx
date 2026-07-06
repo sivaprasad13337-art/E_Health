@@ -27,7 +27,7 @@ const AppointmentReport = ({
   const Vitals = [
     {
       vital: "Blood pressure",
-      value: "138/88 mmHg",
+      value: `${report.vitals.blood_pressure} mmHg`,
       status: "Elevated",
       bg: "blue-100",
       text: "blue-600",
@@ -35,7 +35,7 @@ const AppointmentReport = ({
     },
     {
       vital: "Heart rate",
-      value: "88 bpm",
+      value: `${report.vitals.heart_rate} bpm`,
       status: "Normal",
       bg: "red-100",
       text: "red-600",
@@ -43,7 +43,7 @@ const AppointmentReport = ({
     },
     {
       vital: "Temperature",
-      value: "98.4 °F",
+      value: `${report.vitals.temperature} °F`,
       status: "Normal",
       bg: "yellow-100",
       text: "yellow-500",
@@ -51,7 +51,7 @@ const AppointmentReport = ({
     },
     {
       vital: "SpO₂",
-      value: "98%",
+      value: `${report.vitals.spo2}%`,
       status: "Normal",
       bg: "sky-100",
       text: "sky-600",
@@ -59,7 +59,7 @@ const AppointmentReport = ({
     },
     {
       vital: "Weight",
-      value: "68 kg",
+      value: `${report.vitals.weight} kg`,
       status: "Normal",
       bg: "orange-100",
       text: "orange-600",
@@ -83,7 +83,8 @@ const AppointmentReport = ({
             </div>
             <p>
               {report.title} Report Visit on{" "}
-              {formatDateForBill(report.appointment.date)} · {report.appointment.appointment_type}
+              {formatDateForBill(report.appointment.date)} ·{" "}
+              {report.appointment.appointment_type}
             </p>
           </div>
 
@@ -106,9 +107,14 @@ const AppointmentReport = ({
               <Pic className="w-14 h-14" img="" />
 
               <div>
-                <p className="font-bold">Dr. {report.doctor[0].user.first_name} {report.doctor[0].user.last_name}</p>
+                <p className="font-bold">
+                  Dr. {report.doctor[0].user.first_name}{" "}
+                  {report.doctor[0].user.last_name}
+                </p>
                 <p className="my-1 font-semibold text-gray-600">
-                  {report.doctor[0].specialization.name} · {report.doctor[0].education} ({report.doctor[0].department.name})
+                  {report.doctor[0].specialization.name} ·{" "}
+                  {report.doctor[0].education} (
+                  {report.doctor[0].department.name})
                 </p>
                 <p className="text-gray-500">
                   Apollo Hospital, Chennai · Reg: MCI-48291
@@ -128,22 +134,19 @@ const AppointmentReport = ({
               <div className="p-4 bg-gray-200 rounded-md">
                 <p className="text-gray-700">Primary diagnosis</p>
                 <p className="font-semibold">
-                  Essential Hypertension (Stage 1) — I10
+                  {report.diagnosis_and_findings.primary_diagnosis}
                 </p>
               </div>
 
               <div className="p-4 bg-gray-200 rounded-md my-2">
                 <p className="text-gray-700">Secondary finding</p>
                 <p className="font-semibold">
-                  Mild tachycardia — under observation
+                  {report.diagnosis_and_findings.secondary_findings}
                 </p>
               </div>
 
               <p className="font-semibold text-gray-500">
-                Patient presented with elevated BP readings over the past 3
-                months. ECG shows normal sinus rhythm. Echo findings within
-                normal limits. Continue current medication and lifestyle
-                modifications advised.
+                {report.diagnosis_and_findings.notes}
               </p>
             </CardContent>
           </Card>
@@ -155,10 +158,7 @@ const AppointmentReport = ({
             </CardTitle>
             <CardContent className="bg-gray-200 p-4 rounded-md border-l-4 border-primary">
               <p className="font-semibold text-gray-500">
-                Patient is responding well to Amlodipine 5mg. Advised to reduce
-                sodium intake, maintain regular exercise routine, and monitor BP
-                at home twice daily. Stress management techniques recommended.
-                Return for follow-up in 4 weeks.
+               {report.notes}
               </p>
             </CardContent>
           </Card>
@@ -169,7 +169,7 @@ const AppointmentReport = ({
           <Card className="p-4">
             <CardTitle className="text-sm font-semibold px-5">
               <Activity className="inline-block w-4 h-4 -my-1 text-primary" />{" "}
-              Doctor's notes
+              Vitals
             </CardTitle>
             <CardContent className="">
               {Vitals.map((item) => (
@@ -206,12 +206,10 @@ const AppointmentReport = ({
               Prescription
             </CardTitle>
             <CardContent className="">
-              {Array(3)
-                .fill(0)
-                .map((item) => (
+              {report.prescription.medicines.map((item) => (
                   <div
                     className="flex justify-between items-center bg-gray-200 p-2 rounded-md my-3"
-                    key={item}
+                    key={item.medicine}
                   >
                     <div className="flex gap-4 items-center">
                       <div className="flex justify-center items-center bg-red-100 w-10 h-10 rounded-md">
@@ -220,16 +218,16 @@ const AppointmentReport = ({
 
                       <div>
                         <p className="font-bold text-gray-700">
-                          Amlodipine 5mg
+                          {item.medicine} {item.dosage}mg
                         </p>
                         <p className="text-[.9rem] text-gray-700 font-semibold">
-                          1 tablet · Once daily · After breakfast
+                          1 tablet · {item.frequency} · {item.time}
                         </p>
                       </div>
                     </div>
 
                     <Badge className="px-5 py-3 bg-teal-200 text-teal-600">
-                      30 days
+                      {item.duration} days
                     </Badge>
                   </div>
                 ))}

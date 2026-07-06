@@ -53,12 +53,13 @@ const PatientCard = ({
 
   const getMedicalConditionsBypatient = async () => {
     const data = await getMedicalConditions(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, medicalConditions: data }));
+    if (data)
+      setPatientDetails((prev) => ({ ...prev, medicalConditions: data }));
   };
 
   const getAllergiesBypatient = async () => {
     const data = await getAllergies(patient?.id);
-    setPatientDetails((prev) => ({ ...prev, allergies: data }));
+    if (data) setPatientDetails((prev) => ({ ...prev, allergies: data }));
   };
 
   useEffect(() => {

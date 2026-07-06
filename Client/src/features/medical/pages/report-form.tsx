@@ -25,51 +25,39 @@ import { Button } from "@/components/ui/button";
 
 const WriteReport = () => {
   const { id } = useParams();
-  const [type, setType] = useState("");
+  const [reportType, setReportType] = useState({
+    title: "",
+    type: "",
+    notes: "",
+  });
   const [appointmentFormData, setAppointmentFormData] = useState({
-    title: "Cardiology",
-    type: "Cardiology",
+    title: "",
+    type: "",
     patient: 0,
-    doctor: [1],
+    doctor: [0],
     appointment: 0,
     follow_up: [],
-    notes:
-      "Patient is responding well to Amlodipine 5mg. Advised to reduce sodium intake, maintain regular exercise routine, and monitor BP at home twice daily. Stress management techniques recommended. Return for follow-up in 4 weeks.",
+    notes: "",
     vitals: {
-      blood_pressure: "118/64",
-      heart_rate: 72,
-      temperature: 94,
-      spo2: 98,
-      weight: 65,
+      blood_pressure: "",
+      heart_rate: "",
+      temperature: "",
+      spo2: "",
+      weight: "",
     },
     diagnosis_and_findings: {
-      primary_diagnosis: "Essential Hypertension (Stage 1) — I10",
-      secondary_findings: "Mild tachycardia — under observation",
-      notes:
-        "Patient presented with elevated BP readings over the past 3 months. ECG shows normal sinus rhythm. Echo findings within normal limits. Continue current medication and lifestyle modifications advised.",
+      primary_diagnosis: "",
+      secondary_findings: "",
+      notes: "",
     },
     prescription: {
       medicines: [
         {
-          medicine: "Amlodipine",
-          dosage: 5,
-          frequency: "Once a day",
-          time: "After Breakfast",
-          duration: 30,
-        },
-        {
-          medicine: "Telmisartan",
-          dosage: 40,
-          frequency: "Once a day",
-          time: "Before Food",
-          duration: 30,
-        },
-        {
-          medicine: "Aspirin",
-          dosage: 75,
-          frequency: "Once a day",
-          time: "After Food",
-          duration: 15,
+          medicine: "",
+          dosage: "",
+          frequency: "",
+          time: "",
+          duration: "",
         },
       ],
     },
@@ -77,8 +65,8 @@ const WriteReport = () => {
   });
 
   const [labFormData, setLabFormData] = useState({
-    title: "Cardiology",
-    type: "Lab",
+    title: "",
+    type: "",
     patient: 0,
     doctor: [0],
     appointment: 0,
@@ -98,17 +86,20 @@ const WriteReport = () => {
   useEffect(() => {
     const getAppointment = async () => {
       const appointment: Appointment = await getAppointmentByCode(id);
-      console.log('====================================');
+      console.log("====================================");
       console.log(appointment);
-      console.log('====================================');
+      console.log("====================================");
 
       if (appointment)
-        if (type === "Lab") {
+        if (reportType.type === "Lab") {
           setLabFormData((prev) => ({
             ...prev,
             appointment: appointment.id,
             patient: appointment.patient.id,
             doctor: [appointment.doctor.id],
+            type: reportType.type,
+            title: reportType.title,
+            lab_notes: reportType.notes,
           }));
         } else {
           setAppointmentFormData((prev) => ({
@@ -116,22 +107,27 @@ const WriteReport = () => {
             appointment: appointment.id,
             patient: appointment.patient.id,
             doctor: [appointment.doctor.id],
+            type: reportType.type,
+            title: reportType.title,
+            notes: reportType.notes,
           }));
         }
     };
 
     getAppointment();
-  }, [id, type]);
+  }, [id, reportType]);
 
   useEffect(() => {
     console.log("====================================");
     console.log("This is Report Form Data: ", labFormData);
     console.log("====================================");
+    // setLabFormData((prev) => ({ ...prev, type: type }));
+    // setAppointmentFormData((prev) => ({ ...prev, type: type }));
   }, [labFormData]);
 
   const handleUpload = async () => {
     let payload;
-    if (type === "Lab") {
+    if (reportType.type === "Lab") {
       payload = labFormData;
     } else {
       payload = appointmentFormData;
@@ -232,9 +228,9 @@ const WriteReport = () => {
           text={ReportType.text}
           children={
             <ReportType.children
-              formData={appointmentFormData}
-              setFormData={setAppointmentFormData}
-              setType={setType}
+              formData={reportType}
+              setFormData={setReportType}
+              // setType={setReportType}
             />
           }
           required={ReportType.required}
@@ -264,7 +260,7 @@ const WriteReport = () => {
           "Orthopedics",
           "Dermatology",
           "Other",
-        ].includes(type)
+        ].includes(reportType.type)
           ? AppointmentReportRender.map((card, idx) => (
               <MedicalDataAccordionCard
                 title={card.title}
@@ -282,7 +278,7 @@ const WriteReport = () => {
                 key={idx}
               />
             ))
-          : type === "Lab"
+          : reportType.type === "Lab"
             ? LabReportRender.map((card, idx) => (
                 <MedicalDataAccordionCard
                   title={card.title}
