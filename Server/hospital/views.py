@@ -46,6 +46,14 @@ def get_doctors(rquest):
         return Response(DoctorSerializer(doctors, many = True).data, status=status.HTTP_200_OK)
     
     return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+  
+    
+# @api_view(['GET'])
+# # @permission_classes([IsAuthenticated])
+# def get_patients_by_doctor(request, id):
+#         res = get_list_or_404(Patient, doctor_id = id)
+#         patients = PatientSerializer(res, many=True).data
+#         return Response(patients, status=status.HTTP_200_OK)
     
 
 @api_view(['GET'])
@@ -88,6 +96,46 @@ def update_doctor_availability(request, id):
     doctor.save()
     
     return Response(DoctorSerializer(doctor).data, status=status.HTTP_200_OK)
+
+
+
+@api_view(['PATCH'])
+@permission_classes([IsRoleAdmin])
+def approve_doctor_role_request(request, id):
+    doctor = get_object_or_404(Doctor, id = id)
+    user = get_object_or_404(User, id = doctor.user.id)
+    
+    with transaction.atomic():
+        if user:
+            user.is_verified = True
+            user.save()
+        if user.role == 'DOCTOR':
+            doctor.verification_status = "Verified"
+            doctor.user.is_verified = True
+            doctor.save()
+            
+            return Response(DoctorSerializer(doctor).data, status=status.HTTP_200_OK)
+    
+    return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['PATCH'])
+@permission_classes([IsRoleAdmin])
+def reject_doctor_role_request(request, id):
+    doctor = get_object_or_404(Doctor, id = id)
+    user = get_object_or_404(User, id = doctor.user.id)
+    
+    with transaction.atomic():
+        if user:
+            user.is_verified = False
+            user.save()
+        if user.role == 'DOCTOR':
+            doctor.verification_status = "Rejected"
+            doctor.user.is_verified = False
+            doctor.save()
+            
+            return Response(DoctorSerializer(doctor).data, status=status.HTTP_200_OK)
+    
+    return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['DELETE'])

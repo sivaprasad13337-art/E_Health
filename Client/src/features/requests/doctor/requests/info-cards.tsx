@@ -1,38 +1,40 @@
 import { Card, CardContent } from "@/components/ui/card";
+import type { Doctor } from "@/types/hospital";
 import { CalendarCheck2, CheckCircle2, Clock, X } from "lucide-react";
-import type { Appointment } from "../interface/interface";
+// import type { doctor } from "../interface/interface";
 
-const InfoCards = ({ appointments }: { appointments: Appointment[] }) => {
+const InfoCards = ({ doctors }: { doctors: Doctor[] }) => {
   const RenderData = [
     {
-      title: "Total appointments",
-      data: appointments.length,
+      title: "Total doctors",
+      data: doctors.length,
       icon: CalendarCheck2,
       color: "green",
     },
 
     {
-      title: "Completed",
-      data: appointments.filter(
-        (appointment) => appointment.status === "COMPLETED",
+      title: "Pending",
+      data: doctors.filter(
+        (doctor) =>
+          doctor.verification_status === "Pending" && doctor.user.is_verified,
       ).length,
       icon: CheckCircle2,
       color: "blue",
     },
     {
-      title: "Upcoming",
-      data: appointments.filter(
-        (appointment) =>
-          appointment.status === "CONFIRMED" ||
-          appointment.status === "PENDING",
+      title: "Verified",
+      data: doctors.filter(
+        (doctor) =>
+          doctor.verification_status === "Verified" && doctor.user.is_verified,
       ).length,
       icon: Clock,
       color: "yellow",
     },
     {
-      title: "CANCELLED",
-      data: appointments.filter(
-        (appointment) => appointment.status === "CANCELLED",
+      title: "Rejected",
+      data: doctors.filter(
+        (doctor) =>
+          doctor.verification_status === "Rejected" && doctor.user.is_verified,
       ).length,
       icon: X,
       color: "red",

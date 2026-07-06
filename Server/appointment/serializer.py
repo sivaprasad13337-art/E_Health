@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, Surgery, MedicalCondition
 from hospital.serializers import DoctorSerializer, PatientSerializer
 
-from rest_framework import serializers
+# from rest_framework import serializers
 from .models import (
     AppointmentReport,
     LabReport,
@@ -10,57 +10,7 @@ from .models import (
     SurgeryReport,
     Vitals
 )
-class VitalsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vitals
-        fields = "__all__"
 
-
-class AppointmentReportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AppointmentReport
-        fields = "__all__"
-
-
-class LabReportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LabReport
-        fields = "__all__"
-
-
-class ImagingReportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ImagingReport
-        fields = "__all__"
-
-
-class SurgeryReportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SurgeryReport
-        fields = "__all__"
-        
-        
-class LifeStyleHabitSerializer(serializers.ModelSerializer):
-    class Meta():
-        model = LifeStyleHabit
-        fields = '__all__'
-        
-class AllergySerializer(serializers.ModelSerializer):
-    class Meta():
-        model = Allergy
-        fields = '__all__'
-        
-        
-class SurgerySerializer(serializers.ModelSerializer):
-    class Meta():
-        model = Surgery
-        fields = '__all__'
-        
-        
-class MedicalConditionSerializer(serializers.ModelSerializer):
-    class Meta():
-        model = MedicalCondition
-        fields = '__all__'
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
@@ -93,6 +43,96 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'updated_at': {'read_only': True}
             
         }
+
+class MedicalReportSerializer(serializers.ModelSerializer):
+    # patient = PatientSerializer(read_only=True)
+    doctor = DoctorSerializer(read_only=True, many=True)
+    appointment = AppointmentSerializer(read_only=True)
+
+    class Meta:
+        model = MedicalReport
+        fields = [
+            "id",
+            "patient",
+            "doctor",
+            "appointment",
+            "title",
+            "type",
+            "status",
+            "follow_up",
+            "created_at",
+            "updated_at",
+        ]
+        
+        
+class VitalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vitals
+        fields = "__all__"
+
+
+class AppointmentReportSerializer(MedicalReportSerializer):
+    class Meta(MedicalReportSerializer.Meta):
+        model = AppointmentReport
+        fields = MedicalReportSerializer.Meta.fields + [
+            "notes",
+            "prescription",
+            "vitals",
+            "diagnosis_and_findings",
+        ]
+
+
+class LabReportSerializer(MedicalReportSerializer):
+    class Meta(MedicalReportSerializer.Meta):
+        model = LabReport
+        fields = MedicalReportSerializer.Meta.fields + [
+            "lab_details",
+            "tests",
+            "lab_notes",
+            "doctor_notes",
+        ]
+
+
+class ImagingReportSerializer(MedicalReportSerializer):
+    class Meta(MedicalReportSerializer.Meta):
+        model = ImagingReport
+        fields = MedicalReportSerializer.Meta.fields + [
+            "scan",
+            "findings",
+            "impression",
+        ]
+
+
+class SurgeryReportSerializer(MedicalReportSerializer):
+    class Meta(MedicalReportSerializer.Meta):
+        model = SurgeryReport
+        fields = MedicalReportSerializer.Meta.fields + [
+            "surgery_name",
+            "surgeon_notes",
+        ]
+        
+        
+class LifeStyleHabitSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = LifeStyleHabit
+        fields = '__all__'
+        
+class AllergySerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Allergy
+        fields = '__all__'
+        
+        
+class SurgerySerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Surgery
+        fields = '__all__'
+        
+        
+class MedicalConditionSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = MedicalCondition
+        fields = '__all__'
         
         
         
@@ -110,26 +150,3 @@ class MedicalRecordSerializer(serializers.ModelSerializer):
             'notes'
         ]
         
-
-class MedicalReportSerializer(serializers.ModelSerializer):
-    # patient = PatientSerializer(read_only=True)
-    doctor = DoctorSerializer(read_only=True, many = True)
-    # appointment = AppointmentSerializer(read_only=True)
-    
-    class Meta():
-        model = MedicalReport
-        fields = [
-            'patient',
-            'doctor',
-            'appointment',
-            'prescription',
-            'vitals',
-            'tests',
-            'notes'
-        ]
-        
-        extra_kwargs = {
-            'appointment': {'read_only' : True},
-            'patient': {'read_only' : True},
-            # 'doctor': {'read_only' : True}
-        }

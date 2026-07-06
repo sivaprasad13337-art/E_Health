@@ -502,12 +502,12 @@ export const InvoiceDownloadButton = ({
     },
     pricing: {
       consultation_fee: Order?.appointment.doctor.consultation_fee,
-      platform_fee: Order?.discount_code,
+      platform_fee: "Nil",
       gst_rate: "18", // 18
       discount: Order?.discount,
-      subtotal: Order?.discount_code,
-      gst_amount: Order?.discount_code,
-      total: Order?.total_amount,
+      subtotal: Order?.amount_paid,
+      gst_amount: "Nil",
+      total: Order?.amount_paid,
     },
     gstin: "33ABCDE1234F1Z5", // "33ABCDE1234F1Z5"
   };

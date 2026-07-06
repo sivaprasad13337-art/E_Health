@@ -1,3 +1,6 @@
+import type { Appointment } from "@/features/appointment/interface/interface";
+import type { Doctor } from "./hospital";
+
 type Medicine = {
   time: string;
   dosage: number;
@@ -30,8 +33,8 @@ export interface AppointmentMedicalReport {
     secondary_findings: string;
   };
   patient: number;
-  appointment: number;
-  doctor: number[];
+  appointment: Appointment;
+  doctor: Doctor[];
 }
 
 export interface LabReport {

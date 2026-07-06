@@ -2,7 +2,7 @@ import {
   getMedicalReportById,
   getMedicalReportsByPatient,
 } from "@/api/appointment";
-import { getDoctor } from "@/api/hospital";
+import { getDoctor, getDoctorByDocID } from "@/api/hospital";
 import { DateFilter } from "@/components/shared-components/date-filter";
 import { Filter } from "@/components/shared-components/filter";
 import Searchbar from "@/components/shared-components/searchbar";
@@ -171,7 +171,7 @@ const Reports = () => {
     console.log("====================================");
     console.log(ids[0]);
     console.log("====================================");
-    const doctor: Doctor = await getDoctor(ids[0]);
+    const doctor: Doctor = await getDoctorByDocID(ids[0]);
     return `Dr. ${doctor.user.first_name} ${doctor.user.last_name}`;
   };
 
@@ -233,8 +233,8 @@ const Reports = () => {
                   <h2 className="font-bold text-gray-700">{report.title}</h2>
                   <p className="font-semibold text-gray-500">
                     {report.lab_details?.name
-                      ? report.lab_details.name
-                      : renderDoctor(report.doctor)}
+                      ? `${report.lab_details.name} Lab`
+                      : `Dr. ${report?.doctor[0]?.user.first_name} ${report?.doctor[0]?.user.last_name}`}
                   </p>
                 </div>
                 <Separator className="mt-2" />

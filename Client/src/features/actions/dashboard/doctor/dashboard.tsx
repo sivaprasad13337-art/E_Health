@@ -7,15 +7,41 @@ import AppoitmentsOverviewsCard from "../components/doctor/appointments-overview
 import WeeklySummaryCard from "../components/doctor/weekly-summary-card";
 import RecentPatientsCard from "../components/doctor/recent-patients";
 import { CalendarCheck2, FileClock, Star, Users } from "lucide-react";
+import type { Appointment } from "@/features/appointment/interface/interface";
+import { useEffect, useState } from "react";
+import { getAppointmentsByDoctor } from "@/api/appointment";
+// import { getPatientsByDoctor } from "@/api/hospital";
 // import type { bg } from "date-fns/locale";
 const DoctorDashboard = ({ user }: { user: User }) => {
   const { doctor } = useHospitalStore();
+  const [todaysAppointments, setTodaysAppointments] = useState<Appointment[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const getAppointments = async () => {
+      if (doctor) {
+        const data: Appointment[] = await getAppointmentsByDoctor(doctor?.id);
+
+        const today = new Date().toDateString();
+
+        setTodaysAppointments(
+          data.filter(
+            (appointment) =>
+              new Date(appointment.date).toDateString() === today,
+          ),
+        );
+      }
+    };
+
+    getAppointments();
+  }, [doctor]);
 
   const data = [
     {
       title: "Today's appointments",
       icon: CalendarCheck2,
-      content: 6,
+      content: todaysAppointments.length,
       description: "↑ 3",
       bg: "green-100",
       iconText: "green-500",
@@ -64,7 +90,7 @@ const DoctorDashboard = ({ user }: { user: User }) => {
 
       <section className="flex justify-between">
         <div className="w-[50%]">
-          <AppoitmentsOverviewsCard />
+          <AppoitmentsOverviewsCard appointments={todaysAppointments} />
         </div>
 
         <div className="w-[45%]">

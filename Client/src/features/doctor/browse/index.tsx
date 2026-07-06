@@ -146,9 +146,9 @@ const BrowseDoctors = () => {
     const newData = [];
     for (let i = limit - 6; i < limit - 4; i++) {
       newData.push(doctors[i]);
-      console.log("====================================");
-      console.log(i);
-      console.log("====================================");
+      // console.log("====================================");
+      // console.log(i);
+      // console.log("====================================");
     }
 
     console.log(newData);
@@ -164,7 +164,7 @@ const BrowseDoctors = () => {
       newData.push(doctors[i]);
     }
 
-    console.log(newData);
+    // console.log(newData);
 
     setData(newData);
     setLimit(limit + 2);
@@ -181,15 +181,7 @@ const BrowseDoctors = () => {
     };
 
     getAlldoctors();
-  });
-
-  // useEffect(() => {
-  //   const callPaginate = () => {
-  //     paginateNext();
-  //   };
-
-  //   callPaginate();
-  // }, []);
+  },[]);
 
 
   return (

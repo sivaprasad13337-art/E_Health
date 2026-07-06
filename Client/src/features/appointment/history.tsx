@@ -4,7 +4,10 @@ import AppointmentFilterAndSearch from "./appointments/filter-search";
 import InfoCards from "./appointments/info-cards";
 import type { Appointment } from "./interface/interface";
 import { useAuthStore } from "@/zustand/auth";
-import { getAppointmentsByPatient } from "@/api/appointment";
+import {
+  getAppointmentsByDoctor,
+  getAppointmentsByPatient,
+} from "@/api/appointment";
 import { useHospitalStore } from "@/zustand/hospital";
 
 const History = () => {
@@ -3141,9 +3144,9 @@ const History = () => {
   const [id, setId] = useState();
   const { doctor, patient } = useHospitalStore();
 
-  console.log('====================================');
+  console.log("====================================");
   console.log(patient);
-  console.log('====================================');
+  console.log("====================================");
   // if (user?.role === "DOCTOR") {
   //   setId(doctor?.id);
   // } else if (user?.role === "PATIENT") {
@@ -3153,11 +3156,11 @@ const History = () => {
   useEffect(() => {
     const getAppointments = async () => {
       if (user?.role === "DOCTOR") {
-        const data = await getAppointmentsByPatient(doctor?.id);
-        setAppointments(data);
+        const data = await getAppointmentsByDoctor(doctor?.id);
+        if(data) setAppointments(data);
       } else if (user?.role === "PATIENT") {
         const data = await getAppointmentsByPatient(patient?.id);
-        setAppointments(data);
+        if (data) setAppointments(data);
       }
     };
 

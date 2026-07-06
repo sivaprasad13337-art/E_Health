@@ -39,5 +39,9 @@ class UserSerializer(serializers.ModelSerializer):
             Patient.objects.create(user=user)
             user.is_verified = True
             user.save(update_fields=['is_verified'])
+        elif role == 'DOCTOR':
+            Doctor.objects.create(user=user, verification_status = "Pending")
+            user.is_verified = False
+            user.save(update_fields=['is_verified'])
             
         return user

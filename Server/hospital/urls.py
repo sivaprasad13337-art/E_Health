@@ -8,8 +8,11 @@ urlpatterns = [
     path('doctor/get/', views.get_doctors, name="Get-Doctors"),
     path('doctor/get-by-uid/<int:id>', views.get_doctor, name="Get-Doctor"),
     path('doctor/get/<int:id>', views.get_doctor_by_id, name="Get-Doctor"),
+    # path('doctor/get-by-patients/<int:id>', views.get_patients_by_doctor, name="Get-Doctor"),
     path('doctor/update/<int:id>', views.update_doctor, name="Update-Doctor"),
     path('doctor/update-availability/<int:id>', views.update_doctor_availability, name="Update-Doctor"),
+    path('doctor/approve-role-request/<int:id>', views.approve_doctor_role_request, name=""),
+    path('doctor/reject-role-request/<int:id>', views.reject_doctor_role_request, name=""),
     path('doctor/delete/<int:id>', views.delete_doctor, name="Update-Doctor"),
     
     path('specialization/create/', views.create_specialization, name="Create-Specialization"),

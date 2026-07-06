@@ -78,30 +78,35 @@ def get_unverified_list(request):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['PATCH'])
-def approve_role_request(request):
-    specialization_id = request.data['specialization_id']
-    department_id = request.data['department_id']
-    user_id = request.data['user_id']
-    user = get_object_or_404(User, id = user_id)
-    specialization = get_object_or_404(Specialization, id = specialization_id)
-    department = get_object_or_404(Department, id = department_id)
+# @api_view(['PATCH'])
+# @permission_classes([IsRoleAdmin])
+# def approve_role_request(request):
+#     specialization_id = request.data['specialization_id']
+#     department_id = request.data['department_id']
+#     user_id = request.data['user_id']
+#     user = get_object_or_404(User, id = user_id)
+#     specialization = get_object_or_404(Specialization, id = specialization_id)
+#     department = get_object_or_404(Department, id = department_id)
     
-    if user.is_verified:
-        return Response({"Message": "Already Verified!"}, status=status.HTTP_200_OK)
+#     if user.is_verified:
+#         return Response({"Message": "Already Verified!"}, status=status.HTTP_200_OK)
     
-    with transaction.atomic():
-        if user:
-            user.is_verified = True
-            user.save()
-        if user.role == 'DOCTOR':
-            doctor = Doctor.objects.create(user = user, specialization = specialization, department = department)
-            doctor.save()
+#     with transaction.atomic():
+#         if user:
+#             user.is_verified = True
+#             user.save()
+#         if user.role == 'DOCTOR':
+#             doctor = Doctor.objects.update_or_create(user = user, specialization = specialization, department = department, verification_status = "Verified")
+#             doctor.save()
             
-            return Response({"Message": "Approved!"}, status=status.HTTP_200_OK)
+#             return Response({"Message": "Approved!"}, status=status.HTTP_200_OK)
     
-    return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+#     return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
 
 
 @api_view(['POST'])

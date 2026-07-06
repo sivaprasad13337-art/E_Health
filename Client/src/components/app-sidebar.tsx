@@ -196,7 +196,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: "Appointments",
-        url: appointment,
+        url: appointmentHistoy,
         icon: <CalendarDays />,
         isActive: false,
         own: true,

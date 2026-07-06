@@ -12,6 +12,8 @@ BLOOD_GROUPS = (
     ("O+", "O+"),
     ("O-", "O-"),
 )
+
+Verification_Status_Options = (("Verified", "Verified"), ("Pending", "Pending"), ("Rejected", "Rejected"))
 # Create your models here.
 class Department(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
@@ -50,6 +52,7 @@ class Patient(models.Model):
     
 class Doctor(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
+    verification_status = models.CharField(max_length=20, choices=Verification_Status_Options)
     specialization = models.ForeignKey(Specialization, on_delete=models.SET_NULL, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     education = models.JSONField(default=list)

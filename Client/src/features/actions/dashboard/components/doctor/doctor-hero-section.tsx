@@ -49,7 +49,7 @@ const DoctorHeroSectionCard = ({
               )}
 
               <Badge className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-none mr-2 p-3">
-                {doctor?.department.name} · Apollo Hospital
+                {doctor?.department?.name} · Apollo Hospital
               </Badge>
 
               <Badge className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-none p-3">

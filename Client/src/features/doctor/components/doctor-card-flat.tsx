@@ -54,7 +54,7 @@ const specializations = [
 
 const CardFlat = ({ doctor }: { doctor: Doctor }) => {
   const color = specializations.find(
-    (item) => item.specialization === doctor.specialization.name,
+    (item) => item.specialization === doctor.specialization?.name,
   );
   const { Appointment, setAppointment } = useAppointmentStore();
   const navigate = useNavigate();
@@ -67,10 +67,11 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
 
     navigate(bookAppointment);
   };
-  console.log("====================================");
-  console.log(doctor);
-  console.log("====================================");
-  return (
+  // console.log("====================================");
+  // console.log(doctor);
+  // console.log("====================================");
+  return doctor.user.is_verified &&
+    doctor.verification_status === "Verified" ? (
     <section
       className="h-[15rem] w-[90%] bg-white rounded-2xl overflow-hidden flex my-6"
       key={doctor.id}
@@ -99,7 +100,7 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
       <section className="w-[72%] h-full bg-pink-20 p-">
         <div className="flex justify-between p-4">
           <p className={`text-sm ${color?.color}`}>
-            {doctor.specialization.name}
+            {doctor.specialization?.name}
           </p>
           {doctor.availability ? (
             <Badge className="bg-green-100 text-green-600 px-3 font-normal">
@@ -124,10 +125,10 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
                 <Verified className="w-[1.1rem] h-[1.1rem] inline-block text-green-600 -mt-1 ml-1" />
               </Link>
               <p className="text-gray-700 w-[100%">
-                {doctor.education.map((item, idx) =>
+                {doctor.education?.map((item, idx) =>
                   idx < 2 ? <span>{item}, </span> : "",
                 )}{" "}
-                - {doctor.department.name}
+                - {doctor.department?.name}
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 <MapPin className="w-[1rem] h-[1rem] inline-block text-gray-500 -mt-1 mr-1" />
@@ -172,7 +173,7 @@ const CardFlat = ({ doctor }: { doctor: Doctor }) => {
         </div>
       </section>
     </section>
-  );
+  ) : null;
 };
 
 export default CardFlat;

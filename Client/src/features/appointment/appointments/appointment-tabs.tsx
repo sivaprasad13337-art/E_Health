@@ -9,9 +9,12 @@ import {
   Clock,
   Eye,
   LucideCalendarFold,
+  Mars,
   RefreshCcw,
   User,
   UserCircle,
+  Venus,
+  VenusAndMars,
   X,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { appointment_detail } from "@/data/paths";
 import { formatDateForBill, getCloudinaryUrl } from "@/lib/utils";
+import { useAuthStore } from "@/zustand/auth";
 
 const DateFormater = ({ date }: { date: string }) => {
   const fDate = formatDateForBill(date).split(" ");
@@ -33,6 +37,7 @@ const DateFormater = ({ date }: { date: string }) => {
 };
 const TabCard = ({ appointment }: { appointment: Appointment }) => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   return (
     <Card className="px-6 py-10 my-4 relative hover:outline-2 outline-primary">
@@ -49,19 +54,51 @@ const TabCard = ({ appointment }: { appointment: Appointment }) => {
           />
 
           <div className="flex items-center gap-6">
-            <Pic
-              img={getCloudinaryUrl(appointment.doctor.user.profile_img)}
-              className="w-14 h-14"
-            />
+            {user?.role === "PATIENT" && (
+              <Pic
+                img={getCloudinaryUrl(appointment.doctor.user.profile_img)}
+                className="w-14 h-14"
+              />
+            )}
+            {user?.role === "DOCTOR" && (
+              <Pic
+                img={getCloudinaryUrl(appointment.patient.user.profile_img)}
+                className="w-14 h-14"
+              />
+            )}
 
             <div>
               <p className="text-xl font-semibold">{appointment.reason}</p>
               <p className="my-1">
-                <UserCircle className="icon-text text-primary" /> Dr.
-                {appointment.doctor.user.first_name}{" "}
-                {appointment.doctor.user.last_name} ·{" "}
-                {appointment.doctor.specialization.name} ·{" "}
-                {appointment.appointment_type}
+                <UserCircle className="icon-text text-primary" />{" "}
+                {user?.role === "User" && (
+                  <>
+                    Dr.
+                    {appointment.doctor.user.first_name}{" "}
+                    {appointment.doctor.user.last_name} ·{" "}
+                    {appointment.doctor.specialization.name} ·{" "}
+                    {appointment.appointment_type}
+                  </>
+                )}
+                {user?.role === "DOCTOR" && (
+                  <>
+                    Mr.
+                    {appointment.patient.user.first_name}{" "}
+                    {appointment.patient.user.last_name} ·{" "}
+                    {appointment.patient.age} yrs ·{" "}
+                    {appointment.patient.gender === "Male" ? (
+                      <>
+                        Male <Mars className="icon-text text-blue-500" />
+                      </>
+                    ) : appointment.patient.gender === "Female" ? (
+                      <>
+                        Female <Venus className="icon-text text-pink-500" />
+                      </>
+                    ) : (
+                      <VenusAndMars className="icon-text text-purple-500" />
+                    )}
+                  </>
+                )}
               </p>
               <p className="my-1">
                 <Clock className="icon-text text-primary" /> {appointment.time}{" "}
@@ -153,6 +190,9 @@ const TabCard = ({ appointment }: { appointment: Appointment }) => {
 };
 
 const AppointmentTabs = ({ appointments }: { appointments: Appointment[] }) => {
+  console.log("====================================");
+  console.log(appointments);
+  console.log("====================================");
   const Upcoming = appointments.filter(
     (appointment) =>
       appointment.status === "CONFIRMED" || appointment.status === "PENDING",

@@ -1,4 +1,5 @@
 import apiClient from "@/lib/api-client";
+import { useFlareStore } from "@/zustand";
 import { useHospitalStore } from "@/zustand/hospital";
 
 export const getPatient = async (id: number) => {
@@ -53,6 +54,16 @@ export const getDoctors = async () => {
   }
 };
 
+// export const getPatientsByDoctor = async (id: number) => {
+//   try {
+//     const response = await apiClient.get(`/hospital/doctor/get-by-patients/${id}`);
+
+//     return response.data;
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
 export const getDoctor = async (id: number) => {
   try {
     const response = await apiClient.get(`/hospital/doctor/get-by-uid/${id}`);
@@ -105,6 +116,45 @@ export const updateDoctorAvailability = async (id: number) => {
 
       setDoctor(response.data);
     }
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const approveDoctorRoleRequest = async (id: number) => {
+  try {
+    const response = await apiClient.patch(
+      `/hospital/doctor/approve-role-request/${id}`,
+      {},
+    );
+
+    if (response.status === 200) {
+      const { setLoading } = useFlareStore.getState();
+
+      setLoading(true);
+    }
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+// doctor/reject-role-request/
+
+export const rejectDoctorRoleRequest = async (id: number) => {
+  try {
+    const response = await apiClient.patch(
+      `/hospital/doctor/reject-role-request/${id}`,
+      {},
+    );
+
+    if (response.status === 200) {
+      const { setLoading } = useFlareStore.getState();
+
+      setLoading(true);
+    }
+
     return response.data;
   } catch (err) {
     console.error(err);

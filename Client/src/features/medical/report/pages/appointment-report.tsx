@@ -1,6 +1,7 @@
 import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { formatDateForBill } from "@/lib/utils";
 import type { AppointmentMedicalReport } from "@/types/reports";
 import {
   Activity,
@@ -81,13 +82,13 @@ const AppointmentReport = ({
               <Stethoscope />
             </div>
             <p>
-              {report.title} Report Visit on Mon, 16 Jun 2026 · Apollo Hospital,
-              Chennai
+              {report.title} Report Visit on{" "}
+              {formatDateForBill(report.appointment.date)} · {report.appointment.appointment_type}
             </p>
           </div>
 
           <div>
-            <p>#APT-20260616-042</p>
+            <p>#{report.appointment.appointment_code}</p>
             <p className="text-gray-300 text-end">Generated</p>
           </div>
         </CardContent>
@@ -105,9 +106,9 @@ const AppointmentReport = ({
               <Pic className="w-14 h-14" img="" />
 
               <div>
-                <p className="font-bold">Dr. Meera Nair</p>
+                <p className="font-bold">Dr. {report.doctor[0].user.first_name} {report.doctor[0].user.last_name}</p>
                 <p className="my-1 font-semibold text-gray-600">
-                  Cardiologist · MBBS, MD, DM (Cardiology)
+                  {report.doctor[0].specialization.name} · {report.doctor[0].education} ({report.doctor[0].department.name})
                 </p>
                 <p className="text-gray-500">
                   Apollo Hospital, Chennai · Reg: MCI-48291
@@ -123,6 +124,7 @@ const AppointmentReport = ({
               Diagnosis & findings
             </CardTitle>
             <CardContent className="">
+              {/* {report} */}
               <div className="p-4 bg-gray-200 rounded-md">
                 <p className="text-gray-700">Primary diagnosis</p>
                 <p className="font-semibold">

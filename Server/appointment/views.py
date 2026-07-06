@@ -98,8 +98,9 @@ def get_appointment_by_code(request, apt_code):
 @api_view(['GET'])
 def get_appointments(request):
     try:
-        appointment = Appointment.objects.all()
-        data = AppointmentSerializer(appointment, many = True).data
+        appointments = Appointment.objects.all().order_by("-id")
+        data = AppointmentSerializer(appointments, many = True).data
+        # print(data)
         return Response(data, status=status.HTTP_200_OK)
     except Exception as e:
         traceback.print_exc()
@@ -109,8 +110,8 @@ def get_appointments(request):
 @api_view(['GET'])
 def get_appointments_by_patient(request, id):
     try:
-        appointment = get_list_or_404(Appointment, patient_id = id)
-        data = AppointmentSerializer(appointment, many = True).data
+        appointments = get_list_or_404(Appointment.objects.filter(patient_id=id).order_by("-date"))
+        data = AppointmentSerializer(appointments, many = True).data
         return Response(data, status=status.HTTP_200_OK)
     except Exception as e:
         traceback.print_exc()
@@ -120,8 +121,9 @@ def get_appointments_by_patient(request, id):
 @api_view(['GET'])
 def get_appointments_by_doctor(request, id):
     try:
-        appointment = get_list_or_404(Appointment, doctor_id = id)
-        data = AppointmentSerializer(appointment, many = True).data
+        appointments = get_list_or_404(Appointment.objects.filter(doctor_id=id).order_by("-date"))
+        data = AppointmentSerializer(appointments, many = True).data
+        # print(data)
         return Response(data, status=status.HTTP_200_OK)
     except Exception as e:
         traceback.print_exc()

@@ -16,10 +16,10 @@ const ProfessionalInfo = ({ doctor }: { doctor: Doctor }) => {
   const AccountInfo = [
     {
       title: "Specialization",
-      data: doctor.specialization.name,
+      data: doctor.specialization?.name,
       icon: Stethoscope,
     },
-    { title: "Department", data: doctor.department.name, icon: Building2 },
+    { title: "Department", data: doctor.department?.name, icon: Building2 },
     { title: "Location", data: doctor.location, icon: MapPin },
     { title: "Experience", data: doctor.experience, icon: Clock },
     {

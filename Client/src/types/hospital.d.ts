@@ -13,6 +13,7 @@ type Department = {
 export interface Doctor {
   id: number;
   user: User;
+  verification_status: string;
   specialization: Specialization;
   department: Department;
   education: string[];

@@ -30,7 +30,7 @@ const WriteReport = () => {
     title: "Cardiology",
     type: "Cardiology",
     patient: 0,
-    doctor: [0],
+    doctor: [1],
     appointment: 0,
     follow_up: [],
     notes:
@@ -98,6 +98,9 @@ const WriteReport = () => {
   useEffect(() => {
     const getAppointment = async () => {
       const appointment: Appointment = await getAppointmentByCode(id);
+      console.log('====================================');
+      console.log(appointment);
+      console.log('====================================');
 
       if (appointment)
         if (type === "Lab") {
