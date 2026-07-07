@@ -1,4 +1,4 @@
-import { ReportTypes } from "@/data";
+import { ReportTypes } from "@/constants";
 import * as z from "zod";
 
 export const ReportSchema = z.object({

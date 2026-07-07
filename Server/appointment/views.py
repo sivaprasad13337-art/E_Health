@@ -4,12 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.decorators import api_view, permission_classes, authentication_classes, parser_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
 from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer, LifeStyleHabitSerializer, AllergySerializer, MedicalConditionSerializer, SurgerySerializer
 from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery, AppointmentReport, ImagingReport, LabReport, SurgeryReport
-from utils.utils import get_doc_and_patient, generate_numeric_code
+from utils.utils import get_doc_and_patient, generate_numeric_code, is_owner_or_admin, is_owner_or_admin_or_doctor,  IsRoleAdmin
 from utils.parse import parse_lab_report
 import traceback
 
@@ -32,18 +32,13 @@ REPORT_SERIALIZERS = {
     "Surgical": SurgeryReportSerializer,
 }
 
-# from rest_framework.authentication import SessionAuthentication
-
-# class CsrfExemptSessionAuthentication(SessionAuthentication):
-#     def enforce_csrf(self, request):
-#         return  # skip CSRF
-
 # Create your views here.
 # Appointment views
 # @csrf_exempt
 
 @api_view(['POST'])
 # @authentication_classes([CsrfExemptSessionAuthentication])
+@permission_classes([IsAuthenticated])
 def create_appointment(request):
     # patient_id = request.data.get('patient_id')
     # doctor_id = request.data.get('doctor_id')
@@ -64,17 +59,20 @@ def create_appointment(request):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_appointment(request, id):
     appointment = get_object_or_404(Appointment, id = id)
+    
+    is_owner_or_admin_or_doctor(request, appointment.patient, appointment.doctor)
     serializer = AppointmentSerializer(appointment, data=request.data, partial = True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-        
     return Response({"Message": "Updated", "data": serializer.data}, status=status.HTTP_200_OK)
     
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_appointment_by_id(request,id):
     try:
         appointment = get_object_or_404(Appointment, id = id)
@@ -86,6 +84,7 @@ def get_appointment_by_id(request,id):
     
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_appointment_by_code(request, apt_code):
         appointment = get_object_or_404(Appointment, appointment_code = apt_code)
         data = AppointmentSerializer(appointment).data
@@ -96,6 +95,7 @@ def get_appointment_by_code(request, apt_code):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_appointments(request):
     try:
         appointments = Appointment.objects.all().order_by("-id")
@@ -108,6 +108,7 @@ def get_appointments(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_appointments_by_patient(request, id):
     try:
         appointments = get_list_or_404(Appointment.objects.filter(patient_id=id).order_by("-date"))
@@ -119,6 +120,7 @@ def get_appointments_by_patient(request, id):
  
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_appointments_by_doctor(request, id):
     try:
         appointments = get_list_or_404(Appointment.objects.filter(doctor_id=id).order_by("-date"))
@@ -133,6 +135,7 @@ def get_appointments_by_doctor(request, id):
     
 # Medical Record Views
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_medical_record(request):
     data = request.data
     patient, doctor = get_doc_and_patient(request)
@@ -151,6 +154,7 @@ def create_medical_record(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_medical_records_by_patient(request, id):
     try:
         medical_records = get_list_or_404(MedicalRecord, patient_id = id)
@@ -162,6 +166,7 @@ def get_medical_records_by_patient(request, id):
     
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_medical_record_by_id(request, id):
     try:
         medical_record = get_object_or_404(MedicalRecord, id = id)
@@ -173,10 +178,12 @@ def get_medical_record_by_id(request, id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_medical_record(request, id):
     data = request.data
     
     medical_record = get_object_or_404(MedicalRecord, id = id)
+    is_owner_or_admin(request, medical_record.patient)
     serializer = MedicalRecordSerializer(medical_record, data=data)
     
     if serializer.is_valid():
@@ -188,8 +195,10 @@ def update_medical_record(request, id):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_medical_record(request, id):
     medical_record = get_object_or_404(MedicalRecord, id = id)
+    is_owner_or_admin(request, medical_record.patient)
     medical_record.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
     
@@ -265,6 +274,7 @@ def delete_medical_record(request, id):
 
 @api_view(['POST'])
 @parser_classes([FormParser, MultiPartParser])
+@permission_classes([IsAuthenticated])
 def parse(request):
     file = request.FILES.get('pdf')
     
@@ -274,6 +284,7 @@ def parse(request):
     
     
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_medical_report(request):
 
     report_type = request.data.get("type")
@@ -300,6 +311,7 @@ def create_medical_report(request):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def update_medical_report(request, report_type, pk):
 
     serializer_class = REPORT_SERIALIZERS.get(report_type)
@@ -311,13 +323,14 @@ def update_medical_report(request, report_type, pk):
         )
 
     report = serializer_class.Meta.model.objects.get(pk=pk)
+    is_owner_or_admin(request, report.patient)
 
     serializer = serializer_class(
         report,
         data=request.data,
         partial=True
     )
-
+    
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -327,7 +340,8 @@ def update_medical_report(request, report_type, pk):
 
 
 @api_view(["GET"])
-def get_medical_reports(request, report_type):
+@permission_classes([IsAuthenticated])
+def get_medical_reports(request, report_type, id):
 
     serializer_class = REPORT_SERIALIZERS.get(report_type)
 
@@ -337,7 +351,7 @@ def get_medical_reports(request, report_type):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    reports = (serializer_class.Meta.model.objects.filter(type=report_type).order_by("-created_at"))
+    reports = (serializer_class.Meta.model.objects.filter(type=report_type, patient_id = id).order_by("-created_at"))
 
     serializer = serializer_class(reports, many=True)
 
@@ -346,6 +360,7 @@ def get_medical_reports(request, report_type):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_medical_report_by_id(request, report_type, id):
 
     serializer_class = REPORT_SERIALIZERS.get(report_type)
@@ -363,6 +378,7 @@ def get_medical_report_by_id(request, report_type, id):
     return Response(serializer.data)
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_medical_reports_by_patient(request, id):
     
     data = []
@@ -381,6 +397,7 @@ def get_medical_reports_by_patient(request, id):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_medical_reports_by_appointment(request, id):
     
     data = []
@@ -403,6 +420,7 @@ def get_medical_reports_by_appointment(request, id):
     return Response(data)
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def delete_medical_report(request, report_type, pk):
 
     serializer_class = REPORT_SERIALIZERS.get(report_type)
@@ -421,6 +439,7 @@ def delete_medical_report(request, report_type, pk):
 # LifeStyle Views
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_life_style_habits(request):
     patient = get_object_or_404(Patient, id = request.data['patient'])
     serializer = LifeStyleHabitSerializer(data = request.data)
@@ -431,6 +450,7 @@ def create_life_style_habits(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_life_style_habits(request, patient_id):
     life_style_habits = get_object_or_404(LifeStyleHabit, patient_id = patient_id)
     
@@ -438,6 +458,7 @@ def get_life_style_habits(request, patient_id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_life_style_habit(request, id):
     life_style_habit = get_object_or_404(LifeStyleHabit, patient_id = id)
     serializer = LifeStyleHabitSerializer(life_style_habit, data = request.data, partial = True)
@@ -448,6 +469,7 @@ def update_life_style_habit(request, id):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_life_style_habit(request, id):
     life_style_habit = get_object_or_404(LifeStyleHabit, id = id)
     life_style_habit.delete()
@@ -458,6 +480,7 @@ def delete_life_style_habit(request, id):
 
 # Allergy Views
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_allergy(request):
     patient = get_object_or_404(Patient, id = request.data['patient'])
     serializer = AllergySerializer(data = request.data)
@@ -468,6 +491,7 @@ def create_allergy(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_allergys(request, patient_id):
     allergy = get_list_or_404(Allergy, patient_id = patient_id)
     
@@ -475,6 +499,7 @@ def get_allergys(request, patient_id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_allergy(request, id):
     allergy = get_object_or_404(Allergy, id = id)
     serializer = AllergySerializer(allergy, data = request.data, partial = True)
@@ -485,6 +510,7 @@ def update_allergy(request, id):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_allergy(request, id):
     allergy = get_object_or_404(Allergy, id = id)
     allergy.delete()
@@ -496,6 +522,7 @@ def delete_allergy(request, id):
 
 # MedicalCondition Views
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_medical_condition(request):
     patient = get_object_or_404(Patient, id = request.data['patient'])
     serializer = MedicalConditionSerializer(data = request.data)
@@ -506,6 +533,7 @@ def create_medical_condition(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_medical_conditions(request, patient_id):
     medical_condition = get_list_or_404(MedicalCondition, patient_id = patient_id)
     
@@ -513,6 +541,7 @@ def get_medical_conditions(request, patient_id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_medical_condition(request, id):
     medical_condition = get_object_or_404(MedicalCondition, id = id)
     serializer = MedicalConditionSerializer(medical_condition, data = request.data, partial = True)
@@ -523,6 +552,7 @@ def update_medical_condition(request, id):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_medical_condition(request, id):
     medical_condition = get_object_or_404(MedicalCondition, id = id)
     medical_condition.delete()
@@ -534,6 +564,7 @@ def delete_medical_condition(request, id):
 
 # Surgery Views
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_surgery(request):
     patient = get_object_or_404(Patient, id = request.data['patient'])
     serializer = SurgerySerializer(data = request.data)
@@ -544,6 +575,7 @@ def create_surgery(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_surgery(request, patient_id):
     surgery = get_list_or_404(Surgery, patient_id = patient_id)
     
@@ -551,6 +583,7 @@ def get_surgery(request, patient_id):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_surgery(request, id):
     surgery = get_object_or_404(Surgery, id = id)
     serializer = SurgerySerializer(surgery, data = request.data, partial = True)
@@ -561,6 +594,7 @@ def update_surgery(request, id):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_surgery(request, id):
     surgery = get_object_or_404(Surgery, id = id)
     surgery.delete()

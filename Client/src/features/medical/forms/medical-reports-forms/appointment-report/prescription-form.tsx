@@ -17,10 +17,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { PrescriptionSchema } from "@/zod/medical-reports";
-import CustomSelectBar from "../../components/custom-select";
+import CustomSelectBar from "../../../components/custom-select";
 import { Minus, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { MedicalReportFromProps } from "../../interface";
+import type { MedicalReportFromProps } from "../../../interface";
 
 const PrescriptionForm = ({
   formData,

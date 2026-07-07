@@ -20,7 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { appointment_detail } from "@/data/paths";
+import { appointment_detail } from "@/constants/paths";
 import { formatDateForBill, getCloudinaryUrl } from "@/lib/utils";
 import { useAuthStore } from "@/zustand/auth";
 

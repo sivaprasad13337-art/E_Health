@@ -1,7 +1,7 @@
 import {
   appointment_personal_details,
   appointment_service,
-} from "@/data/paths";
+} from "@/constants/paths";
 import AppointmentType from "@/features/appointment/book/steps/appointment-type";
 import Confirmation from "@/features/appointment/book/steps/confirmation";
 import DateAndTime from "@/features/appointment/book/steps/date-time";

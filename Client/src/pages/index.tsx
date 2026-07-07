@@ -10,7 +10,7 @@ import {
   forget_password_path,
   registor_path,
   root,
-} from "@/data/paths";
+} from "@/constants/paths";
 import SignUp from "./sign-up";
 import Login from "./login";
 import Forgetpassword from "./forget-password";

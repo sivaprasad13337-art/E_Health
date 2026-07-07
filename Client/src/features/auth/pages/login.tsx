@@ -29,7 +29,7 @@ import {
   forget_password_path,
   registor_path,
   root,
-} from "@/data/paths";
+} from "@/constants/paths";
 import { useFlareStore } from "@/zustand";
 import { Spinner } from "@/components/ui/spinner";
 

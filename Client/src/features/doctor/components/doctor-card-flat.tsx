@@ -11,7 +11,7 @@ import {
   Verified,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { bookAppointment, doctorProfile } from "@/data/paths";
+import { bookAppointment, doctorProfile } from "@/constants/paths";
 import { useAppointmentStore } from "@/zustand/appointment";
 import type { Doctor } from "@/types/hospital";
 // ("@radix-ui/react-icons");

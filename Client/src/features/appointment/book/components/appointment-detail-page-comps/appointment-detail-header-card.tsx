@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { writeMedicalReport } from "@/data/paths";
+import { writeMedicalReport } from "@/constants/paths";
 import type { Appointment } from "@/features/appointment/interface/interface";
 import { formatDateForBill } from "@/lib/utils";
 import {

@@ -3,7 +3,7 @@ import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { medicalHistory_form, writeMedicalReport } from "@/data/paths";
+import { medicalHistory_form, writeMedicalReport } from "@/constants/paths";
 import { useHospitalStore } from "@/zustand/hospital";
 import {
   Mars,

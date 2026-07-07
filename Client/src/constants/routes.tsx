@@ -80,7 +80,7 @@ import {
 // import Confirmation from "@/features/appointment/book/steps/confirmation";
 import MyDoctors from "@/features/doctor/my-doctors";
 import BrowseDoctors from "@/features/doctor/browse";
-import DoctorProfile from "@/features/doctor/prolile";
+import DoctorProfile from "@/features/doctor/profile";
 import Settings from "@/features/settings";
 import SetProfile from "@/features/actions/profile/pages/set-profile";
 import Password from "@/features/settings/pages/password";

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ReportSchema } from "@/zod/medical-reports";
-import { ReportTypes } from "@/data";
+import { ReportTypes } from "@/constants";
 import {
   Select,
   SelectContent,

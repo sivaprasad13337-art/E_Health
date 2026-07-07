@@ -13,14 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { AllergySchema } from "@/zod/medical-records";
 import CustomSelectBar from "../../components/custom-select";
-import { SeverityOptions } from "@/data";
+import { SeverityOptions } from "@/constants";
 import { useHospitalStore } from "@/zustand/hospital";
 import { useEffect, useState } from "react";
 import { createAllergy, getAllergies, updateAllergy } from "@/api/records";
 import { PenBoxIcon, Trash2, TriangleAlert } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Allergy } from "../../interface";
-
 
 const AllergiesForm = () => {
   const [mode, setMode] = useState<"create" | "edit">("create");

@@ -3,7 +3,7 @@ import AppointmentDetailHeaderCard from "../book/components/appointment-detail-p
 import AppointmentDetailProgress from "../book/components/appointment-detail-page-comps/appointment-detail-progress";
 import AppointmentDetailsCard from "../book/components/appointment-detail-page-comps/appointment-details-card";
 import AppoitmentReportsAndDocuments from "../book/components/appointment-detail-page-comps/appointment-reports-documents";
-import AppointmentPaymentAndFollowUpCards from "../book/components/appointment-detail-page-comps/appoitment-paymentandfollowup";
+import AppointmentPaymentAndFollowUpCards from "../book/components/appointment-detail-page-comps/appointment-payment-followup";
 import PeopleInvolved from "../book/components/appointment-detail-page-comps/people-involved-card";
 import { useEffect, useState } from "react";
 import { getAppointmentByCode } from "@/api/appointment";

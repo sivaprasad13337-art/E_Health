@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BookingCalendar } from "@/features/appointment/book/components/booking-calendar";
-import type { MedicalReportFromProps } from "../../interface";
+import type { MedicalReportFromProps } from "../../../interface";
 import { useEffect, useState } from "react";
 
 const timings = [

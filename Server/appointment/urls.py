@@ -17,7 +17,7 @@ urlpatterns = [
     
     path('medical-report/create/', views.create_medical_report, name="Get-Medical-Report"),
     path('medical-report/get/<str:report_type>/<int:id>', views.get_medical_report_by_id, name="Get-Medical-Report"),
-    path('medical-report/get/<str:report_type>', views.get_medical_reports, name="Get-Medical-Report"),
+    path('medical-report/get-by-type-patient/<str:report_type>/<int:id>', views.get_medical_reports, name="Get-Medical-Report"),
     path('medical-report/patient/get/<int:id>', views.get_medical_reports_by_patient, name="Get-Medical-Report-By-Patient"),
     path('medical-report/appointment/get/<int:id>', views.get_medical_reports_by_appointment, name="Get-Medical-Report-By-Patient"),
     path('medical-report/create/', views.create_medical_report, name="Get-Medical-Report"),

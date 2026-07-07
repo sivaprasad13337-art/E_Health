@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { AppointmentTypes } from "@/data/appointment";
+import { AppointmentTypes } from "@/constants/appointment";
 import { formatDateForBill } from "@/lib/utils";
 // import { Separator } from "@/components/ui/separator";
 import { useOrderStore } from "@/zustand/appointment";
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import InvoiceDocument, { InvoiceDownloadButton } from "../components/invoice";
 import { Link } from "react-router-dom";
-import { dashboard } from "@/data/paths";
+import { dashboard } from "@/constants/paths";
 
 const Confirmation = () => {
   const { Order } = useOrderStore();

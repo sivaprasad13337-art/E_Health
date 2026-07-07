@@ -1,4 +1,4 @@
-import { routes } from "@/data/routes";
+import { routes } from "@/constants/routes";
 import HomeWrapper from "@/wrappers/home";
 import Dashboard from "@/features/actions/dashboard";
 import { Route, Routes } from "react-router-dom";

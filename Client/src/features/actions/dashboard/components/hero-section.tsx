@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import doctor from "@/assets/imgs/doctor-hero.webp";
 import { useAuthStore } from "@/zustand/auth";
 import { useNavigate } from "react-router-dom";
-import { bookAppointment } from "@/data/paths";
+import { bookAppointment } from "@/constants/paths";
 // import doctor1 from "@/assets/imgs/doctor-hero2.webp";
 // import doctor2 from "@/assets/imgs/young-female-doctor-white-medical-suit-with-stethoscope-white-protective-mask-writing-down-notes-white_140725-16508.avif";
 

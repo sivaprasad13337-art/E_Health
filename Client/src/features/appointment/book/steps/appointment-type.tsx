@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import type { CompsProps } from "../../interface/interface";
-import { AppointmentTypes } from "@/data/appointment";
+import { AppointmentTypes } from "@/constants/appointment";
 
 const AppointmentType = ({ formData, setFormData }: CompsProps) => {
   // const [selected, setSelected] = useState("");

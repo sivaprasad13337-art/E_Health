@@ -54,7 +54,7 @@ import {
   refunds,
   // settings,
   transaction,
-} from "@/data/paths";
+} from "@/constants/paths";
 import { useAuthStore } from "@/zustand/auth";
 
 // This is sample data.

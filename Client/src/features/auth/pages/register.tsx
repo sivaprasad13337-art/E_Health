@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import poster from "@/assets/hero.png";
 import { registerUser } from "@/api/auth";
-import { auth_path, login_path } from "@/data/paths";
+import { auth_path, login_path } from "@/constants/paths";
 import { RegisterUserFormSchema } from "@/zod/auth";
 
 import { zodResolver } from "@hookform/resolvers/zod";

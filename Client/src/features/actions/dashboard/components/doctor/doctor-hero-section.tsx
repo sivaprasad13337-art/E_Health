@@ -1,7 +1,7 @@
 import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { writeMedicalReport } from "@/data/paths";
+import { writeMedicalReport } from "@/constants/paths";
 import { getCloudinaryUrl } from "@/lib/utils";
 import type { User } from "@/types/users";
 import { StarFilledIcon } from "@radix-ui/react-icons";

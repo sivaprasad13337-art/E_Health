@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { BasicHealthInfoSchema } from "@/zod/medical-records";
 import CustomSelectBar from "../../components/custom-select";
-import { BloodGroups, Genders } from "@/data";
+import { BloodGroups, Genders } from "@/constants";
 
 import CustomDatePicker from "../../components/custom-date-picker";
 import { calculateAge, formatDateForDjango } from "@/lib/utils";

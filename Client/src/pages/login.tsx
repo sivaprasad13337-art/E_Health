@@ -1,4 +1,4 @@
-import { auth_path, login_path } from "@/data/paths";
+import { auth_path, login_path } from "@/constants/paths";
 import LoginForm from "@/features/auth";
 import { Navigate, Route, Routes } from "react-router-dom";
 

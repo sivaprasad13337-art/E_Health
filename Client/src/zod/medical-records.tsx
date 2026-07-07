@@ -5,7 +5,7 @@ import {
   SeverityOptions,
   SleepQualityOptions,
   SmokingAndAlcoholOptions,
-} from "@/data";
+} from "@/constants";
 import * as z from "zod";
 
 export const BasicHealthInfoSchema = z.object({

@@ -16,7 +16,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { useNavigate } from "react-router-dom";
-import { routes } from "@/data/routes";
+import { routes } from "@/constants/routes";
 
 export function CustomCommand() {
   const [open, setOpen] = React.useState(false);

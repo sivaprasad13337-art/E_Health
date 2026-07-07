@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { VitalSchema } from "@/zod/medical-reports";
-import type { MedicalReportFromProps } from "../../interface";
+import type { MedicalReportFromProps } from "../../../interface";
 
 const VitalsForm = ({ formData, setFormData }: MedicalReportFromProps) => {
   const defaultValues = formData.vitals;

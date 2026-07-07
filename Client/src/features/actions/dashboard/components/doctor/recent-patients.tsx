@@ -1,6 +1,6 @@
 import Pic from "@/components/Pic";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { patients } from "@/data/paths";
+import { patients } from "@/constants/paths";
 import { ArrowRight, Users } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 

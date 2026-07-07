@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 import type { CompsProps } from "../../interface/interface";
 import { Link } from "react-router-dom";
-import { browse_doctors } from "@/data/paths";
+import { browse_doctors } from "@/constants/paths";
 import { useEffect, useState } from "react";
 import { useAppointmentStore } from "@/zustand/appointment";
 import type { Doctor } from "@/types/hospital";

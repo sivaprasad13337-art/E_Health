@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { DiagnosisAndFindingsSchema } from "@/zod/medical-reports";
 
 import { Textarea } from "@/components/ui/textarea";
-import type { MedicalReportFromProps } from "../../interface";
+import type { MedicalReportFromProps } from "../../../interface";
 
 const DiagnosisAndFindingsForm = ({
   formData,

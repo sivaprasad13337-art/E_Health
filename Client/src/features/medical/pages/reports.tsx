@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ReportTypes } from "@/data";
-import { detailedMedicalReport } from "@/data/paths";
+import { ReportTypes } from "@/constants";
+import { detailedMedicalReport } from "@/constants/paths";
 import { formateDateAndTime } from "@/lib/utils";
 import type { Doctor } from "@/types/hospital";
 import { useHospitalStore } from "@/zustand/hospital";
@@ -87,43 +87,43 @@ const Reports = () => {
     },
   ];
 
-  const Reports = [
-    {
-      name: "Cardiology Report",
-      from: "Dr. Meera Nair",
-      date: "16 Jun 2026",
-      status: "Normal",
-      cat: "Cardiology",
-    },
-    {
-      name: "CBC + Lipid Panel",
-      from: "City Diagnostics Lab",
-      date: "3 Jun 2026",
-      status: "Normal",
-      cat: "Lab",
-    },
-    {
-      name: "Pulmonology Report",
-      from: "Dr. Priya Sharma",
-      date: "15 May 2026",
-      status: "Review",
-      cat: "Pulmonology",
-    },
-    {
-      name: "ECG Report",
-      from: "Dr. Meera Nair",
-      date: "1 May 2026",
-      status: "Attention",
-      cat: "Cardiology",
-    },
-    {
-      name: "X-Ray Report",
-      from: "Dr. Raj Kumar",
-      date: "20 Apr 2026",
-      status: "Normal",
-      cat: "Imaging",
-    },
-  ];
+  // const Reports = [
+  //   {
+  //     name: "Cardiology Report",
+  //     from: "Dr. Meera Nair",
+  //     date: "16 Jun 2026",
+  //     status: "Normal",
+  //     cat: "Cardiology",
+  //   },
+  //   {
+  //     name: "CBC + Lipid Panel",
+  //     from: "City Diagnostics Lab",
+  //     date: "3 Jun 2026",
+  //     status: "Normal",
+  //     cat: "Lab",
+  //   },
+  //   {
+  //     name: "Pulmonology Report",
+  //     from: "Dr. Priya Sharma",
+  //     date: "15 May 2026",
+  //     status: "Review",
+  //     cat: "Pulmonology",
+  //   },
+  //   {
+  //     name: "ECG Report",
+  //     from: "Dr. Meera Nair",
+  //     date: "1 May 2026",
+  //     status: "Attention",
+  //     cat: "Cardiology",
+  //   },
+  //   {
+  //     name: "X-Ray Report",
+  //     from: "Dr. Raj Kumar",
+  //     date: "20 Apr 2026",
+  //     status: "Normal",
+  //     cat: "Imaging",
+  //   },
+  // ];
 
   // const [reports, setReports] = useState(Reports);
   const [filter, setFilter] = useState("");
@@ -143,7 +143,7 @@ const Reports = () => {
   };
 
   const handleFilter = async (filter: string) => {
-    const data = await getMedicalReportsByType(filter);
+    const data = await getMedicalReportsByType(filter, patient?.id);
     if (data) {
       setReports(data);
       setFilter(filter);

@@ -1,3 +1,5 @@
+import type { Doctor } from "@/types/hospital";
+
 type PrescriptionType = {
   medicine: string;
   dosage: number;
@@ -22,7 +24,7 @@ type DiagnosisAndFindingsType = {
 
 export interface MedicalReport {
   patient: number;
-  doctor: number;
+  doctor: Doctor[];
   appointment: number;
   prescription: { medicines: PrescriptionType[] };
   title: string;

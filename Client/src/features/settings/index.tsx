@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 // import SetProfile from "../actions/profile/pages/set-profile";
 import { Link, Route, Routes } from "react-router-dom";
-import { settingsRoutes } from "@/data/routes";
+import { settingsRoutes } from "@/constants/routes";
 import { useAuthStore } from "@/zustand/auth";
 import { useState } from "react";
 import SetProfile from "../actions/profile/pages/set-profile";

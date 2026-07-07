@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // import { Outlet, useNavigate } from "react-router-dom";
 import DoctorCard from "./components/doctor-card";
 import Stepper from "./components/stepper";
-import { bookingSteps } from "@/data/booking-steps";
+import { bookingSteps } from "@/constants/booking-steps";
 import { Button } from "@/components/ui/button";
 import type {
   AppointmentErrorState,

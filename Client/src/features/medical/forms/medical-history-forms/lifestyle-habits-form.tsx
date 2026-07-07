@@ -19,7 +19,7 @@ import {
   // Genders,
   SleepQualityOptions,
   SmokingAndAlcoholOptions,
-} from "@/data";
+} from "@/constants";
 import { createLifeStyle, getLifeStyle, updateLifeStyle } from "@/api/records";
 import { useHospitalStore } from "@/zustand/hospital";
 import { useEffect, useState } from "react";
@@ -49,7 +49,7 @@ const LifestyleHabitsForm = () => {
       const data = await getLifeStyle(patient.id);
 
       if (!data) return;
-      setMode('edit')
+      setMode("edit");
 
       form.reset({
         smoking: data.smoking ?? "",

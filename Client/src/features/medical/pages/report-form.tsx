@@ -9,13 +9,13 @@ import {
 import PatientCard from "../components/patient-header-card";
 import ReportTypeForm from "../forms/medical-reports-forms/report-type";
 import MedicalDataAccordionCard from "../components/medicaldata-card-acccordion";
-import VitalsForm from "../forms/medical-reports-forms/vitals-form";
-import DiagnosisAndFindingsForm from "../forms/medical-reports-forms/diagnosis-findings";
-import PrescriptionForm from "../forms/medical-reports-forms/prescription-form";
-import FollowUpForm from "../forms/medical-reports-forms/follow-up";
+import VitalsForm from "../forms/medical-reports-forms/appointment-report/vitals-form";
+import DiagnosisAndFindingsForm from "../forms/medical-reports-forms/appointment-report/diagnosis-findings";
+import PrescriptionForm from "../forms/medical-reports-forms/appointment-report/prescription-form";
+import FollowUpForm from "../forms/medical-reports-forms/appointment-report/follow-up";
 import { useEffect, useState } from "react";
 import LabDetailsForm from "../forms/medical-reports-forms/lab/lab-details";
-import ParseLabReport from "../forms/medical-reports-forms/lab/lap-report-parse";
+import ParseLabReport from "../forms/medical-reports-forms/lab/lab-report-parser";
 import { createMedicalReport, getAppointmentByCode } from "@/api/appointment";
 import { useParams } from "react-router-dom";
 import type { Appointment } from "@/features/appointment/interface/interface";

@@ -7,8 +7,10 @@ import {
   detailedMedicalReport,
   medicalReport,
   writeMedicalReport,
-} from "@/data/paths";
+} from "@/constants/paths";
 import type { Appointment } from "@/features/appointment/interface/interface";
+import type { MedicalReport } from "@/features/medical/interface";
+import type { LabReport } from "@/types/reports";
 import {
   AlertTriangle,
   Clock,
@@ -23,7 +25,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const ReportCards = ({ report }) => {
+const ReportCards = ({ report }:{report: LabReport}) => {
   const navigate = useNavigate();
 
   return (
@@ -38,7 +40,7 @@ const ReportCards = ({ report }) => {
           <div>
             <p className="text-lg font-semibold">{report.title}</p>
             <p className="text-gray-600 font-semibold">
-              Uploaded by City Diagnostics Lab · 3 Jun 2026 · Fasting blood
+              Uploaded by {report.lab_details.name} Lab · {report.lab_details.reported} · Fasting blood
               sample · Auto-parsed ✓
             </p>
 
@@ -65,13 +67,13 @@ const ReportCards = ({ report }) => {
   );
 };
 
-const DoctorReportCard = ({ report }) => {
+const DoctorReportCard = ({ report }: {report: MedicalReport}) => {
   const navigate = useNavigate();
 
   return (
     <Card className="my-4 hover:outline-2 hover:outline-primary/70 relative px-2 py-6">
       <div className="absolute top-0 left-0 bg-amber-400 h-full w-1.5"></div>
-      <CardContent className="flex justify-between">
+      <CardContent className="flex justify-between items-center">
         <section className="flex gap-6 items-center">
           <div className="w-14 h-14 flex justify-center items-center rounded-md bg-amber-100 text-amber-600">
             <FlaskConical />
@@ -81,8 +83,8 @@ const DoctorReportCard = ({ report }) => {
             <p className="text-lg font-semibold">
               {report.title} Consultation Report
             </p>
-            <p className="text-gray-600 font-semibold">
-              Written by Dr. Meera Nair after this visit · Covers: diagnosis,
+            <p className="text-gray-600 font-semibold w-[89%]">
+              Written by Dr. {report.doctor[0].user.first_name} {report.doctor[0].user.last_name} after this visit · Covers: diagnosis,
               vitals recorded during visit, prescription, doctor notes,
               follow-up recommendation
             </p>

@@ -3,7 +3,7 @@ import Pic from "@/components/Pic";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { appointment, appointment_detail } from "@/data/paths";
+import { appointment, appointment_detail } from "@/constants/paths";
 import type { Appointment } from "@/features/appointment/interface/interface";
 // import { useHospitalStore } from "@/zustand/hospital";
 import { ArrowRight, CalendarCheck2 } from "lucide-react";
