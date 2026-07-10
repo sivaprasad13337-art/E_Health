@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.decorators import api_view, permission_classes, parser_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
 from django.contrib.auth import login, logout, authenticate
 from rest_framework.response import Response
@@ -9,7 +10,7 @@ from .models import User
 from hospital.models import Doctor, Patient, Specialization, Department
 from hospital.serializers import DoctorSerializer, PatientSerializer
 from django.db import transaction
-from utils.utils import delete_old_cloudinary_file, get_user_data, IsRoleAdmin
+from utils.utils import delete_old_cloudinary_file, get_user_data, IsRoleAdmin, is_owner_or_admin
 from utils.parse import extract_text_from_pdf
 # from rest_framework.authentication import SessionAuthentication
 
@@ -36,7 +37,7 @@ def create_user(request):
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def get_profile(request, id):
     user = get_object_or_404(User, id = id)
     # serializer = UserSerializer(data = user)
@@ -47,9 +48,11 @@ def get_profile(request, id):
 
 @api_view(['PATCH'])
 # @authentication_classes([CsrfExemptSessionAuthentication])
+@permission_classes([IsAuthenticated])
 @parser_classes([FormParser, MultiPartParser])
 def set_profile(request, id):
     user = get_object_or_404(User, id = id)
+    is_owner_or_admin(request, user)
     data = request.data
     print(request.data)
     
@@ -69,6 +72,7 @@ def set_profile(request, id):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated, IsRoleAdmin])
 def get_unverified_list(request):
     list = get_list_or_404(User, is_verified = False)
     
@@ -139,6 +143,7 @@ def logout_user(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def me(request):
     auth = False
     

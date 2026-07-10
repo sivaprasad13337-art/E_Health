@@ -9,9 +9,8 @@ from hospital.models import Patient, Doctor
 from hospital.serializers import PatientSerializer, DoctorSerializer
 from .serializer import AppointmentSerializer, MedicalRecordSerializer, MedicalReportSerializer, LifeStyleHabitSerializer, AllergySerializer, MedicalConditionSerializer, SurgerySerializer
 from .models import Appointment, MedicalRecord, MedicalReport, LifeStyleHabit, Allergy, MedicalCondition, Surgery, AppointmentReport, ImagingReport, LabReport, SurgeryReport
-from utils.utils import get_doc_and_patient, generate_numeric_code, is_owner_or_admin, is_owner_or_admin_or_doctor,  IsRoleAdmin
+from utils.utils import get_doc_and_patient, generate_numeric_code, is_owner_or_admin, is_owner_or_admin_or_doctor, is_owner_or_RoleAdmin_or_RoleDoctor, IsRoleAdmin
 from utils.parse import parse_lab_report
-import traceback
 
 from .serializer import (
     AppointmentReportSerializer,
@@ -32,21 +31,13 @@ REPORT_SERIALIZERS = {
     "Surgical": SurgeryReportSerializer,
 }
 
-# Create your views here.
-# Appointment views
-# @csrf_exempt
 
 @api_view(['POST'])
-# @authentication_classes([CsrfExemptSessionAuthentication])
 @permission_classes([IsAuthenticated])
 def create_appointment(request):
-    # patient_id = request.data.get('patient_id')
-    # doctor_id = request.data.get('doctor_id')
-    print(request.data)
     patient, doctor = get_doc_and_patient(request)
     
     serializer = AppointmentSerializer(data = request.data)
-    # print(f'working: {patient_id}')
     
     if serializer.is_valid():
         print('valid')
@@ -74,62 +65,51 @@ def update_appointment(request, id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_appointment_by_id(request,id):
-    try:
-        appointment = get_object_or_404(Appointment, id = id)
-        data = AppointmentSerializer(appointment).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    appointment = get_object_or_404(Appointment, id = id)
+    data = AppointmentSerializer(appointment).data
+    return Response(data, status=status.HTTP_200_OK)
+
     
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_appointment_by_code(request, apt_code):
-        appointment = get_object_or_404(Appointment, appointment_code = apt_code)
-        data = AppointmentSerializer(appointment).data
-        return Response(data, status=status.HTTP_200_OK)
-    # except Exception as e:
-    #     traceback.print_exc()
-    #     return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    appointment = get_object_or_404(Appointment, appointment_code = apt_code)
+    data = AppointmentSerializer(appointment).data
+    return Response(data, status=status.HTTP_200_OK)
+    
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsRoleAdmin])
 def get_appointments(request):
-    try:
-        appointments = Appointment.objects.all().order_by("-id")
-        data = AppointmentSerializer(appointments, many = True).data
-        # print(data)
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    appointments = Appointment.objects.all().order_by("-id")
+    data = AppointmentSerializer(appointments, many = True).data
+    return Response(data, status=status.HTTP_200_OK)
+    
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_appointments_by_patient(request, id):
-    try:
-        appointments = get_list_or_404(Appointment.objects.filter(patient_id=id).order_by("-date"))
-        data = AppointmentSerializer(appointments, many = True).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    patient = get_object_or_404(Patient, id = id)
+    is_owner_or_admin(request, patient)
+    
+    appointments = get_list_or_404(Appointment.objects.filter(patient_id=id).order_by("-date"))
+    data = AppointmentSerializer(appointments, many = True).data
+    return Response(data, status=status.HTTP_200_OK)
+    
  
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_appointments_by_doctor(request, id):
-    try:
-        appointments = get_list_or_404(Appointment.objects.filter(doctor_id=id).order_by("-date"))
-        data = AppointmentSerializer(appointments, many = True).data
-        # print(data)
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    doctor = get_object_or_404(Doctor, id = id)
+    is_owner_or_admin(request, doctor)
+    
+    appointments = get_list_or_404(Appointment.objects.filter(doctor_id=id).order_by("-date"))
+    data = AppointmentSerializer(appointments, many = True).data
+    return Response(data, status=status.HTTP_200_OK)
+   
     
     
     
@@ -156,25 +136,22 @@ def create_medical_record(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_medical_records_by_patient(request, id):
-    try:
-        medical_records = get_list_or_404(MedicalRecord, patient_id = id)
-        data = MedicalRecordSerializer(medical_records, many = True).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    patient = get_object_or_404(Patient, id = id)
+    is_owner_or_RoleAdmin_or_RoleDoctor(request, patient)
+    
+    medical_records = get_list_or_404(MedicalRecord, patient_id = id)
+    data = MedicalRecordSerializer(medical_records, many = True).data
+    return Response(data, status=status.HTTP_200_OK)
+    
     
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_medical_record_by_id(request, id):
-    try:
-        medical_record = get_object_or_404(MedicalRecord, id = id)
-        data = MedicalRecordSerializer(medical_record).data
-        return Response(data, status=status.HTTP_200_OK)
-    except Exception as e:
-        traceback.print_exc()
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def get_medical_record_by_id(request, id):   
+    medical_record = get_object_or_404(MedicalRecord, id = id)
+    is_owner_or_RoleAdmin_or_RoleDoctor(request, medical_record.patient)
+    data = MedicalRecordSerializer(medical_record).data
+    return Response(data, status=status.HTTP_200_OK)
 
 
 @api_view(['PATCH'])
@@ -381,6 +358,9 @@ def get_medical_report_by_id(request, report_type, id):
 @permission_classes([IsAuthenticated])
 def get_medical_reports_by_patient(request, id):
     
+    patient = get_object_or_404(Patient, id = id)
+    is_owner_or_RoleAdmin_or_RoleDoctor(request, patient)
+    
     data = []
 
     appointment_reports = AppointmentReport.objects.filter(patient_id=id)
@@ -399,6 +379,9 @@ def get_medical_reports_by_patient(request, id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_medical_reports_by_appointment(request, id):
+    
+    appointment = get_object_or_404(Appointment, id = id)
+    is_owner_or_RoleAdmin_or_RoleDoctor(request, appointment.patient)
     
     data = []
 # for serializer_class in REPORT_SERIALIZERS.values():
@@ -432,6 +415,7 @@ def delete_medical_report(request, report_type, pk):
         )
 
     report = serializer_class.Meta.model.objects.get(pk=pk)
+    is_owner_or_admin(request, report.patient)
     report.delete()
 
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -453,6 +437,7 @@ def create_life_style_habits(request):
 @permission_classes([IsAuthenticated])
 def get_life_style_habits(request, patient_id):
     life_style_habits = get_object_or_404(LifeStyleHabit, patient_id = patient_id)
+    is_owner_or_RoleAdmin_or_RoleDoctor(request, life_style_habits.patient)
     
     return Response(LifeStyleHabitSerializer(life_style_habits).data, status=status.HTTP_200_OK)
 
@@ -461,6 +446,7 @@ def get_life_style_habits(request, patient_id):
 @permission_classes([IsAuthenticated])
 def update_life_style_habit(request, id):
     life_style_habit = get_object_or_404(LifeStyleHabit, patient_id = id)
+    is_owner_or_admin(request, life_style_habit.patient)
     serializer = LifeStyleHabitSerializer(life_style_habit, data = request.data, partial = True)
     
     if serializer.is_valid(raise_exception=True):
@@ -472,6 +458,7 @@ def update_life_style_habit(request, id):
 @permission_classes([IsAuthenticated])
 def delete_life_style_habit(request, id):
     life_style_habit = get_object_or_404(LifeStyleHabit, id = id)
+    is_owner_or_admin(request, life_style_habit.patient)
     life_style_habit.delete()
     
     return Response(status=status.HTTP_204_NO_CONTENT)

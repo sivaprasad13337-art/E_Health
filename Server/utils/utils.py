@@ -53,7 +53,12 @@ def is_owner_or_admin_or_doctor(request, obj, doc):
     if (request.user == obj.user or request.user == doc.user or request.user.is_superuser or (request.user.role == 'ADMIN' and request.user.is_verified)):
         return
     raise PermissionDenied
-    
+
+
+def is_owner_or_RoleAdmin_or_RoleDoctor(request, obj):
+    if (request.user == obj.user or request.user.role == 'DOCTOR' or request.user.is_superuser or (request.user.role == 'ADMIN' and request.user.is_verified)):
+        return
+    raise PermissionDenied
     
 class IsRoleAdmin(BasePermission):
     def has_permission(self, request, view):
