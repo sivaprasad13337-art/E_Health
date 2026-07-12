@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'users',
     'hospital',
     'appointment',
-    'medical_history',
+    'medical',
     'payments',
 ]
 
