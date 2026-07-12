@@ -2,10 +2,7 @@ import apiClient from "@/lib/api-client";
 
 export const createSurgery = async (payload: object) => {
   try {
-    const response = await apiClient.post(
-      `appointment/surgery/create/`,
-      payload,
-    );
+    const response = await apiClient.post(`medical/surgery/create/`, payload);
 
     return response.data;
   } catch (err) {
@@ -15,7 +12,7 @@ export const createSurgery = async (payload: object) => {
 
 export const getSurgeries = async (id: number) => {
   try {
-    const response = await apiClient.get(`appointment/surgery/get/${id}`);
+    const response = await apiClient.get(`medical/surgery/get/${id}`);
 
     return response.data;
   } catch (err) {
@@ -26,7 +23,7 @@ export const getSurgeries = async (id: number) => {
 export const updateSurgery = async (id: number, payload: object) => {
   try {
     const response = await apiClient.patch(
-      `appointment/surgery/update/${id}`,
+      `medical/surgery/update/${id}`,
       payload,
     );
 
@@ -38,7 +35,7 @@ export const updateSurgery = async (id: number, payload: object) => {
 
 export const deleteSurgery = async (id: number) => {
   try {
-    const response = await apiClient.patch(`appointment/surgery/delete/${id}`);
+    const response = await apiClient.patch(`medical/surgery/delete/${id}`);
 
     return response.data;
   } catch (err) {
@@ -49,10 +46,7 @@ export const deleteSurgery = async (id: number) => {
 //Allergy
 export const createAllergy = async (payload: object) => {
   try {
-    const response = await apiClient.post(
-      `appointment/allergy/create/`,
-      payload,
-    );
+    const response = await apiClient.post(`medical/allergy/create/`, payload);
 
     return response.data;
   } catch (err) {
@@ -62,7 +56,7 @@ export const createAllergy = async (payload: object) => {
 
 export const getAllergies = async (id: number) => {
   try {
-    const response = await apiClient.get(`appointment/allergy/get/${id}`);
+    const response = await apiClient.get(`medical/allergy/get/${id}`);
 
     return response.data;
   } catch (err) {
@@ -73,7 +67,7 @@ export const getAllergies = async (id: number) => {
 export const updateAllergy = async (id: number, payload: object) => {
   try {
     const response = await apiClient.patch(
-      `appointment/allergy/update/${id}`,
+      `medical/allergy/update/${id}`,
       payload,
     );
 
@@ -85,7 +79,7 @@ export const updateAllergy = async (id: number, payload: object) => {
 
 export const deleteAllergy = async (id: number) => {
   try {
-    const response = await apiClient.patch(`appointment/allergy/delete/${id}`);
+    const response = await apiClient.patch(`medical/allergy/delete/${id}`);
 
     return response.data;
   } catch (err) {
@@ -98,7 +92,7 @@ export const deleteAllergy = async (id: number) => {
 export const createMedicalCondition = async (payload: object) => {
   try {
     const response = await apiClient.post(
-      `appointment/medical-condition/create/`,
+      `medical/condition/create/`,
       payload,
     );
 
@@ -110,9 +104,7 @@ export const createMedicalCondition = async (payload: object) => {
 
 export const getMedicalConditions = async (id: number) => {
   try {
-    const response = await apiClient.get(
-      `appointment/medical-condition/get/${id}`,
-    );
+    const response = await apiClient.get(`medical/condition/get/${id}`);
 
     return response.data;
   } catch (err) {
@@ -123,7 +115,7 @@ export const getMedicalConditions = async (id: number) => {
 export const updateMedicalCondition = async (id: number, payload: object) => {
   try {
     const response = await apiClient.patch(
-      `appointment/medical-condition/update/${id}`,
+      `medical/condition/update/${id}`,
       payload,
     );
 
@@ -136,7 +128,7 @@ export const updateMedicalCondition = async (id: number, payload: object) => {
 export const deleteMedicalCondition = async (id: number) => {
   try {
     const response = await apiClient.patch(
-      `appointment/medical-condition/delete/${id}`,
+      `medical/condition/delete/${id}`,
     );
 
     return response.data;
@@ -150,7 +142,7 @@ export const deleteMedicalCondition = async (id: number) => {
 export const createLifeStyle = async (payload: object) => {
   try {
     const response = await apiClient.post(
-      `appointment/life-style-habit/create/`,
+      `medical/life-style-habit/create/`,
       payload,
     );
 
@@ -162,9 +154,7 @@ export const createLifeStyle = async (payload: object) => {
 
 export const getLifeStyle = async (id: number) => {
   try {
-    const response = await apiClient.get(
-      `appointment/life-style-habit/get/${id}`,
-    );
+    const response = await apiClient.get(`medical/life-style-habit/get/${id}`);
 
     return response.data;
   } catch (err) {
@@ -175,7 +165,7 @@ export const getLifeStyle = async (id: number) => {
 export const updateLifeStyle = async (id: number, payload: object) => {
   try {
     const response = await apiClient.patch(
-      `appointment/life-style-habit/update/${id}`,
+      `medical/life-style-habit/update/${id}`,
       payload,
     );
 
@@ -188,7 +178,7 @@ export const updateLifeStyle = async (id: number, payload: object) => {
 export const deleteLifeStyle = async (id: number) => {
   try {
     const response = await apiClient.patch(
-      `appointment/life-style-habit/delete/${id}`,
+      `medical/life-style-habit/delete/${id}`,
     );
 
     return response.data;
